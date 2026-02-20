@@ -1,17 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap");
 @import "tailwindcss";
 
 :root {
   color-scheme: dark;
   --font-sans: "neue-haas-grotesk-text", "DM Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
-  --color-bg: #000000;
+  --color-bg: #000;
   --color-primary: #fafafa;
   --color-secondary: #9f9fa9;
   --color-tertiary: #71717b;
-  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border: rgba(255, 255, 255, 0.08);
   --container-max: 56rem;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html, body {
@@ -24,11 +22,12 @@ html, body {
   overflow-x: clip;
 }
 
-/* Entrance animation */
+/* ─── Entrance animation ────────────────────────────────── */
+
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -36,8 +35,16 @@ html, body {
   }
 }
 
+/*
+  Use longhand properties — never put a CSS var() inside
+  the animation shorthand; browsers can't parse it statically
+  and silently discard the whole declaration.
+*/
 .animate-in {
-  animation: fade-up 0.45s var(--ease) both;
+  animation-name: fade-up;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both; /* stay invisible during delay, stay visible after */
 }
 
 @media (prefers-reduced-motion: reduce) {
