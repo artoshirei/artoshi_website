@@ -10,7 +10,34 @@ import { work } from "../data/work";
 <BaseLayout>
   <SiteHeader />
   <main class="flex-1 mx-auto px-6 pt-16 pb-32 w-full" style="max-width: var(--container-max)">
+    <p class="bio animate-in" style="animation-delay: 0.35s">
+      Artur Karapetian, also known as Artoshi Rei and Argo Fowl, is a designer and developer
+      with a BA in Graphic Communication Design from
+      <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
+    </p>
+    <div style="height: 3rem"></div>
     <WorkList items={work} />
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style>
+  .bio {
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    line-height: 1.6;
+    max-width: 36rem;
+    padding-left: 3.5rem; /* align with work list content */
+  }
+
+  .bio-link {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-border);
+  }
+
+  .bio-link:hover {
+    text-decoration-color: var(--color-secondary);
+  }
+</style>
