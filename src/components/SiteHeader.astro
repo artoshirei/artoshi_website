@@ -30,7 +30,7 @@
       el.textContent = chars.join('');
 
       resolved++;
-      if (resolved > final.length) {
+      if (resolved >= final.length) {
         el.textContent = final;
         clearInterval(interval);
       }

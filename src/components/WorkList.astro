@@ -155,4 +155,11 @@ const delay = (i: number) =>
     filter: blur(0);
     transition-duration: 150ms;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-item,
+    .work-arrow {
+      transition: none;
+    }
+  }
 </style>
