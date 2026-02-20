@@ -24,28 +24,30 @@ const delay = (i: number) => {
         class="work-item animate-in"
         style={`animation-delay: ${delay(i)}s; border-top: 1px solid var(--color-border)`}
       >
-        <a
-          href={item.url ?? "#"}
-          class="work-link"
-          target={item.url ? "_blank" : undefined}
-          rel={item.url ? "noopener noreferrer" : undefined}
-        >
-          <span class="work-year">
-            {item.year}
-          </span>
-          <div class="work-body">
-            <span class="work-title">
-              {item.title}
-              {item.current && (
-                <span class="work-now">now</span>
-              )}
-            </span>
-            <p class="work-desc">{item.description}</p>
-          </div>
-          {item.url && (
+        {item.url ? (
+          <a href={item.url} class="work-link" target="_blank" rel="noopener noreferrer">
+            <span class="work-year">{item.year}</span>
+            <div class="work-body">
+              <span class="work-title">
+                {item.title}
+                {item.current && <span class="work-now">now</span>}
+              </span>
+              <p class="work-desc">{item.description}</p>
+            </div>
             <span class="work-arrow" aria-hidden="true">↗</span>
-          )}
-        </a>
+          </a>
+        ) : (
+          <div class="work-link">
+            <span class="work-year">{item.year}</span>
+            <div class="work-body">
+              <span class="work-title">
+                {item.title}
+                {item.current && <span class="work-now">now</span>}
+              </span>
+              <p class="work-desc">{item.description}</p>
+            </div>
+          </div>
+        )}
       </li>
     ))}
   </ul>
