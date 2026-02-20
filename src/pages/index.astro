@@ -15,6 +15,14 @@ import { work } from "../data/work";
       with a BA in Graphic Communication Design from
       <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
     </p>
+    <p class="now animate-in" style="animation-delay: 0.4s">
+      <span class="now-label">Now</span>
+      {work.filter(w => w.current).map((item, i, arr) => (
+        <>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" class="now-link">{item.title}</a>{i < arr.length - 1 && <span class="now-sep">, </span>}
+        </>
+      ))}
+    </p>
     <div style="height: 3rem"></div>
     <WorkList items={work} />
   </main>
@@ -39,5 +47,47 @@ import { work } from "../data/work";
 
   .bio-link:hover {
     text-decoration-color: var(--color-secondary);
+  }
+
+  /* Now section */
+  .now {
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    line-height: 1.6;
+    padding-left: 3.5rem;
+    margin-top: 1rem;
+  }
+
+  .now-label {
+    color: var(--color-tertiary);
+    margin-right: 0.5rem;
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .now-link {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .now-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-border);
+  }
+
+  .now-sep {
+    color: var(--color-tertiary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .now-label {
+      animation: none;
+      opacity: 0.7;
+    }
   }
 </style>

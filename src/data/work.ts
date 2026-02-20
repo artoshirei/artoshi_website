@@ -15,7 +15,7 @@ export const work: WorkItem[] = [
   {
     year: 2026,
     title: "FowlVoice",
-    description: "macOS native on-device speech-to-text",
+    description: "on-device speech-to-text for macOS",
     url: "https://fowlvoice.com",
     categories: ["App"],
     current: true,
@@ -23,8 +23,9 @@ export const work: WorkItem[] = [
   {
     year: 2025,
     title: "DailyNote",
-    description: "daily productivity app for todos, notes, supplements & countdowns",
+    description: "daily productivity app",
     url: "https://dailynote.me",
     categories: ["App"],
+    current: true,
   },
 ];

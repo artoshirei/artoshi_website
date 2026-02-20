@@ -41,8 +41,7 @@ const showYear = sorted.map((item, i) =>
         >
           <span class="work-title">
             {item.title}
-            {item.current && <span class="work-now">now</span>}
-            {item.description && <span class="work-desc"> &mdash; {item.description}</span>}
+            {item.description && <span class="work-desc">{item.description}</span>}
           </span>
           <span class="work-right">
             <span class="work-tag">{item.categories[0]}</span>
@@ -65,8 +64,7 @@ const showYear = sorted.map((item, i) =>
         <div class="work-row">
           <span class="work-title">
             {item.title}
-            {item.current && <span class="work-now">now</span>}
-            {item.description && <span class="work-desc"> &mdash; {item.description}</span>}
+            {item.description && <span class="work-desc">{item.description}</span>}
           </span>
           <span class="work-right">
             <span class="work-tag">{item.categories[0]}</span>
@@ -148,20 +146,11 @@ const showYear = sorted.map((item, i) =>
     text-overflow: ellipsis;
   }
 
-  /* Description: inline after em dash */
+  /* Description: inline after title */
   .work-desc {
     color: var(--color-tertiary);
     font-weight: 400;
-  }
-
-  /* "now" badge inline after title */
-  .work-now {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--color-tertiary);
     margin-left: 0.5rem;
-    vertical-align: middle;
-    letter-spacing: 0.05em;
   }
 
   /* Right group: tag + indicator, pinned to right edge */
