@@ -1,6 +1,7 @@
 ---
 // src/components/SiteFooter.astro
 
+const year = new Date().getFullYear();
 const socials = [
   { label: "tw", href: "https://twitter.com/artoshi" },
   { label: "gh", href: "https://github.com/artoshi" },
@@ -21,8 +22,8 @@ const socials = [
     style="max-width: var(--container-max)"
     class="mx-auto px-6 py-6 flex justify-between items-center"
   >
-    <p class="footer-meta">© 2025 artoshi</p>
-    <nav class="flex gap-5">
+    <p class="footer-meta">© {year} artoshi</p>
+    <nav class="flex gap-5" aria-label="Social links">
       {socials.map(({ label, href }) => (
         <a
           href={href}
