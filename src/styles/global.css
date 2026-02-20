@@ -1,1 +1,39 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap");
+
+:root {
+  --font-sans: "neue-haas-grotesk-text", "DM Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --color-bg: #000000;
+  --color-primary: #fafafa;
+  --color-secondary: #9f9fa9;
+  --color-tertiary: #71717b;
+  --color-border: rgba(255, 255, 255, 0.10);
+  --container-max: 56rem;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  overflow-x: clip;
+}
+
+/* Entrance animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fade-up 0.45s var(--ease) both;
+}
