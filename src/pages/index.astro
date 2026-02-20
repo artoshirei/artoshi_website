@@ -16,7 +16,7 @@ import { work } from "../data/work";
       <br /><span class="currently">Currently building:</span>
       {work.filter(w => w.current).map((item, i, arr) => (
         <>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" class="bio-link">{item.title}</a>{i < arr.length - 1 && ', '}
+          <a href={item.url} target="_blank" rel="noopener noreferrer" class="bio-link">{item.title}</a>{i < arr.length - 1 && ' and '}
         </>
       ))}.
     </p>
