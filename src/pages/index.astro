@@ -16,7 +16,7 @@ import { work } from "../data/work";
       <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
     </p>
     <p class="now animate-in" style="animation-delay: 0.4s">
-      <span class="now-label">Now</span>
+      <span class="now-label">Now:</span>
       {work.filter(w => w.current).map((item, i, arr) => (
         <>
           <a href={item.url} target="_blank" rel="noopener noreferrer" class="now-link">{item.title}</a>{i < arr.length - 1 && <span class="now-sep">, </span>}
