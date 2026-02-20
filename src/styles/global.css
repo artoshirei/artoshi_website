@@ -22,33 +22,37 @@ html, body {
   overflow-x: clip;
 }
 
-/* ─── Entrance animation ────────────────────────────────── */
+/* ─── Entrance animations ──────────────────────────────── */
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Header / bio: opacity only */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/*
-  Use longhand properties — never put a CSS var() inside
-  the animation shorthand; browsers can't parse it statically
-  and silently discard the whole declaration.
-*/
+/* List items: opacity + 2px lift (matches baytas.net exactly) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .animate-in {
   animation-name: fade-up;
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0, 0, 0.58, 1);
+  animation-fill-mode: both;
+}
+
+.animate-in-fade {
+  animation-name: fade-in;
   animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  animation-fill-mode: both; /* stay invisible during delay, stay visible after */
+  animation-timing-function: cubic-bezier(0, 0, 0.58, 1);
+  animation-fill-mode: both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-in {
+  .animate-in,
+  .animate-in-fade {
     animation: none;
   }
 }
