@@ -11,17 +11,14 @@ import { work } from "../data/work";
   <SiteHeader />
   <main class="flex-1 mx-auto px-6 pt-16 pb-32 w-full" style="max-width: var(--container-max)">
     <p class="bio animate-in" style="animation-delay: 0.35s">
-      Artoshi Rei is a designer and developer
-      with a BA in Graphic Communication Design from
+      Artoshi Rei designs and builds digital products. BA in Graphic Communication Design from
       <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
-    </p>
-    <p class="now animate-in" style="animation-delay: 0.4s">
-      <span class="now-label">Now:</span>
+      <span class="currently">Currently building:</span>
       {work.filter(w => w.current).map((item, i, arr) => (
         <>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" class="now-link">{item.title}</a>{i < arr.length - 1 && <span class="now-sep">, </span>}
+          <a href={item.url} target="_blank" rel="noopener noreferrer" class="bio-link">{item.title}</a>{i < arr.length - 1 && ', '}
         </>
-      ))}
+      ))}.
     </p>
     <div style="height: 3rem"></div>
     <WorkList items={work} />
@@ -49,18 +46,8 @@ import { work } from "../data/work";
     text-decoration-color: var(--color-secondary);
   }
 
-  /* Now section */
-  .now {
-    font-size: 0.875rem;
-    color: var(--color-secondary);
-    line-height: 1.6;
-    padding-left: 3.5rem;
-    margin-top: 1rem;
-  }
-
-  .now-label {
+  .currently {
     color: var(--color-tertiary);
-    margin-right: 0.5rem;
     animation: breathe 4s ease-in-out infinite;
   }
 
@@ -69,23 +56,8 @@ import { work } from "../data/work";
     50% { opacity: 1; }
   }
 
-  .now-link {
-    color: var(--color-primary);
-    text-decoration: none;
-  }
-
-  .now-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: var(--color-border);
-  }
-
-  .now-sep {
-    color: var(--color-tertiary);
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .now-label {
+    .currently {
       animation: none;
       opacity: 0.7;
     }
