@@ -15,11 +15,12 @@
     style="max-width: var(--container-max)"
     class="mx-auto px-6 py-4 flex items-center justify-between"
   >
-    <div class="header-title">
+    <div class="header-wordmark">
       <svg class="header-logo" viewBox="0 0 779 615" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M675.57 323.675C735.898 301.822 779 243.993 779 176.094C779 89.4298 708.784 19.175 622.169 19.175C578.536 19.175 539.061 37.0062 510.635 65.7843C484.879 26.1837 440.244 3.21865e-06 389.502 3.21865e-06C338.756 3.21865e-06 294.126 26.1837 268.366 65.7843C239.939 37.0062 200.464 19.175 156.831 19.175C70.2152 19.175 0 89.4298 0 176.094C0 246.091 45.8079 305.389 109.071 325.603C65.339 353.445 36.324 402.37 36.324 458.08C36.324 544.745 106.539 615 193.155 615C231.38 615 266.413 601.319 293.625 578.573C319.127 601.231 352.703 615 389.502 615C428.368 615 463.644 599.639 489.605 574.66C517.401 599.737 554.211 615 594.585 615C681.2 615 751.416 544.745 751.416 458.08C751.416 401.067 721.027 351.155 675.57 323.675Z" fill="currentColor"/>
       </svg>
       <span
+        class="header-text"
         id="header-scramble"
         data-final="artoshi"
       >artoshi</span>
@@ -30,9 +31,6 @@
 
 <style>
   .header-title {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     font-weight: 500;
@@ -41,13 +39,26 @@
     text-transform: uppercase;
   }
 
+  /* Logo behind the wordmark */
+  .header-wordmark {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .header-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 0.75rem; /* matches font-size */
     width: auto;
-    height: 11px;
     color: var(--color-tertiary);
-    flex-shrink: 0;
-    display: block;
-    transform: translateY(1px);
+  }
+
+  .header-text {
+    position: relative;
+    z-index: 1;
   }
 
   .header-sub {
