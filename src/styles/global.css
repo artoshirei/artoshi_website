@@ -1,7 +1,8 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap");
+@import "tailwindcss";
 
 :root {
+  color-scheme: dark;
   --font-sans: "neue-haas-grotesk-text", "DM Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
   --color-bg: #000000;
@@ -18,6 +19,7 @@ html, body {
   color: var(--color-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
   overflow-x: clip;
 }
@@ -36,4 +38,10 @@ html, body {
 
 .animate-in {
   animation: fade-up 0.45s var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in {
+    animation: none;
+  }
 }
