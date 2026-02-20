@@ -23,7 +23,7 @@ export const work: WorkItem[] = [
   {
     year: 2025,
     title: "DailyNote",
-    description: "daily productivity — todos, notes, supplements, countdowns",
+    description: "daily productivity app for todos, notes, supplements & countdowns",
     url: "https://dailynote.me",
     categories: ["App"],
   },
