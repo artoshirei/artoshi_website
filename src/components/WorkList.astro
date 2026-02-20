@@ -129,16 +129,30 @@ const delay = (i: number) =>
     letter-spacing: 0.04em;
   }
 
-  /* External link arrow: visible only on link rows */
+  /* Arrow: hidden + blurred at rest, reveals on hover */
   .work-arrow {
     font-size: 0.75rem;
     color: var(--color-secondary);
     flex-shrink: 0;
+    /* rest state */
     opacity: 0;
-    transition: opacity 0.15s ease;
+    width: 0;
+    margin-left: 0;
+    overflow: hidden;
+    filter: blur(2px);
+    /* EXIT transition (slow — asymmetric) */
+    transition: opacity 250ms cubic-bezier(0, 0, 0.58, 1),
+                width 1s cubic-bezier(0, 0, 0.58, 1),
+                margin-left 1s cubic-bezier(0, 0, 0.58, 1),
+                filter 250ms cubic-bezier(0, 0, 0.58, 1);
   }
 
-  .work-item:hover .work-arrow {
+  /* ENTER: fast override when parent row is hovered */
+  .work-row:hover .work-arrow {
     opacity: 1;
+    width: 10px;
+    margin-left: 6px;
+    filter: blur(0);
+    transition-duration: 150ms;
   }
 </style>
