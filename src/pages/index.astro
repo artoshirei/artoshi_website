@@ -9,6 +9,8 @@ import { work } from "../data/work";
 
 <BaseLayout>
   <SiteHeader />
-  <WorkList items={work} />
+  <main class="flex-1 mx-auto px-6 pb-32 w-full" style="max-width: var(--container-max)">
+    <WorkList items={work} />
+  </main>
   <SiteFooter />
 </BaseLayout>

@@ -17,8 +17,7 @@ const delay = (i: number) => {
 };
 ---
 
-<main style="max-width: var(--container-max)" class="flex-1 mx-auto px-6 pb-32 w-full">
-  <ul class="work-list">
+<ul class="work-list" style="max-width: var(--container-max)" >
     {sorted.map((item, i) => (
       <li
         class="work-item animate-in"
@@ -50,8 +49,7 @@ const delay = (i: number) => {
         )}
       </li>
     ))}
-  </ul>
-</main>
+</ul>
 
 <style>
   .work-list {
