@@ -2,11 +2,45 @@
 // src/components/SiteHeader.astro
 ---
 
-<header class="animate-in" style="animation-delay: 0s">
+<header class="animate-in-fade" style="animation-delay: 0s">
   <div style="max-width: var(--container-max)" class="mx-auto px-6 py-16">
     <p style="font-size: 0.875rem">
-      <span style="color: var(--color-primary); font-weight: 500">artoshi</span>
-      <span style="color: var(--color-secondary)"> · design + engineering</span>
+      <span
+        id="header-scramble"
+        style="color: var(--color-primary); font-weight: 500; font-family: var(--font-mono)"
+        data-final="artoshi"
+      >artoshi</span><span style="color: var(--color-secondary)"> · design + engineering</span>
     </p>
   </div>
 </header>
+
+<script>
+  const POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·_-';
+  const TICK_MS = 40;
+
+  function scramble(el: HTMLElement) {
+    const final = el.dataset.final ?? el.textContent ?? '';
+    let resolved = 0;
+
+    const interval = setInterval(() => {
+      const chars = final.split('').map((ch, i) => {
+        if (i < resolved) return ch;
+        return POOL[Math.floor(Math.random() * POOL.length)];
+      });
+      el.textContent = chars.join('');
+
+      resolved++;
+      if (resolved > final.length) {
+        el.textContent = final;
+        clearInterval(interval);
+      }
+    }, TICK_MS);
+  }
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReduced) {
+    const el = document.getElementById('header-scramble') as HTMLElement | null;
+    if (el) scramble(el);
+  }
+</script>
