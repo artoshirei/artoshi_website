@@ -9,7 +9,7 @@
   --color-secondary: #9f9fa9;
   --color-tertiary: #71717b;
   --color-border: rgba(255, 255, 255, 0.08);
-  --container-max: 56rem;
+  --container-max: 40rem;
 }
 
 html, body {
