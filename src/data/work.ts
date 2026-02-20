@@ -1,6 +1,6 @@
 // src/data/work.ts
 
-export type WorkCategory = "design" | "engineering" | "research" | "writing";
+export type WorkCategory = "App" | "Website" | "Lab" | "Article" | "Podcast" | "Research" | "Freelance" | "Company";
 
 export interface WorkItem {
   year: number;
@@ -17,7 +17,7 @@ export const work: WorkItem[] = [
     title: "FowlVoice",
     description: "macOS speech-to-text app built in Swift.",
     url: "https://fowlvoice.com",
-    categories: ["engineering"],
+    categories: ["App"],
     current: true,
   },
   {
@@ -25,6 +25,6 @@ export const work: WorkItem[] = [
     title: "DailyNote",
     description: "Daily journal platform.",
     url: "https://dailynote.me",
-    categories: ["design", "engineering"],
+    categories: ["App"],
   },
 ];
