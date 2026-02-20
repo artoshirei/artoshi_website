@@ -1,0 +1,58 @@
+---
+// src/components/SiteFooter.astro
+
+const socials = [
+  { label: "tw", href: "https://twitter.com/artoshi" },
+  { label: "gh", href: "https://github.com/artoshi" },
+  { label: "li", href: "https://linkedin.com/in/artoshi" },
+];
+---
+
+<footer
+  class="animate-in mt-auto sticky bottom-0 z-50"
+  style="
+    animation-delay: 1s;
+    border-top: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  "
+>
+  <div
+    style="max-width: var(--container-max)"
+    class="mx-auto px-6 py-6 flex justify-between items-center"
+  >
+    <p class="footer-meta">© 2025 artoshi</p>
+    <nav class="flex gap-5">
+      {socials.map(({ label, href }) => (
+        <a
+          href={href}
+          class="footer-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-tertiary);
+  }
+
+  .footer-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-primary);
+  }
+</style>
