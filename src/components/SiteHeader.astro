@@ -3,39 +3,36 @@
 ---
 
 <header
-  class="animate-in-fade sticky top-0 z-50"
-  style="
-    animation-delay: 0s;
-    border-bottom: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  "
+  class="animate-in-fade sticky top-0 z-50 header-bar"
+  style="animation-delay: 0s"
 >
-  <div
-    style="max-width: var(--container-max); padding-left: 5.75rem; padding-right: 2.25rem;"
-    class="mx-auto py-4 flex items-center justify-between"
-  >
-    <div class="header-wordmark">
+  <div class="header-inner">
+    <div class="header-left">
       <svg class="header-logo" viewBox="0 0 779 615" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M675.57 323.675C735.898 301.822 779 243.993 779 176.094C779 89.4298 708.784 19.175 622.169 19.175C578.536 19.175 539.061 37.0062 510.635 65.7843C484.879 26.1837 440.244 3.21865e-06 389.502 3.21865e-06C338.756 3.21865e-06 294.126 26.1837 268.366 65.7843C239.939 37.0062 200.464 19.175 156.831 19.175C70.2152 19.175 0 89.4298 0 176.094C0 246.091 45.8079 305.389 109.071 325.603C65.339 353.445 36.324 402.37 36.324 458.08C36.324 544.745 106.539 615 193.155 615C231.38 615 266.413 601.319 293.625 578.573C319.127 601.231 352.703 615 389.502 615C428.368 615 463.644 599.639 489.605 574.66C517.401 599.737 554.211 615 594.585 615C681.2 615 751.416 544.745 751.416 458.08C751.416 401.067 721.027 351.155 675.57 323.675Z" fill="currentColor"/>
       </svg>
-      <span id="header-scramble" data-final="artoshi">artoshi</span>
+      <span class="header-name" id="header-scramble" data-final="ARTOSHI">ARTOSHI</span>
     </div>
-    <p class="header-sub">design · development</p>
+    <p class="header-sub">DESIGN + DEVELOPMENT</p>
   </div>
 </header>
 
 <style>
-  .header-title {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-primary);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .header-bar {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border-strong);
   }
 
-  .header-wordmark {
+  .header-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 1rem calc(1.5rem + 0.75rem) 1rem calc(1.5rem + 3.5rem + 0.75rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-left {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -44,22 +41,31 @@
 
   .header-logo {
     display: block;
-    height: 0.75rem;
+    height: 0.8rem;
     width: auto;
-    color: var(--color-tertiary);
+    color: var(--color-accent);
+  }
+
+  .header-name {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
   }
 
   .header-sub {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-secondary);
-    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    color: var(--color-primary);
+    letter-spacing: 0.04em;
+    font-weight: 400;
   }
 </style>
 
 <script>
-  const POOL = 'abcdefghijklmnopqrstuvwxyz0123456789·_-';
-  const TICK_MS = 40;
+  const POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const TICK_MS = 35;
 
   function scramble(el: HTMLElement) {
     const final = el.dataset.final ?? el.textContent ?? '';

@@ -2,14 +2,20 @@
 
 :root {
   color-scheme: dark;
-  --font-sans: "neue-haas-grotesk-text", "DM Sans", sans-serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", "Arial", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
+
+  /* Swiss palette — OLED black */
   --color-bg: #000;
-  --color-primary: #fafafa;
-  --color-secondary: #9f9fa9;
-  --color-tertiary: #71717b;
+  --color-primary: #e8e8e8;
+  --color-secondary: #888;
+  --color-tertiary: #666;
+  --color-accent: #C87B5A;
   --color-border: rgba(255, 255, 255, 0.08);
-  --container-max: 40rem;
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+  --color-hover-bg: rgba(255, 255, 255, 0.04);
+
+  --container-max: 44rem;
 }
 
 html, body {
@@ -22,31 +28,35 @@ html, body {
   overflow-x: clip;
 }
 
+/* ─── Selection ──────────────────────────────────────── */
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
 /* ─── Entrance animations ──────────────────────────────── */
 
-/* Header / bio: opacity only */
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* List items: opacity + 2px lift (matches baytas.net exactly) */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(2px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-in {
   animation-name: fade-up;
-  animation-duration: 0.4s;
-  animation-timing-function: cubic-bezier(0, 0, 0.58, 1);
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: both;
 }
 
 .animate-in-fade {
   animation-name: fade-in;
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0, 0, 0.58, 1);
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: both;
 }
 

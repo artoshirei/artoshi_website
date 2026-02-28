@@ -9,52 +9,65 @@ import { work } from "../data/work";
 
 <BaseLayout>
   <SiteHeader />
-  <main class="flex-1 mx-auto px-6 pt-16 pb-32 w-full" style="max-width: var(--container-max)">
-    <p class="bio animate-in" style="animation-delay: 0.35s">
-      Artoshi Rei designs and builds digital products. BA in Graphic Communication Design from
-      <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
-      <br /><span class="currently">Currently building:</span>
-      {work.filter(w => w.current).map((item, i, arr) => (
-        <>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" class="bio-link">{item.title}</a>{i < arr.length - 1 && ' and '}
-        </>
-      ))}.
-    </p>
-    <div style="height: 3rem"></div>
-    <WorkList items={work} />
+  <main class="flex-1 mx-auto px-6 w-full" style="max-width: var(--container-max)">
+
+    <!-- Bio -->
+    <section class="bio-section animate-in" style="animation-delay: 0.25s">
+      <p class="bio-text">
+        Artoshi Rei designs and builds digital products. BA in Graphic Communication Design from
+        <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-link">Central Saint Martins</a>.
+        <span class="currently">Currently building:</span>
+        {work.filter(w => w.current).map((item, i, arr) => (
+          <>
+            <a href={item.url} target="_blank" rel="noopener noreferrer" class="bio-link">{item.title}</a>{i < arr.length - 1 && ' and '}
+          </>
+        ))}.
+      </p>
+    </section>
+
+    <!-- Work index -->
+    <section class="work-section animate-in" style="animation-delay: 0.45s">
+      <WorkList items={work} />
+    </section>
+
   </main>
   <SiteFooter />
 </BaseLayout>
 
 <style>
-  .bio {
+  /* ─── Bio section ──────────────────────────────── */
+  .bio-section {
+    padding: 3.5rem 0 0;
+    padding-left: calc(3.5rem + 0.75rem);
+  }
+
+  .bio-text {
     font-size: 0.875rem;
-    color: var(--color-secondary);
-    line-height: 1.6;
+    color: var(--color-primary);
+    line-height: 1.7;
     max-width: 24rem;
-    padding-left: 4.25rem; /* align with project text (3.5rem + 0.75rem row padding) */
   }
 
   .bio-link {
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: var(--color-border);
+    text-decoration-color: var(--color-border-strong);
+    transition: text-decoration-color 0.2s ease;
   }
 
   .bio-link:hover {
-    text-decoration-color: var(--color-secondary);
+    text-decoration-color: var(--color-accent);
   }
 
   .currently {
-    display: inline-block;
-    margin-top: 0.5rem;
+    display: inline;
     color: var(--color-tertiary);
     animation: breathe 4s ease-in-out infinite;
   }
 
   @keyframes breathe {
-    0%, 100% { opacity: 0.5; }
+    0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
   }
 
@@ -64,4 +77,11 @@ import { work } from "../data/work";
       opacity: 0.7;
     }
   }
+
+  /* ─── Work section ─────────────────────────────── */
+  .work-section {
+    padding-top: 2rem;
+    padding-bottom: 6rem;
+  }
+
 </style>

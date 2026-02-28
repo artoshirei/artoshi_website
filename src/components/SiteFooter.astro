@@ -3,27 +3,19 @@
 
 const year = new Date().getFullYear();
 const socials = [
-  { label: "x", href: "https://x.com/artoshiverse" },
-  { label: "ig", href: "https://instagram.com/artoshiverse" },
-  { label: "gh", href: "https://github.com/artoshirei" },
+  { label: "X", href: "https://x.com/artoshiverse" },
+  { label: "IG", href: "https://instagram.com/artoshiverse" },
+  { label: "GH", href: "https://github.com/artoshirei" },
 ];
 ---
 
 <footer
-  class="animate-in mt-auto sticky bottom-0 z-50"
-  style="
-    animation-delay: 1s;
-    border-top: 1px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  "
+  class="animate-in mt-auto"
+  style="animation-delay: 0.8s"
 >
-  <div
-    style="max-width: var(--container-max); padding-left: 5.75rem; padding-right: 2.25rem;"
-    class="mx-auto py-6 flex justify-between items-center"
-  >
-    <p class="footer-meta">© {year} artoshi</p>
-    <nav class="flex gap-5" aria-label="Social links">
+  <div class="footer-inner">
+    <p class="footer-meta">&copy; {year} ARTOSHI</p>
+    <nav class="footer-nav" aria-label="Social links">
       {socials.map(({ label, href }) => (
         <a
           href={href}
@@ -39,21 +31,43 @@ const socials = [
 </footer>
 
 <style>
+  footer {
+    border-top: 1px solid var(--color-border-strong);
+    background: var(--color-bg);
+  }
+
+  .footer-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 1rem calc(1.5rem + 0.75rem) 1rem calc(1.5rem + 3.5rem + 0.75rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .footer-meta {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-tertiary);
+    font-size: 0.65rem;
+    color: var(--color-primary);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 1.25rem;
   }
 
   .footer-link {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-secondary);
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--color-primary);
     text-decoration: none;
+    letter-spacing: 0.04em;
     transition: color 0.15s ease;
   }
 
   .footer-link:hover {
-    color: var(--color-primary);
+    color: var(--color-accent);
   }
 </style>
