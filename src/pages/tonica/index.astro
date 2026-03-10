@@ -177,11 +177,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 <script>
   document.getElementById("download-btn")?.addEventListener("click", (e) => {
     e.preventDefault();
-    const a = document.createElement("a");
-    a.href = "/tonica/download";
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = "/tonica/download";
+    document.body.appendChild(iframe);
+    setTimeout(() => iframe.remove(), 10000);
   });
 </script>
