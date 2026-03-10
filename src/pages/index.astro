@@ -18,7 +18,7 @@ import { work } from "../data/work";
         <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-desc-link">Central Saint Martins</a>.
       </p>
       <p class="bio-current">
-        <span class="currently">Currently building</span>
+        <span class="currently">Currently building:</span>
         {work.filter(w => w.current).map((item, i, arr) => (
           <>
             <a href={item.url} target="_blank" rel="noopener noreferrer" class="current-link"><span class="current-link-text">{item.title}</span><svg class="current-link-arrow" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 0.75L5.25 0.75L5.25 4.75" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.25 0.75L0.75 5.25" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></a>{i < arr.length - 1 && <span class="currently"> and</span>}

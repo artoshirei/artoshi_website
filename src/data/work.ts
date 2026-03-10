@@ -18,7 +18,6 @@ export const work: WorkItem[] = [
     description: "Circle of Fifths for macOS",
     url: "/tonica",
     categories: ["App"],
-    current: true,
   },
   {
     year: 2026,
