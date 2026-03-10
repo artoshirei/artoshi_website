@@ -14,6 +14,14 @@ export interface WorkItem {
 export const work: WorkItem[] = [
   {
     year: 2026,
+    title: "Tonica",
+    description: "Circle of Fifths for macOS",
+    url: "/tonica",
+    categories: ["App"],
+    current: true,
+  },
+  {
+    year: 2026,
     title: "FowlVoice",
     description: "On-Device Speech-to-Text for macOS",
     url: "https://fowlvoice.com",

@@ -1,0 +1,165 @@
+---
+// src/pages/tonica/index.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Tonica — Circle of Fifths for macOS">
+  <main class="tonica-page">
+    <div class="tonica-content animate-in" style="animation-delay: 0.15s">
+      <img
+        src="/tonica-icon.svg"
+        alt="Tonica app icon"
+        class="tonica-icon"
+        width="80"
+        height="80"
+      />
+    </div>
+
+    <h1 class="tonica-name animate-in" style="animation-delay: 0.22s">Tonica</h1>
+
+    <p class="tonica-desc animate-in" style="animation-delay: 0.3s">
+      A fast circle-of-fifths companion<br />
+      for macOS, always one shortcut away.
+    </p>
+
+    <div class="tonica-cta animate-in" style="animation-delay: 0.45s">
+      <a href="/tonica/download" class="tonica-download">
+        Download for macOS
+      </a>
+      <p class="tonica-note">Requires macOS 14 or later</p>
+    </div>
+
+    <div class="tonica-screenshot-wrap animate-in" style="animation-delay: 0.6s">
+      <img
+        src="/tonica-screenshot.png"
+        alt="Tonica panel showing the circle of fifths"
+        class="tonica-screenshot"
+      />
+    </div>
+  </main>
+
+  <footer class="tonica-footer animate-in" style="animation-delay: 0.75s">
+    <a href="/" class="tonica-back">artoshi</a>
+  </footer>
+</BaseLayout>
+
+<style>
+  /* ─── Page layout ──────────────────────────────── */
+  .tonica-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10vh 1.5rem 0;
+  }
+
+  /* ─── Icon ─────────────────────────────────────── */
+  .tonica-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+  }
+
+  /* ─── Name ───────────────────────────────────────── */
+  .tonica-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+    margin-top: 1.25rem;
+  }
+
+  /* ─── Description ──────────────────────────────── */
+  .tonica-desc {
+    font-size: 0.9375rem;
+    color: var(--color-tertiary);
+    text-align: center;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+    max-width: 22rem;
+  }
+
+  /* ─── CTA ──────────────────────────────────────── */
+  .tonica-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2.25rem;
+  }
+
+  .tonica-download {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--color-bg);
+    background: var(--color-primary);
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .tonica-download:hover {
+    background: #fff;
+  }
+
+  .tonica-note {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-secondary);
+    margin-top: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* ─── Screenshot ───────────────────────────────── */
+  .tonica-screenshot-wrap {
+    position: relative;
+    margin-top: 4rem;
+    max-width: 44rem;
+    width: 100%;
+  }
+
+  .tonica-screenshot-wrap::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    border-radius: 0 0 12px 12px;
+    pointer-events: none;
+  }
+
+  .tonica-screenshot {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  /* ─── Footer ───────────────────────────────────── */
+  .tonica-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tonica-back {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+  }
+
+  .tonica-back:hover {
+    opacity: 1;
+  }
+</style>
