@@ -1,6 +1,15 @@
 // src/data/work.ts
 
-export type WorkCategory = "App" | "Website" | "Lab" | "Article" | "Podcast" | "Research" | "Freelance" | "Company";
+export type WorkCategory =
+  | "App"
+  | "Website"
+  | "Lab"
+  | "Article"
+  | "Podcast"
+  | "Research"
+  | "Freelance"
+  | "Company"
+  | "Experiment";
 
 export interface WorkItem {
   year: number;
@@ -12,6 +21,13 @@ export interface WorkItem {
 }
 
 export const work: WorkItem[] = [
+  {
+    year: 2026,
+    title: "Pretext Drift",
+    description: "WebGPU type wrapped to a soft field",
+    url: "/experiments/pretext-drift",
+    categories: ["Experiment"],
+  },
   {
     year: 2026,
     title: "Tonica",

@@ -6,7 +6,7 @@
   class="animate-in-fade sticky top-0 z-50 header-bar"
   style="animation-delay: 0s"
 >
-  <div class="header-inner">
+  <a href="/" class="header-inner header-home" aria-label="Home">
     <svg
       id="mascot-icon"
       class="header-logo"
@@ -33,7 +33,7 @@
       </g>
     </svg>
     <span class="header-name" id="header-scramble" data-final="ARTOSHI">ARTOSHI</span>
-  </div>
+  </a>
 </header>
 
 <style>
@@ -53,6 +53,11 @@
     font-size: 1.7rem;
     font-weight: 600;
     line-height: 1;
+  }
+
+  .header-home {
+    text-decoration: none;
+    color: inherit;
   }
 
   .header-logo {
