@@ -71,19 +71,20 @@
   }
 
   .experiment-controls-link {
-    color: rgb(148 154 171);
+    color: rgb(103 154 255);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.03em;
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: rgb(103 154 255 / 0.7);
+    text-underline-offset: 0.14em;
     line-height: 1.45;
   }
 
   .experiment-controls-link:hover,
   .experiment-controls-link:focus-visible {
-    color: rgb(205 209 222);
-    text-decoration: underline;
-    text-underline-offset: 0.14em;
+    color: rgb(136 181 255);
+    text-decoration-color: rgb(136 181 255);
   }
 
   .experiment-controls-row {
