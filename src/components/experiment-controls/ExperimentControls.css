@@ -1,0 +1,202 @@
+.experiment-controls-panel {
+  display: none;
+}
+
+.experiment-controls-rail {
+  height: 100%;
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .experiment-controls-panel {
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-left: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(8 8 8);
+  }
+
+  .experiment-controls-rail {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .experiment-controls-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.45rem;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding: 1.75rem 1rem 1rem;
+  }
+
+  .experiment-controls-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin: 0;
+  }
+
+  .experiment-controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: auto;
+    padding-top: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .experiment-controls-section-label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgb(140 146 164);
+  }
+
+  .experiment-controls-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: min(12rem, 35vh);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 0.25rem;
+  }
+
+  .experiment-controls-link {
+    color: rgb(148 154 171);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    line-height: 1.45;
+  }
+
+  .experiment-controls-link:hover,
+  .experiment-controls-link:focus-visible {
+    color: rgb(205 209 222);
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+  }
+
+  .experiment-controls-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+    min-height: 1.5rem;
+  }
+
+  .experiment-controls-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgb(140 146 164);
+  }
+
+  .experiment-controls-value {
+    min-width: 0;
+    height: 1.5rem;
+    padding: 0 0.375rem;
+    border: 0;
+    border-radius: 0;
+    background: rgb(0 0 0);
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: rgb(140 146 164);
+    font-variant-numeric: tabular-nums;
+    caret-color: rgb(196 198 210);
+    box-shadow: none;
+    appearance: none;
+  }
+
+  .experiment-controls-value:focus-visible {
+    outline: 1px solid rgb(140 146 164 / 0.45);
+    outline-offset: 0;
+  }
+
+  .experiment-controls-range {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 1.5rem;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    background-image: linear-gradient(
+      to right,
+      rgb(196 198 210) 0%,
+      rgb(196 198 210) var(--experiment-control-progress-position),
+      rgb(42 45 56) var(--experiment-control-progress-position),
+      rgb(42 45 56) 100%
+    );
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    cursor: pointer;
+  }
+
+  .experiment-controls-range:focus-visible {
+    outline: none;
+  }
+
+  .experiment-controls-range:focus-visible::-webkit-slider-thumb {
+    outline: 1px solid rgb(82 82 82);
+    outline-offset: 2px;
+  }
+
+  .experiment-controls-range:focus-visible::-moz-range-thumb {
+    outline: 1px solid rgb(82 82 82);
+    outline-offset: 2px;
+  }
+
+  .experiment-controls-range::-webkit-slider-runnable-track {
+    height: 2px;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .experiment-controls-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0.5rem;
+    height: 1.1rem;
+    border-radius: 0;
+    background: rgb(180 182 194);
+    border: 0;
+    margin-top: -0.45rem;
+    box-shadow: none;
+  }
+
+  .experiment-controls-range::-moz-range-track {
+    height: 2px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .experiment-controls-range::-moz-range-progress {
+    height: 2px;
+    background: rgb(196 198 210);
+    border-radius: 0;
+  }
+
+  .experiment-controls-range::-moz-range-thumb {
+    width: 0.5rem;
+    height: 1.1rem;
+    border-radius: 0;
+    background: rgb(180 182 194);
+    border: 0;
+    box-shadow: none;
+  }
+}

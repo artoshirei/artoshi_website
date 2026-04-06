@@ -21,14 +21,14 @@ export const useDemoStates = () => {
 
       blob: {
         size: atom(new Vector3(0, 0, 0)),
-        freq: atom(new Vector2(2 ** -1, 2 ** 0)),
-        speed: atom(0.55),
-        scaleExp: atom(0.5),
+        freq: atom(new Vector2(2 ** -1.5, 1)),
+        speed: atom(0.5),
+        scaleExp: atom(0.2),
       },
 
       rows: {
         minWidth: atom(0),
-        insetX: atom(0),
+        insetX: atom(40),
         insetY: atom(0),
       },
     };

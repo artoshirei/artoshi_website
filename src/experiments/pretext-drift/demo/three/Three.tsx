@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Color } from "three";
 import { WebGPURenderer } from "three/webgpu";
+import { ExperimentControlPanel } from "../../../../components/experiment-controls/ExperimentControls";
 import { ControlRail } from "../dom/ControlRail";
 import { TextOverlay } from "../dom/TextOverlay";
 import { DemoProvider } from "../DemoProvider";
@@ -13,10 +14,7 @@ type WebGPURendererParameters = ConstructorParameters<typeof WebGPURenderer>[0];
 export const Three = () => {
   return (
     <DemoProvider>
-      <div className="grid h-full w-full flex-1 grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)]">
-        <div className="pretext-drift-controls in-[html.hide-controls]:hidden in-[html.hide-ui]:hidden">
-          <ControlRail />
-        </div>
+      <div className="grid h-full w-full flex-1 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="relative min-w-0 overflow-hidden">
           <div className="absolute inset-0">
             <Canvas
@@ -40,6 +38,9 @@ export const Three = () => {
           </div>
           <TextOverlay />
         </div>
+        <ExperimentControlPanel className="in-[html.hide-controls]:hidden in-[html.hide-ui]:hidden">
+          <ControlRail />
+        </ExperimentControlPanel>
       </div>
     </DemoProvider>
   );

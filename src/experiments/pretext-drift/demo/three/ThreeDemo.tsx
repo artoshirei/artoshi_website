@@ -3,9 +3,8 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useRef } from "react";
 import type { FnNode } from "three/src/nodes/tsl/TSLCore.js";
 import {
-  cos,
-  float,
   Fn,
+  float,
   If,
   instancedArray,
   instanceIndex,
@@ -14,8 +13,7 @@ import {
   min,
   positionLocal,
   select,
-  sin,
-  TWO_PI,
+  uniformArray,
   vec2,
   vec3,
   vec4,
@@ -25,6 +23,7 @@ import { WebGPURenderer } from "three/webgpu";
 import { disposeComputeNode } from "@/scripts/three/utils/disposeComputeNode";
 import { useDemoContext } from "../hooks/useDemoContext";
 import { CONSTS } from "../hooks/useDemoStates";
+import { createBlobGeometry, getBlobBoundarySamples } from "./blobShape";
 import { useDemoSize } from "./hooks/useDemoSize";
 import { useTSLDistortion } from "./hooks/useTSLDistortion";
 
@@ -38,6 +37,15 @@ export const ThreeDemo = () => {
   const setLeftXs = useSetAtom(atoms.leftXs);
 
   const distortion = useTSLDistortion();
+  const blobGeometry = useMemo(() => createBlobGeometry(CONSTS.segments), []);
+  const boundarySamples = useMemo(
+    () => getBlobBoundarySamples(CONSTS.segments),
+    [],
+  );
+  const boundaryNode = useMemo(
+    () => uniformArray(boundarySamples, "vec2"),
+    [boundarySamples],
+  );
 
   // --- TSL ノード（安定。マウント時に一度だけ作成） ---
   const { positionNode, colorNode, samplePosition } = useMemo(() => {
@@ -54,15 +62,15 @@ export const ThreeDemo = () => {
       return position.mul(scale);
     })();
 
-    const samplePosition = Fn(([theta]: [Node<"float">]) => {
-      const posLocal = vec2(cos(theta).mul(0.5), sin(theta).mul(0.5));
+    const samplePosition = Fn(([index]: [Node]) => {
+      const posLocal = boundaryNode.element(index);
       const scale = distortion(posLocal.x, posLocal.y);
       const position = vec2(
         posLocal.x.mul(uniforms.blob.size.x),
         posLocal.y.mul(uniforms.blob.size.y),
       );
       return position.mul(scale);
-    }) as ((theta: Node<"float"> | number) => Node<"vec2">) &
+    }) as ((index: Node | number) => Node<"vec2">) &
       FnNode<unknown[], Node>;
 
     return {
@@ -71,7 +79,7 @@ export const ThreeDemo = () => {
       samplePosition,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [boundaryNode]);
 
   // --- コンピュートシェーダー（numRows が変わったときだけ再生成） ---
   const numRows = useAtomValue(atoms.rows.num);
@@ -102,8 +110,7 @@ export const ThreeDemo = () => {
       const hasLowerF = float(0).toVar();
 
       Loop(CONSTS.segments, ({ i }) => {
-        const theta = float(i).div(CONSTS.segments).mul(TWO_PI);
-        const p = samplePosition(theta);
+        const p = samplePosition(i);
         const py = p.y;
 
         const inBand = (py.greaterThanEqual(yMin) as any).and(
@@ -127,8 +134,7 @@ export const ThreeDemo = () => {
       const rightX = float(1e9).toVar();
 
       Loop(CONSTS.segments, ({ i }) => {
-        const theta = float(i).div(CONSTS.segments).mul(TWO_PI);
-        const p = samplePosition(theta);
+        const p = samplePosition(i);
         const py = p.y;
         const px = p.x;
 
@@ -225,7 +231,7 @@ export const ThreeDemo = () => {
 
   return (
     <mesh>
-      <circleGeometry args={[0.5, CONSTS.segments]} />
+      <primitive object={blobGeometry} attach="geometry" />
       <meshBasicNodeMaterial
         transparent={true}
         colorNode={colorNode}
