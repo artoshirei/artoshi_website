@@ -1501,12 +1501,6 @@
   color: currentColor;
 }
 
-.steepfu-settings-version {
-  color: rgba(105, 81, 58, 0.38);
-  font-size: 9px;
-  font-weight: 800;
-}
-
 .steepfu-window.theme-dark {
   --steepfu-ink: #f3dfbf;
   --steepfu-muted: rgba(235, 211, 176, 0.78);
