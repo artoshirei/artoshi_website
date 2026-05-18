@@ -23,6 +23,13 @@ export interface WorkItem {
 export const work: WorkItem[] = [
   {
     year: 2026,
+    title: "Steepfu",
+    description: "Calm tea timer for macOS",
+    url: "/steepfu",
+    categories: ["App"],
+  },
+  {
+    year: 2026,
     title: "Pretext Drift",
     description: "WebGPU type wrapped to a soft field",
     url: "/experiments/pretext-drift",
