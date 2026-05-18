@@ -1005,8 +1005,8 @@
   font-weight: 850;
 }
 
-.steepfu-voice-help-wrap:hover .steepfu-voice-help-popout,
-.steepfu-voice-help-wrap:focus-within .steepfu-voice-help-popout,
+.steepfu-info-button:hover + .steepfu-voice-help-popout,
+.steepfu-info-button:focus-visible + .steepfu-voice-help-popout,
 .steepfu-voice-help-wrap.is-open .steepfu-voice-help-popout {
   opacity: 1;
   pointer-events: auto;
