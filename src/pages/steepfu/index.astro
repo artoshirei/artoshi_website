@@ -1,0 +1,983 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../components/SteepfuDemo.css";
+
+const teas = [
+  {
+    id: "lao-man-e-sheng",
+    name: "Lao Man’e Sheng Pu-erh",
+    icon: "/steepfu/tea-icons/puer.png",
+    temp: "98C",
+    grams: "6.5g / 100ml",
+    note: "Bitter, powerful young sheng profile. Start short and push slowly.",
+    times: [6, 8, 10, 12, 15, 18, 22, 28]
+  },
+  {
+    id: "gaba-basalt",
+    name: "Gaba Basalt",
+    icon: "/steepfu/tea-icons/gaba-oolong.png",
+    temp: "94C",
+    grams: "5.5g / 100ml",
+    note: "Warm GABA oolong profile with a steady mineral-amber character.",
+    times: [18, 20, 24, 28, 35, 45, 60, 75]
+  },
+  {
+    id: "gaba-oolong",
+    name: "GABA oolong",
+    icon: "/steepfu/tea-icons/gaba-oolong.png",
+    temp: "93C",
+    grams: "5g / 100ml",
+    note: "A steady GABA oolong default for warm, rounded cups.",
+    times: [20, 25, 30, 35, 40, 45, 50, 55]
+  },
+  {
+    id: "golden-eyebrow",
+    name: "Golden Eyebrow",
+    icon: "/steepfu/tea-icons/da-hong-pao.png",
+    temp: "93C",
+    grams: "5g / 100ml",
+    note: "Gentle heat keeps the honeyed malt clear.",
+    times: [8, 10, 12, 15, 20, 28, 38, 50]
+  },
+  {
+    id: "tie-guan-yin",
+    name: "Tie Guan Yin",
+    icon: "/steepfu/tea-icons/tie-guan-yin.png",
+    temp: "95C",
+    grams: "4g / 100ml",
+    note: "Short first pours, then let the orchid sweetness open up.",
+    times: [5, 8, 8, 10, 10, 10, 15, 15]
+  },
+  {
+    id: "da-hong-pao",
+    name: "Da Hong Pao",
+    icon: "/steepfu/tea-icons/da-hong-pao.png",
+    temp: "98C",
+    grams: "5.5g / 100ml",
+    note: "Mineral roasted oolong. Start short and let the body build.",
+    times: [8, 8, 8, 12, 12, 15, 18, 20]
+  },
+  {
+    id: "longjing",
+    name: "Longjing / Dragon Well",
+    icon: "/steepfu/tea-icons/longjing.png",
+    temp: "83C",
+    grams: "5g / 100ml",
+    note: "Cooler water keeps the chestnut-green body soft.",
+    times: [10, 15, 20, 30, 45, 60]
+  },
+  {
+    id: "jasmine",
+    name: "Jasmine tea",
+    icon: "/steepfu/tea-icons/jasmine.png",
+    temp: "84C",
+    grams: "4.5g / 100ml",
+    note: "For jasmine pearls, start closer to 45-60s.",
+    times: [15, 20, 25, 30, 40, 45]
+  }
+];
+---
+
+<BaseLayout title="Steepfu — Calm tea timer for macOS">
+  <main class="steepfu-page">
+    <section class="steepfu-intro animate-in" style="animation-delay: 0.12s">
+      <img
+        src="/steepfu-icon.png"
+        alt="Steepfu app icon"
+        class="steepfu-icon"
+        width="80"
+        height="80"
+      />
+
+      <h1>Steepfu</h1>
+
+      <p>
+        A warm little tea timer for macOS.<br />
+        One calm steep at a time.
+      </p>
+
+      <div class="steepfu-cta">
+        <a href="/steepfu/download" class="steepfu-download" id="steepfu-download-btn">
+          <svg class="apple-logo" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.3-81.2-105.3-207.6-105.3-328.5 0-193.1 125.5-295.6 249.1-295.6 65.7 0 120.4 43.1 161.6 43.1 39.2 0 100.2-45.7 174.5-45.7 28.2 0 129.5 2.6 196.3 99.5zm-271.5-90.1c30.8-36.5 52.7-87.1 52.7-137.8 0-7.1-.6-14.2-1.9-20-50.2 1.9-109.5 33.4-145.4 75.2-26.9 30.2-55.2 80.8-55.2 132.1 0 7.7.6 15.5 1.3 17.4 2.6.6 6.4 1.3 10.2 1.3 45 .1 101.5-30.1 138.3-68.2z"/></svg>
+          Download
+        </a>
+        <p class="steepfu-note">Requires macOS 14 or later</p>
+      </div>
+    </section>
+
+    <section class="steepfu-demo-wrap animate-in" style="animation-delay: 0.42s">
+      <div class="steepfu-window" id="steepfu-demo" aria-label="Interactive Steepfu demo">
+        <div class="steepfu-notice" data-demo-notice hidden></div>
+        <div class="steepfu-widget-bar">
+          <div class="steepfu-title-row">
+            <div class="steepfu-traffic" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span class="steepfu-window-title">Steepfu</span>
+          </div>
+          <div class="steepfu-action-row">
+            <div class="steepfu-actions-left">
+              <label class="steepfu-volume-control" aria-label="Volume">
+                <input type="range" min="0" max="1" step="0.05" value="0.6" data-action="volume" />
+              </label>
+              <button type="button" aria-label="Mute" aria-pressed="false" data-action="mute">
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+              </button>
+              <button type="button" aria-label="Keep always on top" aria-pressed="false" data-action="pin">
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v5"></path><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"></path></svg>
+              </button>
+              <div class="steepfu-voice-help-wrap">
+                <button type="button" aria-label="Turn on voice mode" aria-pressed="false" data-action="voice">
+                  <svg class="lucide" data-icon="mic-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"></path><path d="M16.95 16.95A7 7 0 0 1 5 12v-2"></path><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"></path><path d="m2 2 20 20"></path><path d="M9 9v3a3 3 0 0 0 5.12 2.12"></path></svg>
+                </button>
+                <button type="button" class="steepfu-info-button" aria-label="Voice commands" aria-expanded="false" data-action="voice-help">
+                  <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                </button>
+                <div class="steepfu-voice-help-popout" role="status">
+                  <strong>Voice commands</strong>
+                  <span>Voice is disabled in this web demo.</span>
+                  <span class="voice-command-quote">"start the timer"</span>
+                </div>
+              </div>
+            </div>
+            <div class="steepfu-actions-right">
+              <button type="button" aria-label="Use dark mode" data-action="theme">
+                <svg class="lucide" data-icon="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+              </button>
+              <button type="button" aria-label="Settings" aria-pressed="false" data-action="settings">
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <main class="steepfu-screen steepfu-picker" data-screen="picker">
+          <section class="steepfu-hero-copy">
+            <h2>Steepfu</h2>
+            <p>One calm steep at a time.</p>
+          </section>
+          <section class="steepfu-tea-grid" aria-label="Tea profiles">
+            <div class="steepfu-tea-grid-items">
+              {[teas[0], teas[3], teas[1], teas[2], teas[4], teas[5], teas[6], teas[7]].map((tea, index) => (
+                <button
+                  class="steepfu-tea-card has-card-tools"
+                  type="button"
+                  data-tea-id={tea.id}
+                  data-action="choose-tea"
+                >
+                  <span class="steepfu-card-tool steepfu-card-drag" aria-hidden="true"><svg class="lucide" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg></span>
+                  <span class="steepfu-card-tool steepfu-card-delete" aria-hidden="true"><svg class="lucide" viewBox="0 0 24 24"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></span>
+                  <span class="steepfu-tea-icon steepfu-tea-icon-md" aria-hidden="true">
+                    <img src={tea.icon} alt="" />
+                    <span class="steam steam-a"></span>
+                    <span class="steam steam-b"></span>
+                    <span class="steam steam-c"></span>
+                  </span>
+                  <span class="steepfu-tea-name">{tea.name}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+          <button class="steepfu-custom-tea-toggle" type="button" aria-label="Create custom tea">
+            <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+        </main>
+
+        <main class="steepfu-screen steepfu-setup" data-screen="setup" hidden>
+          <div class="steepfu-setup-nav">
+            <button type="button" class="steepfu-text-button steepfu-back-button" data-action="back-picker">Back</button>
+            <button type="button" class="steepfu-ghost-button steepfu-edit-profile-button">
+              <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg>
+              Edit
+            </button>
+          </div>
+          <section class="steepfu-setup-head">
+            <div class="steepfu-profile-icon-stage">
+              <span class="steepfu-tea-icon steepfu-tea-icon-lg" aria-hidden="true">
+                <img data-demo-icon src={teas[0].icon} alt="" />
+                <span class="steam steam-a"></span>
+                <span class="steam steam-b"></span>
+                <span class="steam steam-c"></span>
+              </span>
+            </div>
+            <div class="steepfu-setup-copy">
+              <h2 data-demo-name>{teas[0].name}</h2>
+              <div class="steepfu-profile-summary">
+                <p>
+                  <span data-demo-temp>{teas[0].temp}</span>
+                  <span data-demo-grams>{teas[0].grams}</span>
+                </p>
+                <em data-demo-note>{teas[0].note}</em>
+              </div>
+            </div>
+          </section>
+          <div class="steepfu-setup-body">
+            <section class="steepfu-setup-controls">
+              <div class="steepfu-mini-stepper">
+                <span>Max steeps</span>
+                <span class="steepfu-stepper-control"><button type="button">-</button><span data-demo-max>{teas[0].times.length}</span><button type="button">+</button><em></em></span>
+              </div>
+              <div class="steepfu-mini-stepper">
+                <span>First steep</span>
+                <span class="steepfu-stepper-control"><button type="button">-</button><span data-demo-first>{teas[0].times[0]}</span><button type="button">+</button><em>s</em></span>
+              </div>
+              <div class="steepfu-mini-stepper">
+                <span>Increment</span>
+                <span class="steepfu-stepper-control"><button type="button">-</button><span>5</span><button type="button">+</button><em>s</em></span>
+              </div>
+              <section class="steepfu-schedule-field">
+                <button type="button" class="steepfu-schedule-field-toggle" aria-expanded="false">
+                  <span>
+                    <strong>Custom steep schedule</strong>
+                    <em>Optional exact seconds for each steep</em>
+                  </span>
+                  <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                </button>
+              </section>
+            </section>
+            <section class="steepfu-schedule-preview" aria-label="Choose starting steep" data-demo-schedule></section>
+          </div>
+          <div class="steepfu-setup-cta-bar">
+            <button class="steepfu-primary-button" type="button" data-action="start-session">Start session</button>
+          </div>
+        </main>
+
+        <main class="steepfu-screen steepfu-timer status-ready" data-screen="timer" hidden>
+          <div class="steepfu-timer-actions">
+            <button type="button" class="steepfu-text-button steepfu-back-button" data-action="back-setup">Back</button>
+            <div>
+              <button type="button" class="steepfu-text-button" data-action="restart">Restart</button>
+              <button type="button" class="steepfu-text-button" data-action="end-session">End</button>
+            </div>
+          </div>
+          <section class="steepfu-timer-stack">
+            <span class="steepfu-tea-icon steepfu-tea-icon-lg" data-timer-icon-wrap aria-hidden="true">
+              <img data-timer-icon src={teas[0].icon} alt="" />
+              <span class="steam steam-a"></span>
+              <span class="steam steam-b"></span>
+              <span class="steam steam-c"></span>
+            </span>
+            <section class="steepfu-timer-core" aria-label="Timer">
+              <p data-timer-label>Steep 1 / {teas[0].times.length}</p>
+              <div class="steepfu-countdown" data-timer-countdown>{teas[0].times[0]}s</div>
+              <span data-timer-hint>5s to pour water, then steep 1</span>
+            </section>
+            <div class="steepfu-progress-drops" aria-label={`Steep 1 of ${teas[0].times.length}`} data-demo-drops></div>
+            <button class="steepfu-primary-button steepfu-timer-button" type="button" data-action="pour">Get ready to pour</button>
+            <section class="steepfu-recovery" aria-label="Mistake recovery" data-demo-recovery hidden>
+              <span>Pressed by mistake?</span>
+              <button type="button" data-action="recover">Reset steep</button>
+            </section>
+            <section class="steepfu-adjustments" aria-label="Adjust future steeps" data-demo-adjustments hidden>
+              <button type="button" data-action="adjust-plus">Too weak +5s</button>
+              <button type="button" data-action="adjust-minus">Too strong -5s</button>
+            </section>
+          </section>
+        </main>
+
+        <main class="steepfu-screen steepfu-settings-screen" data-screen="settings" hidden>
+          <div class="steepfu-settings-sticky-bar">
+            <button type="button" class="steepfu-text-button steepfu-back-button" data-action="settings-back">Back</button>
+          </div>
+          <section class="steepfu-settings-hero">
+            <h2>Settings</h2>
+            <p>Keep the timer calm, tiny, and ready for custom tea experiments.</p>
+          </section>
+
+          <section class="steepfu-settings-panel steepfu-api-key-panel is-connected">
+            <div class="steepfu-settings-row-top">
+              <div class="steepfu-settings-copy">
+                <svg class="lucide steepfu-connected-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                <div>
+                  <strong>API key active</strong>
+                  <p>Unlocked: GPT-5.5 with web search for tea autofill, plus gpt-image-2 for custom tea icons.</p>
+                </div>
+              </div>
+              <span class="steepfu-connected-pill">Connected</span>
+            </div>
+            <label class="steepfu-settings-field steepfu-api-key-field" aria-label="Saved OpenAI API key">
+              <input type="password" value="" placeholder="sk-****************" readonly />
+            </label>
+            <div class="steepfu-settings-actions">
+              <button type="button" class="steepfu-ghost-button" disabled>Replace key</button>
+              <button type="button" class="steepfu-ghost-button">Clear saved key</button>
+            </div>
+          </section>
+
+          <section class="steepfu-settings-panel steepfu-voice-panel">
+            <div class="steepfu-settings-copy">
+              <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>
+              <div><strong>Voice mode</strong><p>Listen locally for a phrase and start the tea timer with Parakeet.</p></div>
+            </div>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-check">
+              <input type="checkbox" data-action="settings-voice" />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Activate always-listening mode</span>
+            </label>
+            <label class="steepfu-settings-field">
+              <span>Activation phrase</span>
+              <input class="steepfu-activation-phrase-input" type="text" value="start the timer" readonly />
+            </label>
+            <label class="steepfu-settings-field">
+              <span>Microphone</span>
+              <button type="button" class="steepfu-native-menu-button">
+                <span>Streamer X Main</span>
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+              </button>
+            </label>
+            <div class="steepfu-settings-actions">
+              <button type="button" class="steepfu-ghost-button steepfu-icon-text-button">
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                Refresh microphones
+              </button>
+            </div>
+            <div class="steepfu-voice-pack-cta is-ready">
+              <button type="button" class="steepfu-primary-button steepfu-voice-pack-button" disabled>
+                <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                Voice pack ready
+              </button>
+            </div>
+            <div class="steepfu-voice-models">
+              <article class="steepfu-voice-model-row steepfu-voice-engine-row is-ready">
+                <div><strong>FluidAudio engine</strong><span>Ready - 605.1 MB</span></div>
+                <div class="steepfu-voice-model-actions">
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>Redownload</button>
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>Finder</button>
+                </div>
+              </article>
+              <article class="steepfu-voice-model-row">
+                <div><strong>Parakeet v2</strong><span>Ready - 442.9 MB</span></div>
+                <div class="steepfu-voice-model-actions">
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>Redownload</button>
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>Finder</button>
+                </div>
+              </article>
+              <article class="steepfu-voice-model-row">
+                <div><strong>Parakeet v3</strong><span>Ready - 460.9 MB</span></div>
+                <div class="steepfu-voice-model-actions">
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>Redownload</button>
+                  <button type="button" class="steepfu-ghost-button steepfu-icon-text-button"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>Finder</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="steepfu-settings-panel">
+            <div class="steepfu-settings-copy">
+              <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+              <div><strong>Appearance</strong><p>A darker little widget for evening steeps.</p></div>
+            </div>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-switch">
+              <input type="checkbox" data-action="settings-theme" />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Dark mode</span>
+            </label>
+          </section>
+          <section class="steepfu-settings-panel">
+            <div class="steepfu-settings-copy">
+              <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+              <div><strong>Sound</strong><p>Soft cues only. No startled tea moments.</p></div>
+            </div>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-check">
+              <input type="checkbox" data-action="settings-muted" />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Mute all cues <span class="steepfu-info-dot">i</span></span>
+            </label>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-check">
+              <input type="checkbox" />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Gentle reminder after pour time <span class="steepfu-info-dot">i</span></span>
+            </label>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-check">
+              <input type="checkbox" checked />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Last 5-second countdown sound <span class="steepfu-info-dot">i</span></span>
+            </label>
+            <div class="steepfu-mini-stepper steepfu-settings-mini-stepper">
+              <span>Pour water</span>
+              <span class="steepfu-stepper-control"><button type="button">-</button><span>5</span><button type="button">+</button><em>s</em></span>
+            </div>
+            <label class="steepfu-settings-field compact-field">
+              <span>Volume</span>
+              <input type="range" min="0" max="1" step="0.05" value="0.6" data-action="settings-volume" />
+            </label>
+          </section>
+
+          <section class="steepfu-settings-panel">
+            <div class="steepfu-settings-copy">
+              <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+              <div>
+                <strong>Analytics</strong>
+                <p>Anonymous usage helps improve reliability, updates, and voice setup.</p>
+                <ul class="steepfu-privacy-points">
+                  <li>Never sends voice recordings, transcripts, typed text, tea details, photos, API keys, mic names, or file paths.</li>
+                  <li>Only sends coarse events like app opened, timer started, voice enabled, voice pack installed, and update status.</li>
+                </ul>
+              </div>
+            </div>
+            <label class="steepfu-settings-toggle steepfu-settings-toggle-check">
+              <input type="checkbox" checked />
+              <span class="steepfu-settings-check" aria-hidden="true"></span>
+              <span class="steepfu-settings-toggle-label">Share anonymous usage <span class="steepfu-info-dot">i</span></span>
+            </label>
+          </section>
+          <footer class="steepfu-settings-footer">
+            <span class="steepfu-settings-footer-brand">
+              <svg class="steepfu-fowl-labs-logo" viewBox="122 205 779 615" aria-hidden="true"><path d="M797.57 528.675C857.898 506.822 901 448.993 901 381.094C901 294.43 830.784 224.175 744.169 224.175C700.536 224.175 661.061 242.006 632.635 270.784C606.879 231.184 562.244 205 511.502 205C460.756 205 416.126 231.184 390.366 270.784C361.939 242.006 322.464 224.175 278.831 224.175C192.215 224.175 122 294.43 122 381.094C122 451.091 167.808 510.389 231.071 530.603C187.339 558.445 158.324 607.37 158.324 663.08C158.324 749.745 228.539 820 315.155 820C353.38 820 388.413 806.319 415.625 783.573C441.127 806.231 474.703 820 511.502 820C550.368 820 585.644 804.639 611.605 779.66C639.401 804.737 676.211 820 716.585 820C803.2 820 873.416 749.745 873.416 663.08C873.416 606.067 843.027 556.155 797.57 528.675Z" fill="currentColor"></path></svg>
+              <span>Made with love by Fowl Labs</span>
+            </span>
+            <span class="steepfu-settings-version">v0.1.9</span>
+          </footer>
+        </main>
+      </div>
+    </section>
+  </main>
+
+  <footer class="steepfu-footer animate-in" style="animation-delay: 0.7s">
+    <a href="/" class="steepfu-back">artoshi</a>
+  </footer>
+</BaseLayout>
+
+<style>
+  :global(body) {
+    background: #050403;
+  }
+
+  .steepfu-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 5vh 1.5rem 0;
+  }
+
+  .steepfu-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .steepfu-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    box-shadow: none;
+  }
+
+  h1 {
+    margin: 1rem 0 0;
+    color: #fff1c9;
+    font-size: clamp(2.8rem, 6vw, 4.4rem);
+    font-weight: 760;
+    letter-spacing: 0;
+    line-height: 0.95;
+    text-align: center;
+  }
+
+  .steepfu-intro > p {
+    max-width: 24rem;
+    margin: 0.65rem 0 0;
+    color: rgba(255, 241, 201, 0.64);
+    font-size: 0.95rem;
+    line-height: 1.42;
+    text-align: center;
+  }
+
+  .steepfu-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.75rem;
+  }
+
+  .steepfu-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    border-radius: 999px;
+    padding: 0 1.75rem;
+    background: #fff1c9;
+    color: #0b0703;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .steepfu-download:hover {
+    background: #fff;
+  }
+
+  .apple-logo {
+    flex: 0 0 auto;
+    width: 0.875rem;
+    height: 0.875rem;
+    transform: translateY(-0.03em);
+  }
+
+  .steepfu-note {
+    margin-top: 0.6rem;
+    color: rgba(255, 241, 201, 0.46);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+
+  .steepfu-demo-wrap {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(100%, 64rem);
+    margin-top: 2.25rem;
+    padding-bottom: 8rem;
+  }
+
+  .steepfu-demo-wrap::before {
+    content: "";
+    position: absolute;
+    width: min(86vw, 40rem);
+    height: 34rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(154, 92, 42, 0.24) 0%, rgba(139, 87, 43, 0.14) 36%, transparent 74%);
+    filter: blur(38px);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .steepfu-demo-wrap :global(.steepfu-window) {
+    z-index: 1;
+  }
+
+  .steepfu-footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+  }
+
+  .steepfu-back {
+    color: rgba(255, 241, 201, 0.48);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+
+  .steepfu-back:hover {
+    color: #fff1c9;
+    opacity: 1;
+  }
+
+  @media (max-width: 700px) {
+    .steepfu-page {
+      padding-top: 3.5vh;
+    }
+
+    .steepfu-demo-wrap {
+      margin-top: 1.75rem;
+      padding-bottom: 6rem;
+    }
+  }
+</style>
+
+<script>
+  const teas = [
+    { id: "lao-man-e-sheng", name: "Lao Man’e Sheng Pu-erh", icon: "/steepfu/tea-icons/puer.png", temp: "98C", grams: "6.5g / 100ml", note: "Bitter, powerful young sheng profile. Start short and push slowly.", times: [6, 8, 10, 12, 15, 18, 22, 28] },
+    { id: "gaba-basalt", name: "Gaba Basalt", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "94C", grams: "5.5g / 100ml", note: "Warm GABA oolong profile with a steady mineral-amber character.", times: [18, 20, 24, 28, 35, 45, 60, 75] },
+    { id: "gaba-oolong", name: "GABA oolong", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "93C", grams: "5g / 100ml", note: "A steady GABA oolong default for warm, rounded cups.", times: [20, 25, 30, 35, 40, 45, 50, 55] },
+    { id: "golden-eyebrow", name: "Golden Eyebrow", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "93C", grams: "5g / 100ml", note: "Gentle heat keeps the honeyed malt clear.", times: [8, 10, 12, 15, 20, 28, 38, 50] },
+    { id: "tie-guan-yin", name: "Tie Guan Yin", icon: "/steepfu/tea-icons/tie-guan-yin.png", temp: "95C", grams: "4g / 100ml", note: "Short first pours, then let the orchid sweetness open up.", times: [5, 8, 8, 10, 10, 10, 15, 15] },
+    { id: "da-hong-pao", name: "Da Hong Pao", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "98C", grams: "5.5g / 100ml", note: "Mineral roasted oolong. Start short and let the body build.", times: [8, 8, 8, 12, 12, 15, 18, 20] },
+    { id: "longjing", name: "Longjing / Dragon Well", icon: "/steepfu/tea-icons/longjing.png", temp: "83C", grams: "5g / 100ml", note: "Cooler water keeps the chestnut-green body soft.", times: [10, 15, 20, 30, 45, 60] },
+    { id: "jasmine", name: "Jasmine tea", icon: "/steepfu/tea-icons/jasmine.png", temp: "84C", grams: "4.5g / 100ml", note: "For jasmine pearls, start closer to 45-60s.", times: [15, 20, 25, 30, 40, 45] }
+  ];
+
+  const demo = document.getElementById("steepfu-demo");
+  let selected = teas[0];
+  let status = "ready";
+  let steepIndex = 0;
+  let startSteepIndex = 0;
+  let remaining = selected.times[0];
+  let timerId;
+  let noticeTimerId;
+  let warningSecond = null;
+  let currentScreen = "picker";
+  let lastScreen = "picker";
+  let volume = 0.6;
+  let muted = false;
+  let pinned = false;
+  let voiceOn = true;
+  let darkMode = false;
+  let audioContext;
+  const toneOutputGain = 1.15 * 0.12 * 0.35;
+  const alertVolumeScale = {
+    warning: 0.18,
+    finish: 0.55
+  };
+
+  const icon = {
+    moon: '<svg class="lucide" data-icon="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>',
+    sun: '<svg class="lucide" data-icon="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>',
+    volume: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>',
+    volumeX: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="m22 9-6 6"></path><path d="m16 9 6 6"></path></svg>',
+    mic: '<svg class="lucide" data-icon="mic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>',
+    micOff: '<svg class="lucide" data-icon="mic-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"></path><path d="M16.95 16.95A7 7 0 0 1 5 12v-2"></path><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"></path><path d="m2 2 20 20"></path><path d="M9 9v3a3 3 0 0 0 5.12 2.12"></path></svg>'
+  };
+
+  function formatSeconds(seconds) {
+    const safeSeconds = Math.max(0, Math.ceil(seconds));
+    const minutes = Math.floor(safeSeconds / 60);
+    const remainingSeconds = safeSeconds % 60;
+    if (minutes === 0) return `${remainingSeconds}s`;
+    return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+  }
+
+  function formatTimer(seconds) {
+    return formatSeconds(seconds);
+  }
+
+  function showScreen(name) {
+    currentScreen = name;
+    demo?.querySelectorAll("[data-screen]").forEach((screen) => {
+      const isActive = screen.getAttribute("data-screen") === name;
+      screen.hidden = !isActive;
+      if (isActive) screen.scrollTop = 0;
+    });
+    demo?.querySelector("[data-action='settings']")?.setAttribute("aria-pressed", String(name === "settings"));
+  }
+
+  function showNotice(message) {
+    const notice = demo?.querySelector("[data-demo-notice]");
+    if (!notice) return;
+    window.clearTimeout(noticeTimerId);
+    notice.textContent = message;
+    notice.hidden = false;
+    noticeTimerId = window.setTimeout(() => {
+      notice.hidden = true;
+    }, 2800);
+  }
+
+  function getAudioContext() {
+    if (!audioContext) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      audioContext = new AudioContextClass();
+    }
+    if (audioContext.state === "suspended") audioContext.resume();
+    return audioContext;
+  }
+
+  function tap(frequency, duration, type = "sine", delay = 0) {
+    if (muted || volume <= 0) return;
+    const context = getAudioContext();
+    if (!context) return;
+    const start = context.currentTime + delay;
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, start);
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume * toneOutputGain), start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+    oscillator.start(start);
+    oscillator.stop(start + duration + 0.02);
+  }
+
+  function playStartCue() {
+    tap(260, 0.07, "triangle", 0);
+    tap(380, 0.05, "sine", 0.058);
+  }
+
+  function playAlertCue(kind = "finish") {
+    if (muted || volume <= 0) return;
+    const sound = new Audio("/steepfu/sounds/alert_simple.wav");
+    sound.volume = Math.min(1, Math.max(0, volume * (alertVolumeScale[kind] ?? alertVolumeScale.finish)));
+    sound.playbackRate = kind === "warning" ? 1.8 : 1;
+    sound.play().catch(() => {});
+  }
+
+  function syncRanges(value) {
+    volume = Number(value);
+    demo?.querySelectorAll("[data-action='volume'], [data-action='settings-volume']").forEach((range) => {
+      range.value = String(volume);
+      const min = Number(range.min || 0);
+      const max = Number(range.max || 1);
+      const fill = max === min ? 0 : ((volume - min) / (max - min)) * 100;
+      range.style.setProperty("--volume-fill", `${Math.min(100, Math.max(0, fill))}%`);
+    });
+  }
+
+  function setMuted(next) {
+    muted = next;
+    const button = demo?.querySelector("[data-action='mute']");
+    button?.classList.toggle("mute-active", muted);
+    button?.setAttribute("aria-pressed", String(muted));
+    if (button) button.innerHTML = muted ? icon.volumeX : icon.volume;
+    const checkbox = demo?.querySelector("[data-action='settings-muted']");
+    if (checkbox) checkbox.checked = muted;
+  }
+
+  function setDarkMode(next) {
+    darkMode = next;
+    demo?.classList.toggle("theme-dark", darkMode);
+    const button = demo?.querySelector("[data-action='theme']");
+    if (button) {
+      button.innerHTML = darkMode ? icon.sun : icon.moon;
+      button.setAttribute("aria-label", darkMode ? "Use light mode" : "Use dark mode");
+    }
+    const checkbox = demo?.querySelector("[data-action='settings-theme']");
+    if (checkbox) checkbox.checked = darkMode;
+  }
+
+  function setVoiceMode(next) {
+    voiceOn = next;
+    const button = demo?.querySelector("[data-action='voice']");
+    button?.classList.toggle("voice-active", voiceOn);
+    button?.setAttribute("aria-pressed", String(voiceOn));
+    button?.setAttribute("aria-label", voiceOn ? "Turn off voice mode" : "Turn on voice mode");
+    if (button) button.innerHTML = voiceOn ? icon.mic : icon.micOff;
+    const checkbox = demo?.querySelector("[data-action='settings-voice']");
+    if (checkbox) checkbox.checked = voiceOn;
+    showNotice("Real-time voice mode is not available in this web demo.");
+  }
+
+  function setPinned(next) {
+    pinned = next;
+    const button = demo?.querySelector("[data-action='pin']");
+    button?.setAttribute("aria-pressed", String(pinned));
+    showNotice("Pinning is native-only in the macOS app.");
+  }
+
+  function setVoiceHelp(open) {
+    const wrap = demo?.querySelector(".steepfu-voice-help-wrap");
+    const button = demo?.querySelector("[data-action='voice-help']");
+    wrap?.classList.toggle("is-open", open);
+    button?.setAttribute("aria-expanded", String(open));
+  }
+
+  function renderProfile() {
+    demo.querySelectorAll("[data-demo-icon], [data-timer-icon]").forEach((img) => {
+      img.src = selected.icon;
+    });
+    demo.querySelector("[data-demo-name]").textContent = selected.name;
+    demo.querySelector("[data-demo-temp]").textContent = selected.temp;
+    demo.querySelector("[data-demo-grams]").textContent = selected.grams;
+    demo.querySelector("[data-demo-note]").textContent = selected.note;
+    demo.querySelector("[data-demo-max]").textContent = selected.times.length;
+    demo.querySelector("[data-demo-first]").textContent = selected.times[0];
+    renderSchedule();
+    renderTimer();
+  }
+
+  function renderSchedule() {
+    const schedule = demo.querySelector("[data-demo-schedule]");
+    const startButton = demo.querySelector("[data-action='start-session']");
+    schedule.innerHTML = `<span class="steepfu-start-from-label">Start from</span>${selected.times.map((time, index) => `<button type="button" data-action="choose-start" data-start-index="${index}" class="steepfu-start-steep-chip ${index === startSteepIndex ? "is-selected" : ""}" aria-pressed="${index === startSteepIndex}"><span>${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : index === 2 ? "rd" : "th"}</span><em>${time}s</em></button>`).join("")}`;
+    startButton.textContent = startSteepIndex > 0 ? `Start from ${startSteepIndex + 1}${startSteepIndex === 1 ? "nd" : startSteepIndex === 2 ? "rd" : "th"}` : "Start session";
+  }
+
+  function renderDrops() {
+    const drops = demo.querySelector("[data-demo-drops]");
+    drops.setAttribute("aria-label", `Steep ${steepIndex + 1} of ${selected.times.length}`);
+    drops.innerHTML = Array.from({ length: selected.times.length }, (_, index) => `<span class="${index < steepIndex ? "filled" : ""} ${index === steepIndex ? "current" : ""}"></span>`).join("");
+  }
+
+  function renderTimer() {
+    const currentTime = selected.times[steepIndex] ?? selected.times[0];
+    const timerScreen = demo.querySelector("[data-screen='timer']");
+    const timerIcon = demo.querySelector("[data-timer-icon-wrap]");
+    const label = demo.querySelector("[data-timer-label]");
+    const countdown = demo.querySelector("[data-timer-countdown]");
+    const hint = demo.querySelector("[data-timer-hint]");
+    const button = demo.querySelector("[data-action='pour']");
+    const recovery = demo.querySelector("[data-demo-recovery]");
+    const adjustments = demo.querySelector("[data-demo-adjustments]");
+    const restart = demo.querySelector("[data-action='restart']");
+    const end = demo.querySelector("[data-action='end-session']");
+    timerScreen.className = `steepfu-screen steepfu-timer status-${status}`;
+    timerIcon.classList.toggle("steam-on", status === "running");
+    label.textContent = status === "preparing" ? "Pour the water" : `Steep ${Math.min(steepIndex + 1, selected.times.length)} / ${selected.times.length}`;
+    countdown.textContent = status === "running" || status === "preparing" ? formatTimer(remaining) : formatSeconds(currentTime);
+    hint.textContent = status === "ended" ? "Session ended" : status === "preparing" ? "Pour as this reaches 0" : status === "ready" ? `5s to pour water, then steep ${steepIndex + 1}` : selected.times[steepIndex + 1] ? `Next steep ${formatSeconds(selected.times[steepIndex + 1])}` : "Final steep";
+    button.textContent = status === "preparing" ? "Pouring soon..." : status === "running" ? "Steeping..." : status === "ended" ? "Session complete" : "Get ready to pour";
+    button.disabled = status !== "ready";
+    restart.disabled = status === "running";
+    end.disabled = status === "ended";
+    recovery.hidden = !(status !== "ready" || steepIndex > 0);
+    recovery.querySelector("button").textContent = status === "ready" ? "Go back one steep" : "Reset steep";
+    adjustments.hidden = !(status === "ready" && steepIndex > 0);
+    renderDrops();
+  }
+
+  function adjustFutureSteeps(delta) {
+    selected = {
+      ...selected,
+      times: selected.times.map((time, index) => (index > steepIndex ? Math.max(1, time + delta) : time))
+    };
+    remaining = selected.times[steepIndex] ?? selected.times[0];
+    renderTimer();
+    renderSchedule();
+  }
+
+  function stopTimer() {
+    if (timerId) window.clearInterval(timerId);
+    timerId = undefined;
+  }
+
+  function tickTimer() {
+    stopTimer();
+    if (status !== "preparing" && status !== "running") return;
+    timerId = window.setInterval(() => {
+      if (remaining > 1) {
+        remaining -= 1;
+      } else if (status === "preparing") {
+        status = "running";
+        remaining = selected.times[steepIndex] ?? selected.times[0];
+        warningSecond = null;
+        playStartCue();
+      } else if (steepIndex < selected.times.length - 1) {
+        playAlertCue("finish");
+        steepIndex += 1;
+        status = "ready";
+        remaining = selected.times[steepIndex];
+        warningSecond = null;
+        stopTimer();
+      } else {
+        playAlertCue("finish");
+        status = "ended";
+        remaining = 0;
+        warningSecond = null;
+        stopTimer();
+      }
+      if (status === "running" && remaining <= 5 && remaining !== warningSecond) {
+        warningSecond = remaining;
+        playAlertCue("warning");
+      }
+      renderTimer();
+    }, 1000);
+  }
+
+  function startPourCountdownDemo(resetToStart = false) {
+    stopTimer();
+    steepIndex = resetToStart ? Math.min(startSteepIndex, selected.times.length - 1) : steepIndex;
+    status = "preparing";
+    remaining = 5;
+    warningSecond = null;
+    playStartCue();
+    renderTimer();
+    showScreen("timer");
+    tickTimer();
+  }
+
+  if (demo) {
+    renderProfile();
+    syncRanges(volume);
+    setMuted(false);
+    setDarkMode(false);
+    setVoiceMode(true);
+    demo.querySelector("[data-demo-notice]").hidden = true;
+
+    demo.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
+      const action = target.getAttribute("data-action");
+      if (action === "volume" || action === "settings-volume" || action === "settings-muted" || action === "settings-theme" || action === "settings-voice") return;
+      if (action === "choose-tea") {
+        selected = teas.find((tea) => tea.id === target.getAttribute("data-tea-id")) ?? selected;
+        steepIndex = 0;
+        startSteepIndex = 0;
+        status = "ready";
+        remaining = selected.times[0];
+        warningSecond = null;
+        stopTimer();
+        renderProfile();
+        showScreen("setup");
+      }
+      if (action === "choose-start") {
+        startSteepIndex = Number(target.getAttribute("data-start-index") || 0);
+        renderSchedule();
+      }
+      if (action === "back-picker") showScreen("picker");
+      if (action === "back-setup") {
+        stopTimer();
+        status = "ready";
+        remaining = selected.times[steepIndex] ?? selected.times[0];
+        warningSecond = null;
+        renderTimer();
+        showScreen("setup");
+      }
+      if (action === "start-session") {
+        startPourCountdownDemo(true);
+      }
+      if (action === "pour" && status === "ready") {
+        startPourCountdownDemo();
+      }
+      if (action === "restart") {
+        steepIndex = Math.min(startSteepIndex, selected.times.length - 1);
+        startPourCountdownDemo();
+      }
+      if (action === "end-session") {
+        stopTimer();
+        status = "ended";
+        remaining = 0;
+        warningSecond = null;
+        renderTimer();
+      }
+      if (action === "recover") {
+        stopTimer();
+        if (status === "ready") steepIndex = Math.max(0, steepIndex - 1);
+        status = "ready";
+        remaining = selected.times[steepIndex] ?? selected.times[0];
+        warningSecond = null;
+        renderTimer();
+      }
+      if (action === "adjust-plus") adjustFutureSteeps(5);
+      if (action === "adjust-minus") adjustFutureSteeps(-5);
+      if (action === "mute") setMuted(!muted);
+      if (action === "pin") setPinned(!pinned);
+      if (action === "voice") setVoiceMode(!voiceOn);
+      if (action === "voice-help") setVoiceHelp(!target.closest(".steepfu-voice-help-wrap")?.classList.contains("is-open"));
+      if (action === "theme") setDarkMode(!darkMode);
+      if (action === "settings") {
+        lastScreen = currentScreen === "settings" ? lastScreen : currentScreen;
+        showScreen("settings");
+      }
+      if (action === "settings-back") showScreen(lastScreen || "picker");
+    });
+
+    demo.addEventListener("input", (event) => {
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
+      const action = target.getAttribute("data-action");
+      if (action === "volume" || action === "settings-volume") syncRanges(target.value);
+      if (action === "settings-muted") setMuted(target.checked);
+      if (action === "settings-theme") setDarkMode(target.checked);
+      if (action === "settings-voice") setVoiceMode(target.checked);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!demo.contains(event.target)) setVoiceHelp(false);
+    });
+  }
+
+  document.getElementById("steepfu-download-btn")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = "/steepfu/download";
+    document.body.appendChild(iframe);
+    setTimeout(() => iframe.remove(), 10000);
+  });
+</script>

@@ -1,0 +1,1826 @@
+.steepfu-window {
+  --steepfu-ink: #443224;
+  --steepfu-muted: #7a6045;
+  --steepfu-cream: #fff8e9;
+  --steepfu-card: rgba(255, 253, 244, 0.74);
+  --steepfu-brown: #8f5f36;
+  position: relative;
+  width: min(100%, 400px);
+  height: 594px;
+  overflow: hidden;
+  border-radius: 11px;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(247, 206, 118, 0.22), transparent 28%),
+    linear-gradient(180deg, #fff8e9 0%, #f7edd2 100%);
+  color: var(--steepfu-ink);
+  font-family: ui-rounded, "SF Pro Rounded", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow:
+    0 36px 90px rgba(78, 52, 27, 0.34),
+    0 1px 0 rgba(255, 255, 255, 0.84) inset,
+    inset 0 0 0 1px rgba(122, 91, 57, 0.14);
+}
+
+.steepfu-widget-bar {
+  height: 82px;
+  display: grid;
+  grid-template-rows: 34px 34px;
+  gap: 4px;
+  padding: 0 14px 10px;
+  color: rgba(68, 50, 36, 0.72);
+}
+
+.steepfu-title-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.steepfu-window-title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.steepfu-traffic {
+  position: absolute;
+  left: -2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steepfu-traffic span {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(74, 42, 22, 0.12);
+}
+
+.steepfu-traffic span:nth-child(1) { background: #ff5f57; }
+.steepfu-traffic span:nth-child(2) { background: #ffbd2e; }
+.steepfu-traffic span:nth-child(3) { background: #28c840; }
+
+.steepfu-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.steepfu-actions-left,
+.steepfu-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.steepfu-action-row button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.56);
+  color: #6c5239;
+  line-height: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 91, 57, 0.13),
+    0 4px 9px rgba(80, 52, 26, 0.06);
+}
+
+.steepfu-action-row svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.steepfu-action-row [data-action="theme"] svg[data-icon="sun"] {
+  transform: translateY(0.5px);
+}
+
+.steepfu-volume {
+  position: relative;
+  width: 50px;
+  height: 7px;
+  border-radius: 999px;
+  background: #87a666;
+  box-shadow: inset 0 0 0 1px rgba(84, 118, 58, 0.2);
+}
+
+.steepfu-volume span {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: #8aac6a;
+  box-shadow: 0 1px 2px rgba(71, 77, 45, 0.22);
+  transform: translateY(-50%);
+}
+
+.steepfu-action-row .is-voice-active {
+  background: #ead7b8;
+  color: #7b4d2f;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 91, 57, 0.16),
+    0 0 0 5px rgba(143, 95, 54, 0.11),
+    0 7px 14px rgba(80, 52, 26, 0.08);
+}
+
+.steepfu-action-row .steepfu-info-button {
+  width: 14px;
+  height: 24px;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(108, 82, 57, 0.82);
+}
+
+.steepfu-info-button svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+}
+
+.steepfu-screen {
+  height: calc(100% - 82px);
+  padding: 0 16px 16px;
+  overflow: hidden;
+}
+
+.steepfu-picker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.steepfu-hero-copy {
+  padding: 4px 0 8px;
+}
+
+.steepfu-hero-copy h2,
+.steepfu-setup-copy h2 {
+  margin: 0;
+  color: #3f3126;
+  font-size: 28px;
+  font-weight: 950;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.steepfu-hero-copy p {
+  margin: 5px 0 0;
+  color: var(--steepfu-muted);
+  font-size: 14px;
+}
+
+.steepfu-tea-grid {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.steepfu-tea-grid-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 116px;
+  align-content: start;
+  gap: 12px 10px;
+}
+
+.steepfu-tea-card {
+  position: relative;
+  width: 100%;
+  height: 116px;
+  min-height: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background: var(--steepfu-card);
+  color: #493625;
+  padding: 8px 8px 14px;
+  display: grid;
+  grid-template-rows: 76px 18px;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  font-weight: 800;
+  box-shadow:
+    0 12px 28px rgba(107, 77, 42, 0.1),
+    inset 0 0 0 1px rgba(122, 91, 57, 0.1);
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.steepfu-tea-card:hover {
+  transform: translateY(-2px);
+  background: #fffdf4;
+}
+
+.steepfu-tea-card:active,
+.steepfu-primary-button:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.steepfu-tea-name {
+  display: block;
+  width: calc(100% - 4px);
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steepfu-card-tool {
+  position: absolute;
+  z-index: 2;
+  width: 24px !important;
+  height: 24px;
+  border-radius: 999px;
+  display: grid !important;
+  place-items: center;
+  background: rgba(255, 248, 233, 0.52);
+  color: rgba(104, 81, 58, 0.68);
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.08);
+  font-size: 14px !important;
+  font-weight: 850;
+  line-height: 1 !important;
+  letter-spacing: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px) scale(0.92);
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease,
+    color 140ms ease,
+    background 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.steepfu-tea-card:hover .steepfu-card-tool,
+.steepfu-tea-card:focus-visible .steepfu-card-tool {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.steepfu-card-drag {
+  top: 7px;
+  left: 7px;
+}
+
+.steepfu-card-delete {
+  top: 7px;
+  right: 7px;
+  font-size: 17px !important;
+  font-weight: 400;
+}
+
+.steepfu-custom-tea-toggle {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #b8834e, #8f5f36);
+  color: #fff8dc;
+  box-shadow:
+    0 12px 26px rgba(122, 75, 36, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  line-height: 0;
+}
+
+.steepfu-setup {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.steepfu-setup-body {
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.steepfu-setup-body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.steepfu-setup-nav,
+.steepfu-timer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.steepfu-text-button,
+.steepfu-ghost-button,
+.steepfu-recovery button {
+  border: 0;
+  border-radius: 999px;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.42);
+  color: #68513a;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.steepfu-text-button {
+  min-height: 24px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.steepfu-back-button {
+  font-weight: 800;
+}
+
+.steepfu-text-button:disabled {
+  opacity: 0.45;
+}
+
+.steepfu-edit-profile-button {
+  min-height: 26px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.steepfu-edit-profile-button svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2;
+}
+
+.steepfu-setup-head {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding-right: 16px;
+}
+
+.steepfu-profile-icon-stage {
+  width: 118px;
+  height: 118px;
+  display: grid;
+  place-items: center;
+}
+
+.steepfu-setup-copy {
+  min-width: 0;
+}
+
+.steepfu-setup-copy h2 {
+  height: 30px;
+  overflow: hidden;
+  font-size: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steepfu-profile-summary {
+  margin-top: 6px;
+  display: grid;
+  gap: 6px;
+}
+
+.steepfu-profile-summary p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: #725940;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.steepfu-profile-summary p span {
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(255, 253, 244, 0.54);
+}
+
+.steepfu-profile-summary em {
+  max-width: 260px;
+  color: rgba(105, 81, 58, 0.78);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.steepfu-setup-controls {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.steepfu-mini-stepper,
+.steepfu-schedule-field {
+  display: grid;
+  grid-template-columns: minmax(92px, 1fr) minmax(0, 1.4fr);
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 253, 244, 0.58);
+  color: #69513a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.steepfu-stepper-control {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px 12px;
+  align-items: center;
+  gap: 5px;
+}
+
+.steepfu-stepper-control button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #e6d2a8;
+  color: #604628;
+  font-weight: 900;
+}
+
+.steepfu-stepper-control > span {
+  min-height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(255, 253, 244, 0.86);
+  color: #443224;
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.13);
+}
+
+.steepfu-stepper-control em {
+  color: #7b6348;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.steepfu-schedule-field {
+  grid-template-columns: 1fr;
+  padding: 6px;
+}
+
+.steepfu-schedule-field-toggle {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 9px 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  background: rgba(255, 253, 244, 0.4);
+  color: #5e432b;
+}
+
+.steepfu-schedule-field-toggle span {
+  display: grid;
+  gap: 2px;
+}
+
+.steepfu-schedule-field-toggle strong {
+  color: #5e432b;
+  font-size: 13px;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.steepfu-schedule-field-toggle em {
+  color: rgba(105, 81, 58, 0.7);
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.steepfu-schedule-field-toggle svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.steepfu-schedule-preview {
+  margin-top: 12px;
+  border-radius: 8px;
+  padding: 8px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 48px;
+  background: #f0dfbf;
+  color: #7a4e2c;
+  font-weight: 900;
+  text-align: center;
+}
+
+.steepfu-start-from-label {
+  flex: 0 0 auto;
+  margin-right: 2px;
+  color: rgba(104, 69, 40, 0.72);
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.steepfu-start-steep-chip {
+  min-height: 28px;
+  border: 1px solid rgba(122, 78, 44, 0.14);
+  border-radius: 999px;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 253, 244, 0.58);
+  color: #6e4729;
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.steepfu-start-steep-chip em {
+  color: rgba(105, 69, 38, 0.62);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.steepfu-start-steep-chip.is-selected {
+  background: #8f5f36;
+  border-color: #8f5f36;
+  color: #fff8e9;
+}
+
+.steepfu-start-steep-chip.is-selected em {
+  color: rgba(255, 248, 233, 0.72);
+}
+
+.steepfu-setup-cta-bar {
+  margin-top: 10px;
+  z-index: 5;
+  padding: 0 0 16px;
+  background: transparent;
+}
+
+.steepfu-primary-button {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 18px;
+  background: linear-gradient(180deg, #b8834e, #8f5f36);
+  color: #fffdf4;
+  box-shadow:
+    0 12px 26px rgba(122, 75, 36, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.steepfu-timer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.steepfu-timer-actions > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.steepfu-timer-actions > div .steepfu-text-button {
+  min-width: 50px;
+  padding-inline: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.steepfu-timer-stack {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 4px 0 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.steepfu-timer-stack::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.steepfu-timer-core {
+  width: 100%;
+}
+
+.steepfu-timer-core p {
+  margin: 0;
+  color: #725940;
+  font-weight: 900;
+}
+
+.steepfu-countdown {
+  margin: 4px 0;
+  color: #3f3126;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(64px, 17vh, 92px);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.steepfu-timer-core span {
+  display: block;
+  min-height: 20px;
+  color: #765e43;
+  font-size: 14px;
+}
+
+.steepfu-progress-drops {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  max-width: 310px;
+  margin-top: 13px;
+}
+
+.steepfu-progress-drops span {
+  width: 13px;
+  height: 16px;
+  border-radius: 50% 50% 55% 55%;
+  transform: rotate(45deg);
+  background: rgba(124, 96, 62, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(93, 67, 42, 0.08);
+}
+
+.steepfu-progress-drops span.filled {
+  background: #c99045;
+}
+
+.steepfu-progress-drops span.current {
+  background: #8f5f36;
+}
+
+.steepfu-timer-button {
+  width: min(100%, 300px);
+  margin-top: 15px;
+}
+
+.steepfu-timer-button:disabled {
+  opacity: 0.55;
+}
+
+.steepfu-recovery {
+  min-height: 34px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #7d6348;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.steepfu-recovery button {
+  min-height: 30px;
+  border: 1px solid rgba(111, 77, 45, 0.16);
+  background: rgba(255, 253, 244, 0.76);
+  color: #5e432f;
+  font-weight: 900;
+}
+
+.steepfu-adjustments {
+  max-width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.steepfu-adjustments button {
+  min-height: 32px;
+  border: 0;
+  border-radius: 999px;
+  padding-inline: 12px;
+  background: rgba(255, 253, 244, 0.74);
+  color: #68513a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.steepfu-tea-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.steepfu-tea-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(82, 54, 27, 0.13));
+}
+
+.steepfu-tea-icon-md {
+  width: 92px;
+  height: 76px;
+}
+
+.steepfu-tea-icon-lg {
+  width: 118px;
+  height: 118px;
+}
+
+.steam {
+  position: absolute;
+  top: 2%;
+  width: 5px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(134, 91, 50, 0.36), rgba(255, 255, 255, 0));
+  opacity: 0;
+  filter: blur(0.2px);
+}
+
+.steam-a { left: 42%; }
+.steam-b { left: 51%; height: 26px; }
+.steam-c { left: 60%; height: 20px; }
+
+.steam-on .steam {
+  animation: steepfu-steam 1600ms ease-in-out infinite;
+}
+
+.steam-on .steam-b {
+  animation-delay: 260ms;
+}
+
+.steam-on .steam-c {
+  animation-delay: 520ms;
+}
+
+@keyframes steepfu-steam {
+  0% { opacity: 0; transform: translateY(8px) scaleY(0.7); }
+  35% { opacity: 0.62; }
+  100% { opacity: 0; transform: translateY(-16px) scaleY(1.18); }
+}
+
+@media (max-width: 560px) {
+  .steepfu-window {
+    height: min(520px, 70vh);
+    border-radius: 24px;
+  }
+
+  .steepfu-setup-head {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .steepfu-profile-icon-stage,
+  .steepfu-tea-icon-lg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .steepfu-countdown {
+    font-size: 68px;
+  }
+}
+
+/* High-fidelity Steepfu demo overrides, mapped from the Electron renderer. */
+.steepfu-window .lucide {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.steepfu-notice {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 78px;
+  z-index: 35;
+  border-radius: 8px;
+  background: rgba(255, 248, 233, 0.94);
+  color: #6f553a;
+  padding: 8px 10px;
+  box-shadow: 0 10px 28px rgba(73, 49, 25, 0.14);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  animation: steepfu-notice-in 180ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.steepfu-volume-control {
+  width: 50px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.steepfu-volume-control input {
+  --volume-fill: 60%;
+  width: 50px;
+  height: 18px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  accent-color: #84a764;
+}
+
+.steepfu-volume-control input::-webkit-slider-runnable-track {
+  height: 7px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      #87a666 0 var(--volume-fill),
+      rgba(135, 166, 102, 0.24) var(--volume-fill) 100%
+    );
+  box-shadow: inset 0 0 0 1px rgba(84, 118, 58, 0.2);
+}
+
+.steepfu-volume-control input::-moz-range-track {
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(135, 166, 102, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(84, 118, 58, 0.2);
+}
+
+.steepfu-volume-control input::-moz-range-progress {
+  height: 7px;
+  border-radius: 999px;
+  background: #87a666;
+}
+
+.steepfu-volume-control input::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -4px;
+  width: 15px;
+  height: 15px;
+  border: 0;
+  border-radius: 999px;
+  background: #8aac6a;
+  box-shadow: 0 1px 2px rgba(71, 77, 45, 0.22);
+}
+
+.steepfu-action-row button[aria-pressed="true"] {
+  background: #ead7b8;
+  color: #7b4d2f;
+}
+
+.steepfu-action-row .mute-active {
+  background: #f1d1c0;
+  color: #9b3f2f;
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 63, 47, 0.18),
+    0 0 0 3px rgba(155, 63, 47, 0.08);
+}
+
+.steepfu-action-row .voice-active {
+  box-shadow:
+    inset 0 0 0 1px rgba(132, 167, 100, 0.28),
+    0 0 0 3px rgba(132, 167, 100, 0.13);
+}
+
+.steepfu-voice-help-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.steepfu-info-button svg {
+  width: 11px;
+  height: 11px;
+}
+
+.steepfu-voice-help-popout {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  z-index: 40;
+  width: 210px;
+  padding: 11px 12px 12px;
+  border-radius: 10px;
+  background: rgba(255, 250, 237, 0.98);
+  color: #4f3824;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 91, 57, 0.14),
+    0 14px 34px rgba(102, 72, 42, 0.2);
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.18;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-44%, -3px) scale(0.98);
+  transform-origin: 44% top;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.steepfu-voice-help-popout::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 44%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  box-shadow: inset 1px 1px 0 rgba(122, 91, 57, 0.1);
+  transform: rotate(45deg);
+}
+
+.steepfu-voice-help-popout strong,
+.steepfu-voice-help-popout span {
+  position: relative;
+  z-index: 1;
+}
+
+.steepfu-voice-help-popout strong {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.steepfu-voice-help-popout span {
+  color: rgba(79, 56, 36, 0.78);
+  font-weight: 750;
+}
+
+.steepfu-voice-help-popout .voice-command-quote {
+  color: #2f6fc2;
+  font-weight: 850;
+}
+
+.steepfu-voice-help-wrap:hover .steepfu-voice-help-popout,
+.steepfu-voice-help-wrap:focus-within .steepfu-voice-help-popout,
+.steepfu-voice-help-wrap.is-open .steepfu-voice-help-popout {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-44%, 0) scale(1);
+}
+
+.steepfu-tea-grid {
+  flex: 1 1 auto;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.steepfu-tea-grid::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.steepfu-card-tool .lucide {
+  width: 14px;
+  height: 14px;
+}
+
+.steepfu-custom-tea-toggle {
+  transition: transform 170ms ease, box-shadow 170ms ease;
+}
+
+.steepfu-custom-tea-toggle .lucide {
+  display: block;
+  width: 22px;
+  height: 22px;
+  stroke-width: 3;
+}
+
+.steepfu-tea-icon-md {
+  width: 76px;
+  height: 70px;
+}
+
+.steepfu-settings-screen {
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.steepfu-settings-screen::-webkit-scrollbar {
+  display: none;
+}
+
+.steepfu-settings-sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  width: fit-content;
+  margin: 0 0 4px;
+  padding: 2px 0;
+}
+
+.steepfu-settings-sticky-bar .steepfu-back-button {
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 0 9px;
+  background: rgba(255, 248, 233, 0.78);
+  box-shadow:
+    0 8px 18px rgba(73, 49, 25, 0.08),
+    inset 0 0 0 1px rgba(122, 91, 57, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.steepfu-settings-hero {
+  padding: 2px 0 12px;
+}
+
+.steepfu-settings-hero h2 {
+  margin: 0;
+  color: #3f3126;
+  font-size: 27px;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.steepfu-settings-hero p {
+  margin: 6px 0 0;
+  max-width: 320px;
+  color: #725940;
+  font-size: 13px;
+  line-height: 1.34;
+}
+
+.steepfu-settings-panel {
+  margin-top: 12px;
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 253, 244, 0.62);
+  box-shadow:
+    0 12px 28px rgba(107, 77, 42, 0.08),
+    inset 0 0 0 1px rgba(122, 91, 57, 0.1);
+}
+
+.steepfu-api-key-panel {
+  position: relative;
+}
+
+.steepfu-api-key-panel.is-connected {
+  background: linear-gradient(180deg, rgba(248, 255, 239, 0.9), rgba(255, 253, 244, 0.7));
+  box-shadow:
+    0 14px 30px rgba(83, 122, 54, 0.11),
+    inset 0 0 0 1px rgba(118, 157, 83, 0.28);
+}
+
+.steepfu-settings-row-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.steepfu-settings-copy {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #6f4c31;
+}
+
+.steepfu-settings-panel > .steepfu-settings-copy + *,
+.steepfu-settings-panel > .steepfu-settings-row-top + * {
+  margin-top: 12px;
+}
+
+.steepfu-settings-copy > svg {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+}
+
+.steepfu-connected-icon {
+  color: #6f9b52;
+  filter: drop-shadow(0 2px 4px rgba(71, 112, 48, 0.18));
+}
+
+.steepfu-settings-copy strong {
+  display: block;
+  color: #493625;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.steepfu-api-key-panel.is-connected .steepfu-settings-copy,
+.steepfu-api-key-panel.is-connected .steepfu-settings-copy strong {
+  color: #3f5d2d;
+}
+
+.steepfu-settings-copy p {
+  margin: 4px 0 0;
+  color: rgba(105, 81, 58, 0.78);
+  font-size: 12px;
+  line-height: 1.34;
+}
+
+.steepfu-api-key-panel.is-connected .steepfu-settings-copy p {
+  color: rgba(65, 89, 47, 0.8);
+}
+
+.steepfu-connected-pill {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: #e2f0d5;
+  color: #4b6e35;
+  box-shadow: inset 0 0 0 1px rgba(90, 130, 62, 0.14);
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.steepfu-settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.steepfu-icon-text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.steepfu-icon-text-button svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+
+.steepfu-settings-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.steepfu-settings-toggle input {
+  appearance: none;
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.steepfu-settings-check {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 253, 244, 0.74);
+  box-shadow: inset 0 0 0 1.5px rgba(105, 81, 58, 0.58);
+}
+
+.steepfu-settings-toggle input:checked + .steepfu-settings-check {
+  background: #9c6b3d;
+  box-shadow: inset 0 0 0 1.5px rgba(105, 81, 58, 0.24);
+}
+
+.steepfu-settings-toggle:not(.steepfu-settings-toggle-switch) input:checked + .steepfu-settings-check::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid #fff8e9;
+  border-bottom: 2px solid #fff8e9;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.steepfu-settings-toggle-switch {
+  gap: 10px;
+}
+
+.steepfu-settings-toggle-switch .steepfu-settings-check {
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  place-items: center start;
+  padding: 3px;
+  background: rgba(255, 253, 244, 0.72);
+  box-shadow:
+    inset 0 0 0 1px rgba(105, 81, 58, 0.28),
+    inset 0 2px 5px rgba(105, 81, 58, 0.08);
+}
+
+.steepfu-settings-toggle-switch .steepfu-settings-check::after {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #fff8e9;
+  box-shadow:
+    0 2px 7px rgba(73, 54, 37, 0.18),
+    inset 0 0 0 1px rgba(105, 81, 58, 0.08);
+  transition: transform 160ms ease;
+}
+
+.steepfu-settings-toggle-switch input:checked + .steepfu-settings-check {
+  background: #9c6b3d;
+}
+
+.steepfu-settings-toggle-switch input:checked + .steepfu-settings-check::after {
+  transform: translateX(18px);
+}
+
+.steepfu-settings-toggle-label,
+.steepfu-settings-field span {
+  color: #69513a;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.steepfu-settings-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.steepfu-info-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 5px;
+  display: inline-grid;
+  place-items: center;
+  color: rgba(105, 81, 58, 0.62);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.steepfu-settings-field {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.steepfu-settings-field input {
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: rgba(255, 253, 244, 0.86);
+  color: #443224;
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.13);
+  font: inherit;
+}
+
+.steepfu-api-key-panel.is-connected .steepfu-settings-field input {
+  background: rgba(248, 255, 239, 0.88);
+  color: #3f5d2d;
+  box-shadow:
+    inset 0 0 0 1px rgba(111, 155, 82, 0.26),
+    0 0 0 3px rgba(111, 155, 82, 0.06);
+}
+
+.steepfu-api-key-panel.is-connected .steepfu-settings-field input::placeholder {
+  color: #51723b;
+  opacity: 1;
+  letter-spacing: 0.02em;
+}
+
+.steepfu-window .steepfu-settings-field .steepfu-activation-phrase-input {
+  color: #2f6fc2;
+  font-weight: 850;
+}
+
+.steepfu-native-menu-button {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(255, 253, 244, 0.86);
+  color: #443224;
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.13);
+  text-align: left;
+}
+
+.steepfu-native-menu-button span {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steepfu-native-menu-button svg {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  opacity: 0.72;
+}
+
+.steepfu-voice-pack-cta {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.steepfu-voice-pack-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.steepfu-voice-pack-button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.steepfu-voice-pack-cta.is-ready .steepfu-voice-pack-button {
+  background: linear-gradient(180deg, #b7d991 0%, #84a764 100%);
+}
+
+.steepfu-voice-models {
+  display: grid;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.steepfu-voice-model-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 248, 233, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.08);
+}
+
+.steepfu-voice-engine-row {
+  background: rgba(132, 94, 52, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(122, 91, 57, 0.13);
+}
+
+.steepfu-voice-engine-row.is-ready {
+  background: rgba(132, 167, 100, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(132, 167, 100, 0.22);
+}
+
+.steepfu-voice-model-row strong {
+  display: block;
+  color: #493625;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.steepfu-voice-model-row span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(105, 81, 58, 0.78);
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.steepfu-voice-model-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.steepfu-voice-panel .steepfu-ghost-button {
+  padding-inline: 8px;
+  font-size: 11px;
+}
+
+.steepfu-settings-mini-stepper {
+  margin-top: 10px;
+}
+
+.steepfu-privacy-points {
+  margin: 7px 0 0;
+  padding-left: 15px;
+  color: rgba(105, 81, 58, 0.76);
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.steepfu-privacy-points li + li {
+  margin-top: 3px;
+}
+
+.compact-field input[type="range"] {
+  min-height: 22px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  accent-color: #84a764;
+}
+
+.steepfu-settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 0 3px;
+  color: rgba(105, 81, 58, 0.58);
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.steepfu-settings-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.steepfu-fowl-labs-logo {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 9px;
+  color: currentColor;
+}
+
+.steepfu-settings-version {
+  color: rgba(105, 81, 58, 0.38);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.steepfu-window.theme-dark {
+  --steepfu-ink: #f3dfbf;
+  --steepfu-muted: rgba(235, 211, 176, 0.78);
+  --steepfu-card: rgba(25, 16, 11, 0.88);
+  color: #f3dfbf;
+  color-scheme: dark;
+  background:
+    radial-gradient(circle at 70% 18%, rgba(135, 76, 34, 0.09), transparent 30%),
+    linear-gradient(180deg, #100b08 0%, #070504 100%);
+  box-shadow:
+    0 36px 90px rgba(0, 0, 0, 0.46),
+    inset 0 0 0 1px rgba(238, 203, 154, 0.06);
+}
+
+.steepfu-window.theme-dark .steepfu-widget-bar {
+  color: rgba(243, 223, 191, 0.76);
+}
+
+.steepfu-window.theme-dark .steepfu-notice {
+  background: rgba(18, 12, 9, 0.97);
+  color: #efd8b0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+.steepfu-window.theme-dark .steepfu-action-row button {
+  background: rgba(255, 238, 207, 0.06);
+  color: #edcf9f;
+  box-shadow:
+    inset 0 0 0 1px rgba(237, 207, 159, 0.11),
+    0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.steepfu-window.theme-dark .steepfu-action-row button[aria-pressed="true"] {
+  background: #4f321f;
+  color: #fff1ce;
+}
+
+.steepfu-window.theme-dark .steepfu-action-row .mute-active {
+  background: #6f3329;
+  color: #ffd7c6;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 189, 160, 0.18),
+    0 0 0 3px rgba(201, 81, 57, 0.11),
+    0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.steepfu-window.theme-dark .steepfu-action-row .steepfu-info-button {
+  background: transparent;
+  color: rgba(237, 207, 159, 0.84);
+  box-shadow: none;
+}
+
+.steepfu-window.theme-dark .steepfu-voice-help-popout {
+  background: rgba(20, 13, 8, 0.98);
+  color: #f1d6aa;
+  box-shadow:
+    inset 0 0 0 1px rgba(237, 207, 159, 0.12),
+    0 16px 34px rgba(0, 0, 0, 0.38);
+}
+
+.steepfu-window.theme-dark .steepfu-voice-help-popout span {
+  color: rgba(239, 216, 176, 0.78);
+}
+
+.steepfu-window.theme-dark .steepfu-voice-help-popout .voice-command-quote {
+  color: #8fbfff;
+}
+
+.steepfu-window.theme-dark .steepfu-hero-copy h2,
+.steepfu-window.theme-dark .steepfu-setup-copy h2,
+.steepfu-window.theme-dark .steepfu-settings-hero h2,
+.steepfu-window.theme-dark .steepfu-settings-copy strong,
+.steepfu-window.theme-dark .steepfu-tea-card,
+.steepfu-window.theme-dark .steepfu-countdown {
+  color: #f5dfbd;
+}
+
+.steepfu-window.theme-dark .steepfu-hero-copy p,
+.steepfu-window.theme-dark .steepfu-profile-summary p,
+.steepfu-window.theme-dark .steepfu-timer-core span,
+.steepfu-window.theme-dark .steepfu-settings-hero p {
+  color: rgba(235, 211, 176, 0.78);
+}
+
+.steepfu-window.theme-dark .steepfu-tea-card,
+.steepfu-window.theme-dark .steepfu-settings-panel,
+.steepfu-window.theme-dark .steepfu-mini-stepper,
+.steepfu-window.theme-dark .steepfu-schedule-field {
+  background: rgba(25, 16, 11, 0.88);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(238, 203, 154, 0.07);
+}
+
+.steepfu-window.theme-dark .steepfu-tea-card:hover {
+  background: rgba(34, 22, 15, 0.94);
+}
+
+.steepfu-window.theme-dark .steepfu-card-tool {
+  background: rgba(14, 9, 7, 0.58);
+  color: rgba(229, 199, 159, 0.64);
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.07);
+}
+
+.steepfu-window.theme-dark .steepfu-custom-tea-toggle,
+.steepfu-window.theme-dark .steepfu-primary-button {
+  background: linear-gradient(180deg, #a87345, #815230);
+  color: #fff4d5;
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.steepfu-window.theme-dark .steepfu-ghost-button,
+.steepfu-window.theme-dark .steepfu-text-button,
+.steepfu-window.theme-dark .steepfu-recovery button,
+.steepfu-window.theme-dark .steepfu-adjustments button {
+  background: rgba(255, 246, 224, 0.06);
+  color: #e8cba2;
+}
+
+.steepfu-window.theme-dark .steepfu-back-button {
+  background: transparent;
+  box-shadow: none;
+}
+
+.steepfu-window.theme-dark .steepfu-profile-summary p span {
+  background: rgba(255, 246, 224, 0.08);
+}
+
+.steepfu-window.theme-dark .steepfu-profile-summary em,
+.steepfu-window.theme-dark .steepfu-settings-copy p {
+  color: rgba(232, 203, 162, 0.72);
+}
+
+.steepfu-window.theme-dark .steepfu-stepper-control > span {
+  background: rgba(255, 246, 224, 0.055);
+  color: #f5dfbd;
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.11);
+}
+
+.steepfu-window.theme-dark .steepfu-stepper-control button {
+  background: #735134;
+  color: #f7dfb7;
+}
+
+.steepfu-window.theme-dark .steepfu-stepper-control em {
+  color: rgba(232, 203, 162, 0.72);
+}
+
+.steepfu-window.theme-dark .steepfu-schedule-field-toggle {
+  background: rgba(255, 246, 224, 0.035);
+  color: #f0d5a8;
+}
+
+.steepfu-window.theme-dark .steepfu-schedule-field-toggle strong {
+  color: #f0d5a8;
+}
+
+.steepfu-window.theme-dark .steepfu-schedule-field-toggle em {
+  color: rgba(232, 203, 162, 0.72);
+}
+
+.steepfu-window.theme-dark .steepfu-schedule-preview {
+  background: rgba(78, 48, 24, 0.52);
+  color: #f0d1a2;
+}
+
+.steepfu-window.theme-dark .steepfu-start-from-label {
+  color: rgba(240, 209, 162, 0.64);
+}
+
+.steepfu-window.theme-dark .steepfu-start-steep-chip {
+  background: rgba(255, 246, 224, 0.07);
+  border-color: rgba(238, 203, 154, 0.12);
+  color: #efd2a7;
+}
+
+.steepfu-window.theme-dark .steepfu-start-steep-chip em {
+  color: rgba(240, 209, 162, 0.6);
+}
+
+.steepfu-window.theme-dark .steepfu-start-steep-chip.is-selected {
+  background: #b47a46;
+  border-color: #b47a46;
+  color: #fff9e9;
+}
+
+.steepfu-window.theme-dark .steepfu-start-steep-chip.is-selected em {
+  color: rgba(255, 249, 233, 0.74);
+}
+
+.steepfu-window.theme-dark .steepfu-progress-drops span {
+  background: rgba(230, 199, 153, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(237, 207, 159, 0.07);
+}
+
+.steepfu-window.theme-dark .steepfu-progress-drops span.filled {
+  background: #c88a46;
+}
+
+.steepfu-window.theme-dark .steepfu-progress-drops span.current {
+  background: #e0a35b;
+}
+
+.steepfu-window.theme-dark .steepfu-settings-toggle-label,
+.steepfu-window.theme-dark .steepfu-settings-field span {
+  color: #e4c79a;
+}
+
+.steepfu-window.theme-dark .steepfu-settings-check {
+  background: rgba(255, 238, 207, 0.06);
+  box-shadow: inset 0 0 0 1.5px rgba(230, 199, 153, 0.44);
+}
+
+.steepfu-window.theme-dark .steepfu-settings-toggle input:checked + .steepfu-settings-check {
+  background: #b77d45;
+}
+
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected {
+  background: linear-gradient(180deg, rgba(24, 41, 18, 0.78), rgba(25, 16, 11, 0.88));
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(135, 174, 98, 0.18);
+}
+
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected .steepfu-settings-copy,
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected .steepfu-settings-copy strong,
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected .steepfu-settings-copy p {
+  color: #d9efc8;
+}
+
+.steepfu-window.theme-dark .steepfu-connected-pill {
+  background: rgba(71, 45, 22, 0.82);
+  color: #f5dfbd;
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.1);
+}
+
+.steepfu-window.theme-dark .steepfu-settings-field input,
+.steepfu-window.theme-dark .steepfu-native-menu-button {
+  background: rgba(255, 246, 224, 0.055);
+  color: #f5dfbd;
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.11);
+}
+
+.steepfu-window.theme-dark .steepfu-settings-field input[type="range"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected .steepfu-settings-field input {
+  background: rgba(225, 244, 203, 0.07);
+  color: #e5f6d6;
+}
+
+.steepfu-window.theme-dark .steepfu-api-key-panel.is-connected .steepfu-settings-field input::placeholder {
+  color: #cce5ba;
+}
+
+.steepfu-window.theme-dark .steepfu-settings-field .steepfu-activation-phrase-input {
+  color: #8fbfff;
+  font-weight: 850;
+}
+
+.steepfu-window.theme-dark .steepfu-settings-mini-stepper .steepfu-stepper-control > span {
+  background: rgba(255, 246, 224, 0.055);
+  color: #f5dfbd;
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.11);
+}
+
+.steepfu-window.theme-dark .steepfu-settings-mini-stepper .steepfu-stepper-control button {
+  background: #735134;
+  color: #f7dfb7;
+}
+
+.steepfu-window.theme-dark .steepfu-settings-mini-stepper .steepfu-stepper-control em {
+  color: rgba(232, 203, 162, 0.72);
+}
+
+.steepfu-window.theme-dark .steepfu-voice-model-row,
+.steepfu-window.theme-dark .steepfu-voice-engine-row {
+  background: rgba(255, 246, 224, 0.045);
+  box-shadow: inset 0 0 0 1px rgba(238, 203, 154, 0.07);
+}
+
+.steepfu-window.theme-dark .steepfu-voice-engine-row.is-ready {
+  background: rgba(132, 167, 100, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(132, 167, 100, 0.22);
+}
+
+.steepfu-window.theme-dark .steepfu-voice-model-row strong,
+.steepfu-window.theme-dark .steepfu-settings-field span,
+.steepfu-window.theme-dark .steepfu-settings-toggle-label,
+.steepfu-window.theme-dark .steepfu-mini-stepper > span:first-child {
+  color: #e4c79a;
+}
+
+.steepfu-window.theme-dark .steepfu-voice-model-row span,
+.steepfu-window.theme-dark .steepfu-privacy-points {
+  color: rgba(235, 211, 176, 0.74);
+}
+
+.steepfu-window.theme-dark .steepfu-settings-footer {
+  color: rgba(235, 211, 176, 0.52);
+}
+
+@keyframes steepfu-notice-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 560px) {
+  .steepfu-window {
+    height: min(594px, 74vh);
+    border-radius: 11px;
+  }
+}
