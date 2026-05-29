@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Steepfu download tracking opt-out">
+  <main class="ignore-page">
+    <p>Steepfu downloads from this browser will be ignored.</p>
+  </main>
+
+  <script is:inline>
+    document.cookie = [
+      "steepfu_ignore_downloads=1",
+      "Max-Age=31536000",
+      "Path=/",
+      "Secure",
+      "SameSite=Lax"
+    ].join("; ");
+  </script>
+</BaseLayout>
+
+<style>
+  .ignore-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    font: 500 0.95rem/1.5 var(--font-sans);
+    color: var(--color-primary);
+    background: var(--color-bg);
+    text-align: center;
+  }
+</style>
