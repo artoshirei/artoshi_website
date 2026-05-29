@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "include": [
+    "/steepfu/download",
+    "/steepfu/download/"
+  ],
+  "exclude": []
+}
