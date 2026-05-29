@@ -1,7 +1,6 @@
 const updateBaseUrl = "https://pub-b634ec39d39a4b7ab2eb406856434122.r2.dev/mac/latest/";
 const latestFeedUrl = `${updateBaseUrl}latest-mac.yml`;
 const visitorCookieName = "steepfu_download_id";
-const ignoreCookieName = "steepfu_ignore_downloads";
 const cookieMaxAge = 60 * 60 * 24 * 365;
 
 export async function onRequest({ request, env }) {
@@ -10,19 +9,6 @@ export async function onRequest({ request, env }) {
       status: 405,
       headers: {
         Allow: "GET, HEAD"
-      }
-    });
-  }
-
-  const url = new URL(request.url);
-
-  if (request.method === "GET" && url.searchParams.get("ignore") === "1") {
-    return new Response("Steepfu downloads from this browser will be ignored.", {
-      status: 200,
-      headers: {
-        "Cache-Control": "no-store",
-        "Content-Type": "text/plain; charset=utf-8",
-        "Set-Cookie": makeCookie(ignoreCookieName, "1")
       }
     });
   }
@@ -58,18 +44,17 @@ export async function onRequest({ request, env }) {
   }
 
   const cookies = parseCookies(request.headers.get("Cookie"));
-  const isIgnored = cookies[ignoreCookieName] === "1";
   const visitorId = cookies[visitorCookieName] || crypto.randomUUID();
   const responseHeaders = new Headers({
     "Cache-Control": "no-store",
     Location: `${updateBaseUrl}${artifactName}`
   });
 
-  if (request.method === "GET" && !isIgnored && !cookies[visitorCookieName]) {
+  if (request.method === "GET" && !cookies[visitorCookieName]) {
     responseHeaders.append("Set-Cookie", makeCookie(visitorCookieName, visitorId));
   }
 
-  if (request.method === "GET" && !isIgnored) {
+  if (request.method === "GET") {
     writeDownloadAnalytics({ request, env, artifactName, visitorId });
   }
 
