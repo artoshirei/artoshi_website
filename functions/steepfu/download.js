@@ -65,7 +65,7 @@ export async function onRequest({ request, env }) {
     Location: `${updateBaseUrl}${artifactName}`
   });
 
-  if (request.method === "GET" && !cookies[visitorCookieName]) {
+  if (request.method === "GET" && !isIgnored && !cookies[visitorCookieName]) {
     responseHeaders.append("Set-Cookie", makeCookie(visitorCookieName, visitorId));
   }
 

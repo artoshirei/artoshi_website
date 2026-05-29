@@ -2,7 +2,9 @@
   "version": 1,
   "include": [
     "/steepfu/download",
-    "/steepfu/download/"
+    "/steepfu/download/",
+    "/steepfu/ignore-me",
+    "/steepfu/ignore-me/"
   ],
   "exclude": []
 }
