@@ -4,8 +4,32 @@ import "../styles/global.css";
 
 interface Props {
   title?: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: string;
 }
-const { title = "artoshi — design + development" } = Astro.props;
+
+const {
+  title = "artoshi — design + development",
+  description = "Designer and developer portfolio",
+  canonicalPath = Astro.url.pathname,
+  image = "/logo.svg",
+  imageAlt = "artoshi logo",
+  type = "website",
+} = Astro.props;
+
+const site = "https://artoshi.work";
+const canonicalUrl = new URL(canonicalPath, site).toString();
+const imageUrl = new URL(image, site).toString();
+const imageType = image.endsWith(".png")
+  ? "image/png"
+  : image.endsWith(".jpg") || image.endsWith(".jpeg")
+    ? "image/jpeg"
+    : image.endsWith(".webp")
+      ? "image/webp"
+      : "image/svg+xml";
 ---
 
 <!doctype html>
@@ -13,8 +37,25 @@ const { title = "artoshi — design + development" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Designer and developer portfolio" />
+    <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="artoshi.work" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
