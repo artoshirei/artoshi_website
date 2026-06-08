@@ -7,8 +7,11 @@ interface Props {
   description?: string;
   canonicalPath?: string;
   image?: string;
+  imageVersion?: string;
   imageAlt?: string;
   type?: string;
+  twitterSite?: string;
+  twitterCreator?: string;
 }
 
 const {
@@ -16,18 +19,26 @@ const {
   description = "Designer and developer portfolio",
   canonicalPath = Astro.url.pathname,
   image = "/logo.svg",
+  imageVersion,
   imageAlt = "artoshi logo",
   type = "website",
+  twitterSite = "@artoshiverse",
+  twitterCreator,
 } = Astro.props;
 
 const site = "https://artoshi.work";
 const canonicalUrl = new URL(canonicalPath, site).toString();
-const imageUrl = new URL(image, site).toString();
-const imageType = image.endsWith(".png")
+const imageUrlObject = new URL(image, site);
+if (imageVersion) {
+  imageUrlObject.searchParams.set("v", imageVersion);
+}
+const imageUrl = imageUrlObject.toString();
+const imagePath = imageUrlObject.pathname;
+const imageType = imagePath.endsWith(".png")
   ? "image/png"
-  : image.endsWith(".jpg") || image.endsWith(".jpeg")
+  : imagePath.endsWith(".jpg") || imagePath.endsWith(".jpeg")
     ? "image/jpeg"
-    : image.endsWith(".webp")
+    : imagePath.endsWith(".webp")
       ? "image/webp"
       : "image/svg+xml";
 ---
@@ -52,6 +63,8 @@ const imageType = image.endsWith(".png")
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={twitterSite} />
+    {twitterCreator && <meta name="twitter:creator" content={twitterCreator} />}
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
