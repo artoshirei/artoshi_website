@@ -1,0 +1,173 @@
+---
+// src/components/CircularMenu.astro
+// ONE continuous component (thonik-style): the concentric rings are always in
+// the DOM. Closed = a small bullseye at bottom-centre with a "menu" label.
+// Open = the SAME rings grow and recentre, labels fade in, × in the centre.
+// It morphs between the two states (scale + reposition) — not a launcher that
+// swaps to a separate overlay. Original implementation, vanilla TS + CSS.
+const rings = [
+  { label: "work", href: "/#work" },
+  { label: "about", href: "/#about" },
+  { label: "contact", href: "/#contact" },
+  { label: "home", href: "/" },
+];
+---
+
+<div id="circular-menu" class="cm">
+  <button type="button" class="cm-backdrop" aria-label="Close menu" tabindex="-1"></button>
+
+  <div class="cm-pos">
+    <div class="cm-rings" data-rings>
+      {rings.map((r, i) => (
+        <a class={`cm-ring cm-ring-${i}`} href={r.href} tabindex="-1" aria-hidden="true">
+          <span class="cm-ring-label">{r.label}</span>
+        </a>
+      ))}
+      <button type="button" class="cm-ring cm-close" aria-label="Close menu" tabindex="-1" aria-hidden="true">
+        <span class="cm-x" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
+        </span>
+      </button>
+      <button type="button" class="cm-open" aria-haspopup="dialog" aria-expanded="false" aria-controls="circular-menu" aria-label="Open menu"></button>
+    </div>
+  </div>
+
+  <span class="cm-word" aria-hidden="true">menu</span>
+</div>
+
+<style>
+  .cm { position: fixed; inset: 0; z-index: 80; pointer-events: none; }
+  .cm.is-open { pointer-events: auto; }
+
+  .cm-backdrop {
+    position: absolute; inset: 0; border: none;
+    background: var(--paper);
+    opacity: 0; pointer-events: none; cursor: pointer;
+    transition: opacity 0.45s var(--ease-out);
+  }
+  .cm.is-open .cm-backdrop { opacity: 0.95; pointer-events: auto; }
+
+  /* positioner: bottom-centre when closed → viewport centre when open */
+  .cm-pos {
+    position: fixed; left: 50%; top: 50%;
+    transform: translate(-50%, -50%) translateY(40vh);
+    transition: transform 0.62s cubic-bezier(0.45, 0.02, 0.15, 1);
+  }
+  .cm.is-open .cm-pos { transform: translate(-50%, -50%) translateY(0); }
+
+  /* the rings group: small when closed → full when open (the morph) */
+  .cm-rings {
+    --cm-size: min(86vmin, 560px);
+    position: relative;
+    width: var(--cm-size); height: var(--cm-size);
+    transform: scale(0.16);
+    transform-origin: center;
+    transition: transform 0.62s cubic-bezier(0.34, 1.28, 0.4, 1);
+  }
+  .cm.is-open .cm-rings { transform: scale(1); }
+  /* hover the closed bullseye → a small live lift */
+  .cm:not(.is-open) .cm-pos:hover .cm-rings { transform: scale(0.185); }
+
+  .cm-ring {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: block; text-decoration: none; border: none;
+    pointer-events: none;
+    transition: filter 0.18s var(--ease-out);
+  }
+  .cm.is-open .cm-ring[href], .cm.is-open .cm-close { pointer-events: auto; }
+
+  .cm-ring-0 { width: 100%; height: 100%; background: #fff; color: var(--ink); z-index: 1; }
+  .cm-ring-1 { width: 80%; height: 80%; background: var(--ink); color: #fff; z-index: 2; }
+  .cm-ring-2 { width: 60%; height: 60%; background: #fff; color: var(--ink); z-index: 3; }
+  .cm-ring-3 { width: 40%; height: 40%; background: var(--ink); color: #fff; z-index: 4; }
+  .cm-close { width: 20%; height: 20%; background: #fff; color: var(--ink); z-index: 5; display: grid; place-items: center; }
+
+  .cm-ring-label {
+    position: absolute; top: 4.5%; left: 0; right: 0; text-align: center;
+    font-family: var(--font-display); font-weight: 500; font-size: clamp(0.95rem, 2.2vw, 1.4rem);
+    opacity: 0; transition: opacity 0.25s var(--ease-out), transform 0.2s var(--ease-out);
+  }
+  .cm.is-open .cm-ring-label { opacity: 1; transition-delay: 0.26s; }
+  @media (pointer: fine) {
+    .cm.is-open .cm-ring-0:hover, .cm.is-open .cm-ring-2:hover, .cm.is-open .cm-close:hover { filter: brightness(0.92); }
+    .cm.is-open .cm-ring-1:hover, .cm.is-open .cm-ring-3:hover { filter: brightness(1.7); }
+    .cm.is-open .cm-ring:hover .cm-ring-label { transform: scale(1.16); }
+  }
+  .cm-ring:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+  .cm-ring-1:focus-visible, .cm-ring-3:focus-visible { outline-color: #fff; }
+
+  .cm-x { opacity: 0; transition: opacity 0.2s var(--ease-out); }
+  .cm.is-open .cm-x { opacity: 1; transition-delay: 0.3s; }
+  .cm-x svg { width: clamp(20px, 4vw, 30px); height: clamp(20px, 4vw, 30px); display: block; }
+  .cm-x line { stroke: currentColor; stroke-width: 1.6; }
+
+  /* invisible hit-area that opens the menu (covers the bullseye when closed) */
+  .cm-open {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: none; border: none; cursor: pointer;
+    pointer-events: auto; z-index: 6;
+  }
+  .cm.is-open .cm-open { pointer-events: none; }
+  .cm-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 6px; }
+
+  .cm-word {
+    position: fixed; left: 50%; bottom: clamp(0.7rem, 2.5vh, 1.6rem);
+    transform: translateX(-50%);
+    font-family: var(--font-display); font-weight: 500; font-size: 0.8rem; color: var(--ink);
+    pointer-events: none; opacity: 1;
+    transition: opacity 0.25s var(--ease-out);
+  }
+  .cm.is-open .cm-word { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cm-pos, .cm-rings, .cm-backdrop, .cm-ring-label, .cm-x { transition: none !important; }
+  }
+</style>
+
+<script>
+  const cm = document.getElementById("circular-menu");
+  const openBtn = cm?.querySelector<HTMLButtonElement>(".cm-open");
+  const backdrop = cm?.querySelector<HTMLButtonElement>(".cm-backdrop");
+  const closeBtn = cm?.querySelector<HTMLButtonElement>(".cm-close");
+  const ringsBox = cm?.querySelector<HTMLElement>("[data-rings]");
+  const links = cm ? Array.from(cm.querySelectorAll<HTMLElement>(".cm-ring[href]")) : [];
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (cm && openBtn && backdrop && closeBtn && ringsBox) {
+    const interactive = [...links, closeBtn];
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") { e.preventDefault(); close(); return; }
+      if (e.key === "Tab") {
+        const f = interactive;
+        const first = f[0], last = f[f.length - 1], a = document.activeElement;
+        if (e.shiftKey && a === first) { e.preventDefault(); (last as HTMLElement).focus(); }
+        else if (!e.shiftKey && a === last) { e.preventDefault(); (first as HTMLElement).focus(); }
+      }
+    }
+
+    function open() {
+      cm!.classList.add("is-open");
+      openBtn!.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      interactive.forEach((el) => { el.setAttribute("tabindex", "0"); el.setAttribute("aria-hidden", "false"); });
+      document.addEventListener("keydown", onKey);
+      window.setTimeout(() => (links[0] as HTMLElement)?.focus(), reduced ? 0 : 300);
+    }
+    function close() {
+      cm!.classList.remove("is-open");
+      openBtn!.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      interactive.forEach((el) => { el.setAttribute("tabindex", "-1"); el.setAttribute("aria-hidden", "true"); });
+      document.removeEventListener("keydown", onKey);
+      openBtn!.focus();
+    }
+
+    openBtn.addEventListener("click", open);
+    backdrop.addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
+    links.forEach((a) => a.addEventListener("click", () => { document.body.style.overflow = ""; }));
+  }
+</script>

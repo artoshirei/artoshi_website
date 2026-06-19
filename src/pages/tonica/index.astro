@@ -1,185 +1,85 @@
 ---
 // src/pages/tonica/index.astro
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import GridFrame from "../../layouts/GridFrame.astro";
 ---
 
-<BaseLayout title="Tonica — Circle of Fifths for macOS">
-  <main class="tonica-page">
-    <div class="tonica-content animate-in" style="animation-delay: 0.15s">
-      <img
-        src="/tonica-icon.svg"
-        alt="Tonica app icon"
-        class="tonica-icon"
-        width="80"
-        height="80"
-      />
-    </div>
+<GridFrame title="Tonica — Circle of Fifths for macOS" breadcrumb="WORK / TONICA">
+  <div class="proj">
+    <section class="proj-head">
+      <div class="proj-headline">
+        <img src="/tonica-icon.svg" alt="Tonica app icon" class="proj-icon" width="72" height="72" />
+        <div class="proj-titleblock">
+          <h1 class="t-display proj-title">Tonica</h1>
+          <span class="t-tag proj-tag">App · macOS · 2026</span>
+        </div>
+      </div>
 
-    <h1 class="tonica-name animate-in" style="animation-delay: 0.22s">Tonica</h1>
+      <div class="proj-side">
+        <p class="t-body proj-desc">
+          A fast circle-of-fifths companion for macOS, always one shortcut away.
+        </p>
+        <div class="proj-cta">
+          <a href="/tonica/download" class="ink-slab" id="download-btn">
+            <svg class="apple-logo" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.3-81.2-105.3-207.6-105.3-328.5 0-193.1 125.5-295.6 249.1-295.6 65.7 0 120.4 43.1 161.6 43.1 39.2 0 100.2-45.7 174.5-45.7 28.2 0 129.5 2.6 196.3 99.5zm-271.5-90.1c30.8-36.5 52.7-87.1 52.7-137.8 0-7.1-.6-14.2-1.9-20-50.2 1.9-109.5 33.4-145.4 75.2-26.9 30.2-55.2 80.8-55.2 132.1 0 7.7.6 15.5 1.3 17.4 2.6.6 6.4 1.3 10.2 1.3 45 .1 101.5-30.1 138.3-68.2z"/></svg>
+            Download
+          </a>
+          <span class="t-tag proj-note">Requires macOS 14 or later</span>
+        </div>
+      </div>
+    </section>
 
-    <p class="tonica-desc animate-in" style="animation-delay: 0.3s">
-      A fast circle-of-fifths companion<br />
-      for macOS, always one shortcut away.
-    </p>
-
-    <div class="tonica-cta animate-in" style="animation-delay: 0.45s">
-      <a href="/tonica/download" class="tonica-download" id="download-btn">
-        <svg class="apple-logo" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.3-81.2-105.3-207.6-105.3-328.5 0-193.1 125.5-295.6 249.1-295.6 65.7 0 120.4 43.1 161.6 43.1 39.2 0 100.2-45.7 174.5-45.7 28.2 0 129.5 2.6 196.3 99.5zm-271.5-90.1c30.8-36.5 52.7-87.1 52.7-137.8 0-7.1-.6-14.2-1.9-20-50.2 1.9-109.5 33.4-145.4 75.2-26.9 30.2-55.2 80.8-55.2 132.1 0 7.7.6 15.5 1.3 17.4 2.6.6 6.4 1.3 10.2 1.3 45 .1 101.5-30.1 138.3-68.2z"/></svg>
-        Download
-      </a>
-      <p class="tonica-note">Requires macOS 14 or later</p>
-    </div>
-
-    <div class="tonica-screenshot-wrap animate-in" style="animation-delay: 0.6s">
-      <img
-        src="/tonica-screenshot.png"
-        alt="Tonica panel showing the circle of fifths"
-        class="tonica-screenshot"
-      />
-    </div>
-  </main>
-
-  <footer class="tonica-footer animate-in" style="animation-delay: 0.75s">
-    <a href="/" class="tonica-back">artoshi</a>
-  </footer>
-</BaseLayout>
+    <section class="proj-media">
+      <img src="/tonica-screenshot.png" alt="Tonica panel showing the circle of fifths" class="proj-shot" />
+    </section>
+  </div>
+</GridFrame>
 
 <style>
-  /* ─── Page layout ──────────────────────────────── */
-  .tonica-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10vh 1.5rem 0;
+  .proj { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .proj-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 3vw, 3rem);
+    border-bottom: var(--hair) solid var(--line);
   }
-
-  /* ─── Icon ─────────────────────────────────────── */
-  .tonica-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 18px;
+  @media (min-width: 800px) {
+    .proj-head { grid-template-columns: 1.3fr 1fr; align-items: end; }
   }
+  .proj-headline { display: flex; align-items: center; gap: clamp(1rem, 2vw, 1.5rem); }
+  .proj-icon { width: clamp(56px, 7vw, 80px); height: auto; border-radius: 20%; }
+  .proj-title { color: var(--ink); margin: 0; }
+  .proj-tag { display: block; margin-top: 0.5rem; color: var(--ink-mute); }
+  .proj-side { display: flex; flex-direction: column; gap: 1.5rem; }
+  .proj-desc { color: var(--ink-mute); }
+  .proj-cta { display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+  .proj-note { color: var(--ink-faint); }
 
-  /* ─── Name ───────────────────────────────────────── */
-  .tonica-name {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 700;
-    color: var(--color-primary);
-    letter-spacing: -0.035em;
-    line-height: 0.95;
-    margin-top: 1.25rem;
-    text-align: center;
-  }
-
-  /* ─── Description ──────────────────────────────── */
-  .tonica-desc {
-    font-size: 0.9375rem;
-    color: var(--color-tertiary);
-    text-align: center;
-    line-height: 1.4;
-    margin-top: 0.5rem;
-    max-width: 22rem;
-  }
-
-  /* ─── CTA ──────────────────────────────────────── */
-  .tonica-cta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2.25rem;
-  }
-
-  .tonica-download {
+  .ink-slab {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 650;
-    line-height: 1;
-    letter-spacing: 0;
-    color: var(--color-bg);
-    background: var(--color-primary);
-    min-height: 2.5rem;
-    padding: 0 1.75rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background 0.2s ease;
-  }
-
-  .apple-logo {
-    flex: 0 0 auto;
-    width: 0.875rem;
-    height: 0.875rem;
-    transform: translateY(-0.03em);
-  }
-
-  .tonica-download:hover {
-    background: #fff;
-  }
-
-  .tonica-note {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--color-secondary);
-    margin-top: 0.6rem;
-    letter-spacing: 0.02em;
-    text-align: center;
-  }
-
-  /* ─── Screenshot ───────────────────────────────── */
-  .tonica-screenshot-wrap {
-    position: relative;
-    margin-top: 4rem;
-    max-width: 64rem;
-    width: 100%;
-    padding: 0;
-  }
-
-  .tonica-screenshot-wrap::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30%;
-    background: linear-gradient(to bottom, transparent, var(--color-bg));
-    border-radius: 0 0 16px 16px;
-    pointer-events: none;
-  }
-
-  .tonica-screenshot {
-    width: 100%;
-    border-radius: 16px;
-  }
-
-  /* ─── Footer ───────────────────────────────────── */
-  .tonica-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  .tonica-back {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    color: var(--color-secondary);
-    text-decoration: none;
     letter-spacing: 0.04em;
-    opacity: 0.6;
-    transition: opacity 0.15s ease;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.85rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.18s var(--ease-out);
   }
+  .ink-slab:hover { background: var(--accent); color: var(--accent-ink); }
+  .apple-logo { width: 0.85rem; height: 0.85rem; transform: translateY(-0.04em); }
 
-  .tonica-back:hover {
-    opacity: 1;
+  .proj-media {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 3vw, 3rem);
   }
+  .proj-shot { width: 100%; max-width: 60rem; height: auto; display: block; }
 </style>
 
 <script>

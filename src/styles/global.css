@@ -1,68 +1,156 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────
+   ARTOSHI — GRIDWORK INDEX
+   A dark, near-mono editorial ledger drawn on a visible
+   hairline lattice. Oversized Bricolage Grotesque carries the
+   personality; a single warm ember accent carries meaning.
+   Token NAMES are kept stable (--paper = canvas, --ink = text)
+   so every page flips to dark at once.
+   ───────────────────────────────────────────────────────── */
+
 :root {
   color-scheme: dark;
-  --font-sans: "Instrument Sans", "Helvetica Neue", "Arial", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
 
-  /* Swiss palette — OLED black */
-  --color-bg: #000;
-  --color-primary: #e8e8e8;
-  --color-secondary: #888;
-  --color-tertiary: #717178;
-  --color-accent: #C87B5A;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.15);
-  --color-hover-bg: rgba(255, 255, 255, 0.04);
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono: "Spline Sans Mono", ui-monospace, monospace;
 
-  --container-max: 44rem;
+  /* Canvas + ink (names kept; values dark) */
+  --paper: #0e0e0f;        /* canvas / background */
+  --paper-sunk: #161617;   /* recessed surfaces */
+  --ink: #f4f2ec;          /* primary text (paper-white) */
+  --ink-mute: #9a9994;
+  --ink-faint: #6e6d69;
+
+  /* The lattice */
+  --line: rgba(186, 186, 186, 0.16);
+  --line-strong: rgba(186, 186, 186, 0.28);
+  --grid-line: rgba(186, 186, 186, 0.10);
+  --grid-line-strong: rgba(186, 186, 186, 0.20);
+  --hair: 1px;
+
+  /* The one ember accent */
+  --accent: #c7642e;
+  --accent-quiet: rgba(199, 100, 46, 0.55);
+  --accent-ink: #0e0e0f;
+
+  --mascot: #bababa;
+
+  /* Geometry */
+  --frame: clamp(16px, 3vw, 44px);
+  --container-max: 1180px;
+  --cols: 12;
+
+  /* Motion (shared spring constants) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* Type scale — tuned for a tight editorial hero */
+  --fs-hero: clamp(3rem, 9vw, 5.625rem);
+  --fs-display: clamp(2.5rem, 7vw, 5rem);
+  --fs-row: clamp(1.5rem, 3.2vw, 2.75rem);
+  --fs-h2: clamp(1.375rem, 2.6vw, 2.25rem);
+  --fs-body: 1.0625rem;
+  --fs-label: 0.8125rem;
+  --fs-meta: 0.72rem;
+
+  --lh-tight: 0.9;
+  --lh-snug: 1.05;
+  --lh-body: 1.55;
+  --tr-hero: -0.03em;
+  --tr-display: -0.02em;
+  --tr-meta: 0.04em;
 }
 
+@media (max-width: 760px) { :root { --cols: 6; } }
+@media (max-width: 460px) { :root { --cols: 4; } }
+
 html, body {
-  background: var(--color-bg);
-  color: var(--color-primary);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-sans);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
-  overflow-x: clip;
 }
 
-/* ─── Selection ──────────────────────────────────────── */
-::selection {
-  background: var(--color-accent);
-  color: #fff;
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ─── Type utilities ──────────────────────────────────── */
+.t-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-hero);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-hero);
+  font-variation-settings: "opsz" 96;
+  text-wrap: balance;
+}
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-display);
+  font-variation-settings: "opsz" 48;
+}
+.t-row {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-row);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  letter-spacing: var(--tr-display);
+}
+.t-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 42ch;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+}
+.t-meta, .t-tag {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-mute);
+  text-transform: uppercase;
 }
 
-/* ─── Entrance animations ──────────────────────────────── */
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ─── Entrance keyframes ──────────────────────────────── */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes draw-down { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
 .animate-in {
   animation-name: fade-up;
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-duration: 0.6s;
+  animation-timing-function: var(--ease-out);
   animation-fill-mode: both;
 }
-
 .animate-in-fade {
   animation-name: fade-in;
   animation-duration: 0.6s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-timing-function: var(--ease-out);
   animation-fill-mode: both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-in,
-  .animate-in-fade {
-    animation: none;
-  }
+  .animate-in, .animate-in-fade { animation: none; }
 }

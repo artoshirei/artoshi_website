@@ -1,26 +1,25 @@
 ---
 // src/layouts/ExperimentLayout.astro
-import BaseLayout from "./BaseLayout.astro";
-import SiteHeader from "../components/SiteHeader.astro";
-import SiteFooter from "../components/SiteFooter.astro";
+import GridFrame from "./GridFrame.astro";
 
 interface Props {
   title?: string;
+  breadcrumb?: string;
 }
-const { title = "artoshi — design + development" } = Astro.props;
+const { title = "ARTOSHI — design + development", breadcrumb = "LAB" } = Astro.props;
 ---
 
-<BaseLayout title={title}>
-  <SiteHeader />
-  <main class="experiment-main flex-1 min-h-0 flex flex-col w-full">
+<GridFrame title={title} breadcrumb={breadcrumb}>
+  <div class="experiment-main">
     <slot />
-  </main>
-  <SiteFooter />
-</BaseLayout>
+  </div>
+</GridFrame>
 
 <style>
   .experiment-main {
     flex: 1 1 auto;
     min-height: 0;
+    display: flex;
+    flex-direction: column;
   }
 </style>

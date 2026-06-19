@@ -1,120 +1,295 @@
 ---
-// src/pages/index.astro
+// src/pages/index.astro — ARTOSHI · framed three-column box index
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SiteHeader from "../components/SiteHeader.astro";
-import SiteFooter from "../components/SiteFooter.astro";
-import WorkList from "../components/WorkList.astro";
-import { work } from "../data/work";
+import { grouped } from "../data/work";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const isExternal = (u?: string) => !!u && u.startsWith("http");
+const arrow = `<svg viewBox="0 0 32 32" width="9" height="9" fill="currentColor" aria-hidden="true"><path d="M10 6L10 8 22.59 8 6 24.59 7.41 26 24 9.41 24 22 26 22 26 6 10 6z"/></svg>`;
+
+const socials = [
+  { label: "x", href: "https://x.com/artoshiverse" },
+  { label: "instagram", href: "https://instagram.com/artoshiverse" },
+  { label: "github", href: "https://github.com/artoshirei" },
+];
 ---
 
-<BaseLayout>
-  <SiteHeader />
-  <main class="flex-1 mx-auto px-6 w-full" style="max-width: var(--container-max)">
+<BaseLayout title="artoshi — design + development">
+  <div class="frame">
+    <div class="frame-ring" aria-hidden="true"></div>
 
-    <!-- Bio -->
-    <section class="bio-section animate-in" style="animation-delay: 0.25s">
-      <p class="bio-desc">
-        Artoshi Rei designs and builds digital products. BA in Graphic Communication Design from
-        <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="bio-desc-link">Central Saint Martins</a>.
-      </p>
-      <p class="bio-current">
-        <span class="currently">Currently building:</span>
-        {work.filter(w => w.current).map((item, i, arr) => (
-          <>
-            <a href={item.url} target="_blank" rel="noopener noreferrer" class="current-link"><span class="current-link-text">{item.title}</span><svg class="current-link-arrow" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 0.75L5.25 0.75L5.25 4.75" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.25 0.75L0.75 5.25" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></a>{i < arr.length - 1 && <span class="currently"> and</span>}
-          </>
-        ))}.
+    <!-- top bar -->
+    <header class="top">
+      <a href="/" class="brand" aria-label="artoshi — home">
+        <svg id="mascot-icon" class="brand-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <clipPath id="body-clip">
+              <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" />
+            </clipPath>
+          </defs>
+          <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" fill="var(--mascot)" />
+          <g clip-path="url(#body-clip)">
+            <g transform="translate(235, 124)">
+              <g class="mascot-eyes-travel">
+                <rect class="mascot-eye-left" x="15.92" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
+                <rect class="mascot-eye-right" x="104.42" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
+              </g>
+            </g>
+          </g>
+        </svg>
+        <span class="brand-word" id="header-scramble" data-final="artoshi">artoshi</span>
+      </a>
+      <span class="t-meta top-index">index / 2026</span>
+    </header>
+
+    <!-- hero box -->
+    <section class="hero-box">
+      <h1 class="t-hero hero-line animate-in" style="animation-delay: 0.15s">I design &amp; build<br />digital products</h1>
+      <p class="hero-sub animate-in" style="animation-delay: 0.28s">
+        Artoshi Rei · BA Graphic Communication Design,
+        <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="hero-link">Central Saint Martins</a>.
       </p>
     </section>
 
-    <!-- Work index -->
-    <section class="work-section animate-in" style="animation-delay: 0.45s">
-      <WorkList items={work} />
-    </section>
+    <!-- three category columns -->
+    <div class="columns">
+      {grouped.map((group) => (
+        <div class="column" data-group={group.key}>
+          <div class="col-head">
+            <span class="t-label">{group.label}</span>
+            <span class="t-meta col-count">{pad(group.items.length)}</span>
+          </div>
+          {group.items.map((item) => {
+            const single = item.facets.length === 1;
+            const f0 = item.facets[0];
+            const Tag = single ? "a" : "div";
+            const props = single
+              ? { href: f0.url, ...(isExternal(f0.url) ? { target: "_blank", rel: "noopener noreferrer" } : {}) }
+              : {};
+            return (
+              <Tag class:list={["box", { "box-link": single }]} {...props}>
+                <div class="box-head">
+                  <h3 class="t-row box-title">{item.title}</h3>
+                  <p class="box-desc">{item.description}</p>
+                </div>
+                <div class="box-foot">
+                  <div class="box-chips">
+                    {item.current && <span class="pill">building</span>}
+                    {single ? (
+                      <span class="chip chip-static">{f0.label}{single && !isExternal(f0.url) ? " →" : ""}</span>
+                    ) : (
+                      item.facets.map((f) => (
+                        <a class="chip" href={f.url} aria-label={f.ariaLabel ?? f.label} target={isExternal(f.url) ? "_blank" : "_self"} rel={isExternal(f.url) ? "noopener noreferrer" : undefined}>
+                          {f.label}{f.external && <Fragment set:html={arrow} />}
+                        </a>
+                      ))
+                    )}
+                  </div>
+                  <span class="t-meta box-year">{item.year}</span>
+                </div>
+              </Tag>
+            );
+          })}
+        </div>
+      ))}
+    </div>
 
-  </main>
-  <SiteFooter />
+    <!-- about + contact -->
+    <div class="ends">
+      <section class="end-box about">
+        <span class="t-label end-label">about</span>
+        <p class="t-body about-copy">
+          Artoshi Rei designs and builds calm, considered digital products — mostly small, sharp macOS apps and the sites around them.
+        </p>
+      </section>
+      <section class="end-box contact">
+        <span class="t-label end-label">contact</span>
+        <nav class="contact-links" aria-label="Social links">
+          {socials.map((s) => (
+            <a class="contact-link" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}<Fragment set:html={arrow} /></a>
+          ))}
+        </nav>
+      </section>
+    </div>
+
+    <!-- footer -->
+    <footer class="foot">
+      <span class="t-meta">© 2026 artoshi</span>
+      <span class="t-meta foot-loc">made on earth</span>
+    </footer>
+  </div>
 </BaseLayout>
 
 <style>
-  /* ─── Bio section ──────────────────────────────── */
-  .bio-section {
-    padding: 3.5rem 0 0;
-    padding-left: calc(3.5rem + 0.75rem);
+  .frame {
+    position: relative;
+    min-height: 100svh;
+    padding: var(--frame);
+    display: flex;
+    flex-direction: column;
   }
-
-  /* Bio description — muted like baytas tertiary (#71717b) */
-  .bio-desc {
-    font-size: 0.875rem;
-    color: var(--color-tertiary);
-    line-height: 1.7;
-    max-width: 24rem;
-    margin-bottom: 0.5rem;
+  .frame-ring {
+    position: absolute;
+    inset: var(--frame);
+    box-shadow: inset 0 0 0 var(--hair) var(--line-strong);
+    pointer-events: none;
+    z-index: 3;
   }
+  .frame > *:not(.frame-ring) { position: relative; z-index: 1; }
 
-  .bio-desc-link {
-    color: var(--color-tertiary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: var(--color-border-strong);
-    transition: text-decoration-color 0.2s ease, color 0.2s ease;
-  }
-
-  .bio-desc-link:hover {
-    color: var(--color-secondary);
-    text-decoration-color: var(--color-secondary);
-  }
-
-  /* Currently building line — secondary color for connective text */
-  .bio-current {
-    font-size: 0.875rem;
-    color: var(--color-secondary);
-    line-height: 1.7;
-    max-width: 24rem;
-  }
-
-  .currently {
-    color: var(--color-secondary);
-  }
-
-  /* Project links — brightest, like baytas primary (#fafafa) */
-  .current-link {
-    display: inline-flex;
+  /* ─── top bar ─────────────────────────────────────────── */
+  .top {
+    display: flex;
     align-items: center;
-    color: var(--color-primary);
+    justify-content: space-between;
+    padding: clamp(0.9rem, 1.8vw, 1.4rem) clamp(1.1rem, 2.4vw, 2rem);
+    border-bottom: var(--hair) solid var(--line-strong);
+  }
+  .brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); }
+  .brand-mascot { display: block; width: clamp(44px, 5vw, 58px); height: auto; overflow: visible; flex-shrink: 0; }
+  .brand-word { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.3rem, 2.2vw, 1.65rem); letter-spacing: -0.02em; }
+  .top-index { color: var(--ink-faint); }
+
+  /* ─── hero box ────────────────────────────────────────── */
+  .hero-box {
+    padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.1rem, 2.4vw, 2.4rem);
+    border-bottom: var(--hair) solid var(--line-strong);
+  }
+  .hero-line { color: var(--ink); margin: 0; }
+  .hero-sub { font-family: var(--font-sans); font-size: var(--fs-body); color: var(--ink-mute); margin: 1.4rem 0 0; max-width: 44ch; }
+  .hero-link { color: var(--ink); text-decoration: none; box-shadow: inset 0 -1px 0 var(--accent); transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
+  .hero-link:hover { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+
+  /* ─── three columns ───────────────────────────────────── */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+    border-bottom: var(--hair) solid var(--line-strong);
+  }
+  .column { --cat: var(--accent); display: flex; flex-direction: column; min-width: 0; border-right: var(--hair) solid var(--line); }
+  .column:last-child { border-right: none; }
+  .column[data-group="apps"] { --cat: #c7642e; }
+  .column[data-group="websites"] { --cat: #4e9bb0; }
+  .column[data-group="experiments"] { --cat: #9a7bc8; }
+
+  .col-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: clamp(0.8rem, 1.6vw, 1.1rem) clamp(1.1rem, 2vw, 1.6rem);
+    background: color-mix(in srgb, var(--cat) 10%, transparent);
+    border-bottom: var(--hair) solid color-mix(in srgb, var(--cat) 42%, var(--line));
+  }
+  .col-head .t-label { color: var(--cat); }
+  .col-count { color: var(--cat); opacity: 0.8; }
+
+  /* ─── project box ─────────────────────────────────────── */
+  .box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    min-height: clamp(150px, 16vw, 210px);
+    padding: clamp(1.1rem, 2vw, 1.6rem);
+    border-bottom: var(--hair) solid var(--line);
     text-decoration: none;
-    padding: 0 0;
-    border-radius: 2px;
-    transition: padding 0.5s ease, background-color 0.5s ease, filter 0.5s ease;
+    color: var(--ink);
+    transition: background-color 0.22s var(--ease-out);
   }
+  .box-head { display: flex; flex-direction: column; gap: 0.45rem; }
+  .box-title { color: var(--ink); margin: 0; }
+  .box-desc { font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink-mute); }
+  .box-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+  .box-chips { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+  .box-year { color: var(--ink-faint); }
 
-  .current-link-arrow {
-    width: 0;
-    height: 0.55em;
-    margin-left: 0;
-    opacity: 0;
-    transition: width 0.2s ease, margin-left 0.2s ease, opacity 0.2s ease;
+  /* faint left-edge terracotta tick on hover — NOT a moving line */
+  .box-link::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: var(--cat);
+    transform: scaleY(0); transform-origin: top;
+    transition: transform 0.24s var(--ease-out);
   }
-
   @media (pointer: fine) {
-    .current-link:hover {
-      background-color: #000;
-      padding: 0 0.25rem;
-      filter: invert(1);
-      transition: padding 0.15s ease, background-color 0.15s ease, filter 0.15s ease;
-    }
-
-    .current-link:hover .current-link-arrow {
-      width: 0.55em;
-      margin-left: 0.2em;
-      opacity: 1;
-    }
+    .box-link:hover { background: var(--paper-sunk); }
+    .box-link:hover::before { transform: scaleY(1); }
   }
+  .box-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
-  /* ─── Work section ─────────────────────────────── */
-  .work-section {
-    padding-top: 2rem;
-    padding-bottom: 6rem;
+  .pill {
+    font-family: var(--font-mono); font-size: var(--fs-meta); text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--cat); border: var(--hair) solid color-mix(in srgb, var(--cat) 55%, transparent); padding: 0.16rem 0.45rem; border-radius: 999px; white-space: nowrap;
   }
+  .chip {
+    font-family: var(--font-mono); font-size: var(--fs-meta); text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--ink-mute); border: var(--hair) solid var(--line-strong); padding: 0.18rem 0.45rem;
+    display: inline-flex; align-items: center; gap: 0.3rem; text-decoration: none; white-space: nowrap;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  a.chip:hover { color: var(--ink); border-color: var(--ink-mute); }
+  a.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip-static { color: var(--ink-faint); border-color: var(--line); }
 
+  /* ─── about + contact ─────────────────────────────────── */
+  .ends {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    border-bottom: var(--hair) solid var(--line-strong);
+  }
+  .end-box { padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.1rem, 2vw, 1.6rem); display: flex; flex-direction: column; gap: 1rem; }
+  .about { border-right: var(--hair) solid var(--line); }
+  .end-label { color: var(--ink-faint); }
+  .about-copy { color: var(--ink-mute); }
+  .contact-links { display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
+  .contact-link {
+    font-family: var(--font-mono); font-size: 0.85rem; text-transform: lowercase; letter-spacing: 0.02em;
+    color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;
+    transition: color 0.15s ease;
+  }
+  .contact-link:hover { color: var(--accent); }
+
+  /* ─── footer ──────────────────────────────────────────── */
+  .foot {
+    margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: clamp(0.9rem, 1.8vw, 1.3rem) clamp(1.1rem, 2.4vw, 2rem);
+  }
+  .foot-loc { color: var(--ink-faint); }
+
+  /* ─── responsive: 3 → 1 ───────────────────────────────── */
+  @media (max-width: 860px) {
+    .columns { grid-template-columns: 1fr; }
+    .column { border-right: none; border-bottom: var(--hair) solid var(--line); }
+    .column:last-child { border-bottom: none; }
+    .box { min-height: 0; }
+  }
+  @media (max-width: 560px) {
+    .ends { grid-template-columns: 1fr; }
+    .about { border-right: none; border-bottom: var(--hair) solid var(--line); }
+  }
 </style>
+
+<script>
+  import { init } from "../scripts/mascotEye";
+
+  const svg = document.getElementById("mascot-icon") as unknown as SVGSVGElement | null;
+  init(svg);
+
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const POOL = "abcdefghijklmnopqrstuvwxyz";
+  if (!prefersReduced) {
+    const el = document.getElementById("header-scramble");
+    if (el) {
+      const final = el.dataset.final ?? el.textContent ?? "";
+      let resolved = 0;
+      const id = window.setInterval(() => {
+        el.textContent = final.split("").map((ch, i) => (i < resolved ? ch : POOL[Math.floor(Math.random() * POOL.length)])).join("");
+        resolved++;
+        if (resolved >= final.length) { el.textContent = final; window.clearInterval(id); }
+      }, 38);
+    }
+  }
+</script>

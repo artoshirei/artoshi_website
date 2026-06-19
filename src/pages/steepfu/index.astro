@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import GridFrame from "../../layouts/GridFrame.astro";
 import "../../components/SteepfuDemo.css";
 
 const teas = [
@@ -78,13 +78,14 @@ const teas = [
 ];
 ---
 
-<BaseLayout
+<GridFrame
   title="Steepfu — Calm tea timer for macOS"
   description="A warm little gongfu tea timer for macOS. Pick a tea, follow calm steep-by-steep timing, and keep your session flowing."
   canonicalPath="/steepfu/"
   image="/steepfu/steepfu-social-card.png"
   imageVersion="2026-06-08"
   imageAlt="Steepfu social card with the app title and dark and light app icons in a moody gongfu tea ceremony setting."
+  breadcrumb="WORK / STEEPFU"
 >
   <main class="steepfu-page">
     <section class="steepfu-intro animate-in" style="animation-delay: 0.12s">
@@ -436,23 +437,14 @@ const teas = [
       </div>
     </section>
   </main>
-
-  <footer class="steepfu-footer animate-in" style="animation-delay: 0.7s">
-    <a href="/" class="steepfu-back">artoshi</a>
-  </footer>
-</BaseLayout>
+</GridFrame>
 
 <style>
-  :global(body) {
-    background: #050403;
-  }
-
   .steepfu-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    padding: 5vh 1.5rem 0;
+    padding: clamp(2rem, 6vw, 4rem) 1.5rem clamp(2rem, 5vw, 4rem);
   }
 
   .steepfu-intro {
@@ -470,18 +462,20 @@ const teas = [
 
   h1 {
     margin: 1rem 0 0;
-    color: #fff1c9;
+    color: var(--ink);
+    font-family: var(--font-display);
     font-size: clamp(2.8rem, 6vw, 4.4rem);
-    font-weight: 760;
-    letter-spacing: 0;
+    font-weight: 900;
+    letter-spacing: -0.02em;
     line-height: 0.95;
+    text-transform: uppercase;
     text-align: center;
   }
 
   .steepfu-intro > p {
     max-width: 24rem;
     margin: 0.65rem 0 0;
-    color: rgba(255, 241, 201, 0.64);
+    color: var(--ink-mute);
     font-size: 0.95rem;
     line-height: 1.42;
     text-align: center;
@@ -500,21 +494,23 @@ const teas = [
     justify-content: center;
     gap: 0.5rem;
     min-height: 2.5rem;
-    border-radius: 999px;
+    border-radius: 0;
     padding: 0 1.75rem;
-    background: #fff1c9;
-    color: #0b0703;
-    font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 650;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: 0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     text-decoration: none;
-    transition: background 0.2s ease;
+    transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out);
   }
 
   .steepfu-download:hover {
-    background: #fff;
+    background: var(--accent);
+    color: var(--accent-ink);
   }
 
   .apple-logo {
@@ -526,7 +522,7 @@ const teas = [
 
   .steepfu-note {
     margin-top: 0.6rem;
-    color: rgba(255, 241, 201, 0.46);
+    color: var(--ink-faint);
     font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.02em;
@@ -539,19 +535,7 @@ const teas = [
     place-items: center;
     width: min(100%, 64rem);
     margin-top: 2.25rem;
-    padding-bottom: 8rem;
-  }
-
-  .steepfu-demo-wrap::before {
-    content: "";
-    position: absolute;
-    width: min(86vw, 40rem);
-    height: 34rem;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(154, 92, 42, 0.24) 0%, rgba(139, 87, 43, 0.14) 36%, transparent 74%);
-    filter: blur(38px);
-    opacity: 0.9;
-    pointer-events: none;
+    padding-bottom: 2rem;
   }
 
   .steepfu-demo-wrap :global(.steepfu-window) {

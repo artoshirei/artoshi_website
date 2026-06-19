@@ -1,0 +1,138 @@
+---
+// src/layouts/GridFrame.astro
+// Shared inner-page shell in the GRIDWORK language: paper canvas, hairline
+// frame ring, a top bar with the mascot mark + ARTOSHI home link and a
+// breadcrumb, and a footer rule. Inner pages slot their content/demos.
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  imageVersion?: string;
+  imageAlt?: string;
+  breadcrumb?: string;
+}
+const {
+  title = "ARTOSHI — design + development",
+  description,
+  canonicalPath,
+  image,
+  imageVersion,
+  imageAlt,
+  breadcrumb,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  image={image}
+  imageVersion={imageVersion}
+  imageAlt={imageAlt}
+>
+  <div class="frame-stage">
+    <div class="frame-ring" aria-hidden="true"></div>
+
+    <header class="frame-top">
+      <a href="/" class="frame-home" aria-label="artoshi — home">
+        <svg id="mascot-icon" class="frame-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <clipPath id="body-clip">
+              <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" />
+            </clipPath>
+          </defs>
+          <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" fill="var(--mascot)" />
+          <g clip-path="url(#body-clip)">
+            <g transform="translate(235, 124)">
+              <g class="mascot-eyes-travel">
+                <rect class="mascot-eye-left" x="15.92" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
+                <rect class="mascot-eye-right" x="104.42" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
+              </g>
+            </g>
+          </g>
+        </svg>
+        <span class="t-label frame-word">artoshi</span>
+      </a>
+      {breadcrumb && <span class="t-label frame-crumb">{breadcrumb}</span>}
+    </header>
+
+    <main class="frame-body">
+      <slot />
+    </main>
+
+    <footer class="frame-foot">
+      <a href="/" class="frame-back">← index</a>
+      <span class="t-tag frame-copy">© 2026 artoshi</span>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  .frame-stage {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--frame);
+  }
+  .frame-ring {
+    position: absolute;
+    inset: var(--frame);
+    box-shadow: inset 0 0 0 var(--hair) var(--line);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .frame-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(0.85rem, 1.6vw, 1.4rem) clamp(1rem, 2vw, 2rem);
+    border-bottom: var(--hair) solid var(--line);
+  }
+  .frame-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .frame-mascot { display: block; width: 40px; height: auto; overflow: visible; flex-shrink: 0; }
+  .frame-word { color: var(--ink); font-weight: 500; }
+  .frame-crumb { color: var(--ink-mute); }
+
+  .frame-body {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .frame-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(0.85rem, 1.6vw, 1.4rem) clamp(1rem, 2vw, 2rem);
+    border-top: var(--hair) solid var(--line);
+  }
+  .frame-back {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .frame-back:hover { color: var(--accent); }
+  .frame-copy { color: var(--ink-faint); }
+</style>
+
+<script>
+  import { init } from "../scripts/mascotEye";
+  const svg = document.getElementById("mascot-icon") as unknown as SVGSVGElement | null;
+  init(svg);
+</script>
