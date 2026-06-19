@@ -11,6 +11,7 @@
 
 :root {
   color-scheme: dark;
+  --site-scale: 0.7;
 
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
@@ -38,8 +39,8 @@
   --mascot: #bababa;
 
   /* Geometry */
-  --frame: clamp(16px, 3vw, 44px);
-  --container-max: 1180px;
+  --frame: clamp(11px, 2.1vw, 31px);
+  --container-max: 826px;
   --cols: 12;
 
   /* Motion (shared spring constants) */
@@ -65,6 +66,10 @@
 
 @media (max-width: 760px) { :root { --cols: 6; } }
 @media (max-width: 460px) { :root { --cols: 4; } }
+
+html {
+  font-size: 70%;
+}
 
 html, body {
   background: var(--paper);
