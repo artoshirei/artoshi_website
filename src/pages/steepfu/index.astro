@@ -85,31 +85,39 @@ const teas = [
   image="/steepfu/steepfu-social-card.png"
   imageVersion="2026-06-08"
   imageAlt="Steepfu social card with the app title and dark and light app icons in a moody gongfu tea ceremony setting."
-  breadcrumb="WORK / STEEPFU"
+  breadcrumb="Apps / Steepfu"
 >
   <main class="steepfu-page">
     <section class="steepfu-intro animate-in" style="animation-delay: 0.12s">
-      <img
-        src="/steepfu-icon.png"
-        alt="Steepfu app icon"
-        class="steepfu-icon"
-        width="80"
-        height="80"
-      />
+      <div class="steepfu-icon-cell">
+        <img
+          src="/steepfu-icon.png"
+          alt="Steepfu app icon"
+          class="steepfu-icon"
+          width="80"
+          height="80"
+        />
+      </div>
 
-      <h1>Steepfu</h1>
+      <div class="steepfu-titleblock">
+        <h1>Steepfu</h1>
 
-      <p>
-        A warm little tea timer for macOS.<br />
-        One calm steep at a time.
-      </p>
+        <p>
+          A warm little tea timer for macOS.<br />
+          One calm steep at a time.
+        </p>
+      </div>
 
       <div class="steepfu-cta">
-        <a href="/steepfu/download" class="steepfu-download" id="steepfu-download-btn">
-          <svg class="apple-logo" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.3-81.2-105.3-207.6-105.3-328.5 0-193.1 125.5-295.6 249.1-295.6 65.7 0 120.4 43.1 161.6 43.1 39.2 0 100.2-45.7 174.5-45.7 28.2 0 129.5 2.6 196.3 99.5zm-271.5-90.1c30.8-36.5 52.7-87.1 52.7-137.8 0-7.1-.6-14.2-1.9-20-50.2 1.9-109.5 33.4-145.4 75.2-26.9 30.2-55.2 80.8-55.2 132.1 0 7.7.6 15.5 1.3 17.4 2.6.6 6.4 1.3 10.2 1.3 45 .1 101.5-30.1 138.3-68.2z"/></svg>
-          Download
-        </a>
-        <p class="steepfu-note">Requires macOS 14 or later</p>
+        <div class="steepfu-download-cell">
+          <a href="/steepfu/download" class="steepfu-download" id="steepfu-download-btn">
+            <svg class="apple-logo" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.3-81.2-105.3-207.6-105.3-328.5 0-193.1 125.5-295.6 249.1-295.6 65.7 0 120.4 43.1 161.6 43.1 39.2 0 100.2-45.7 174.5-45.7 28.2 0 129.5 2.6 196.3 99.5zm-271.5-90.1c30.8-36.5 52.7-87.1 52.7-137.8 0-7.1-.6-14.2-1.9-20-50.2 1.9-109.5 33.4-145.4 75.2-26.9 30.2-55.2 80.8-55.2 132.1 0 7.7.6 15.5 1.3 17.4 2.6.6 6.4 1.3 10.2 1.3 45 .1 101.5-30.1 138.3-68.2z"/></svg>
+            Download
+          </a>
+        </div>
+        <div class="steepfu-note-cell">
+          <p class="steepfu-note">Requires macOS 14 or later</p>
+        </div>
       </div>
     </section>
 
@@ -443,49 +451,84 @@ const teas = [
   .steepfu-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: clamp(2rem, 6vw, 4rem) 1.5rem clamp(2rem, 5vw, 4rem);
+    align-items: stretch;
   }
 
   .steepfu-intro {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 0.72fr) minmax(0, 2fr) minmax(12rem, 0.9fr);
+    align-items: stretch;
+    min-height: clamp(13rem, 26vw, 18rem);
+    border-bottom: var(--hair) solid var(--line);
+  }
+
+  .steepfu-intro > * {
+    box-sizing: border-box;
+    min-width: 0;
+    padding: clamp(1.35rem, 3vw, 2.5rem);
+  }
+
+  .steepfu-icon-cell {
+    display: grid;
+    place-items: center;
+    border-right: var(--hair) solid var(--line);
   }
 
   .steepfu-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 16px;
+    display: block;
+    width: min(54%, 9rem);
+    height: auto;
+    border-radius: 22%;
     box-shadow: none;
   }
 
-  h1 {
-    margin: 1rem 0 0;
-    color: var(--ink);
-    font-family: var(--font-display);
-    font-size: clamp(2.8rem, 6vw, 4.4rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
-    text-transform: uppercase;
-    text-align: center;
+  .steepfu-titleblock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: var(--hair) solid var(--line);
   }
 
-  .steepfu-intro > p {
+  h1 {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(3.3rem, 7vw, 6.6rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+  }
+
+  .steepfu-titleblock > p {
     max-width: 24rem;
-    margin: 0.65rem 0 0;
+    margin: 1rem 0 0;
     color: var(--ink-mute);
     font-size: 0.95rem;
     line-height: 1.42;
-    text-align: center;
   }
 
   .steepfu-cta {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: stretch;
+    padding: 0 !important;
+  }
+
+  .steepfu-download-cell,
+  .steepfu-note-cell {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-top: 1.75rem;
+    padding: clamp(1.35rem, 3vw, 2.5rem);
+  }
+
+  .steepfu-download-cell {
+    justify-content: center;
+  }
+
+  .steepfu-note-cell {
+    min-height: 4rem;
+    border-top: var(--hair) solid var(--line);
+    justify-content: flex-start;
   }
 
   .steepfu-download {
@@ -521,21 +564,102 @@ const teas = [
   }
 
   .steepfu-note {
-    margin-top: 0.6rem;
+    margin: 0;
     color: var(--ink-faint);
     font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.02em;
-    text-align: center;
+    text-align: left;
+  }
+
+  @media (max-width: 1020px) {
+    .steepfu-intro {
+      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      min-height: 0;
+    }
+    .steepfu-icon-cell,
+    .steepfu-titleblock {
+      min-height: clamp(12rem, 27vw, 16rem);
+    }
+    h1 {
+      font-size: clamp(3.4rem, 8.4vw, 5rem);
+    }
+    .steepfu-icon {
+      width: min(58%, 8.5rem);
+    }
+    .steepfu-titleblock {
+      border-right: 0;
+    }
+    .steepfu-cta {
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.44fr);
+      grid-template-rows: 1fr;
+      border-top: var(--hair) solid var(--line);
+    }
+    .steepfu-download-cell,
+    .steepfu-note-cell {
+      min-height: 5.75rem;
+    }
+    .steepfu-note-cell {
+      border-top: 0;
+      border-left: var(--hair) solid var(--line);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .steepfu-intro {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .steepfu-intro > * {
+      padding: 1.35rem;
+    }
+    .steepfu-icon-cell {
+      display: flex;
+      justify-content: flex-start;
+      min-height: 0;
+      border-right: 0;
+      border-bottom: var(--hair) solid var(--line);
+    }
+    .steepfu-icon {
+      width: 88px;
+      height: 88px;
+    }
+    .steepfu-titleblock {
+      min-height: 0;
+      border-right: 0;
+      border-bottom: var(--hair) solid var(--line);
+    }
+    .steepfu-cta {
+      grid-column: auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      border-top: 0;
+    }
+    .steepfu-download-cell {
+      min-height: 5.25rem;
+    }
+    .steepfu-note-cell {
+      min-height: 4rem;
+      border-left: 0;
+      border-top: var(--hair) solid var(--line);
+    }
+    .steepfu-download-cell,
+    .steepfu-note-cell {
+      padding: 1.35rem;
+    }
+    h1 {
+      font-size: clamp(3.2rem, 8.4vw, 5rem);
+    }
   }
 
   .steepfu-demo-wrap {
     position: relative;
     display: grid;
     place-items: center;
+    align-self: center;
     width: min(100%, 64rem);
-    margin-top: 2.25rem;
-    padding-bottom: 2rem;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem;
   }
 
   .steepfu-demo-wrap :global(.steepfu-window) {

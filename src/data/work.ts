@@ -1,11 +1,11 @@
 // src/data/work.ts — categorized ledger, multi-facet via `facets`.
 
 export type WorkGroup = "apps" | "websites" | "experiments";
-export type FacetKind = "case" | "app" | "site" | "lab";
+export type FacetKind = "case" | "download" | "app" | "site" | "lab";
 
 export interface WorkFacet {
-  kind: FacetKind; // case/lab = internal quiet tag; app/site = external action chip
-  label: string; // chip text, e.g. "Case", "App", "Site", "Lab"
+  kind: FacetKind; // case/lab = internal quiet tag; site/download/app = action chip
+  label: string; // chip text, e.g. "Case", "Download", "Site", "Lab"
   url: string;
   external?: boolean; // true -> target=_blank + arrow glyph
   ariaLabel?: string; // e.g. "FowlVoice website"
@@ -15,8 +15,8 @@ export interface WorkItem {
   year: number;
   title: string;
   description: string;
-  group: WorkGroup; // each item belongs to exactly ONE group (no duplicates)
-  facets: WorkFacet[]; // 1 = whole row is the link; 2+ = multi-facet (app + site)
+  group: WorkGroup; // one listing position for this card
+  facets: WorkFacet[]; // 1 = whole row is the link; 2+ = distinct destinations only
   current?: boolean; // renders the ember BUILDING pill
 }
 
@@ -47,21 +47,22 @@ export const work: WorkItem[] = [
     description: "On-device speech-to-text for macOS",
     group: "apps",
     current: true,
-    facets: [
-      { kind: "app", label: "App", url: "https://fowlvoice.com", external: true, ariaLabel: "FowlVoice app" },
-      { kind: "site", label: "Site", url: "https://fowlvoice.com", external: true, ariaLabel: "FowlVoice website" },
-    ],
+    facets: [{ kind: "site", label: "Site", url: "https://fowlvoice.com", external: true, ariaLabel: "FowlVoice website" }],
   },
   {
     year: 2025,
     title: "DailyNote",
     description: "Daily productivity app",
-    group: "websites",
+    group: "apps",
     current: true,
-    facets: [
-      { kind: "app", label: "App", url: "https://dailynote.me", external: true, ariaLabel: "DailyNote app" },
-      { kind: "site", label: "Site", url: "https://dailynote.me", external: true, ariaLabel: "DailyNote website" },
-    ],
+    facets: [{ kind: "site", label: "Site", url: "https://dailynote.me", external: true, ariaLabel: "DailyNote website" }],
+  },
+  {
+    year: 2026,
+    title: "fowlvoice.com",
+    description: "Website for my private Mac dictation app",
+    group: "websites",
+    facets: [{ kind: "site", label: "Site", url: "https://fowlvoice.com", external: true, ariaLabel: "FowlVoice website" }],
   },
   {
     year: 2026,

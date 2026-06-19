@@ -24,10 +24,10 @@
   --ink-faint: #6e6d69;
 
   /* The lattice */
-  --line: rgba(186, 186, 186, 0.16);
-  --line-strong: rgba(186, 186, 186, 0.28);
-  --grid-line: rgba(186, 186, 186, 0.10);
-  --grid-line-strong: rgba(186, 186, 186, 0.20);
+  --line: #2a2a2c;
+  --line-strong: #3a3a3d;
+  --grid-line: #222224;
+  --grid-line-strong: #313134;
   --hair: 1px;
 
   /* The one ember accent */
@@ -47,7 +47,7 @@
   --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
 
   /* Type scale — tuned for a tight editorial hero */
-  --fs-hero: clamp(3rem, 9vw, 5.625rem);
+  --fs-hero: clamp(3rem, 9.4vw, 8.125rem);
   --fs-display: clamp(2.5rem, 7vw, 5rem);
   --fs-row: clamp(1.5rem, 3.2vw, 2.75rem);
   --fs-h2: clamp(1.375rem, 2.6vw, 2.25rem);

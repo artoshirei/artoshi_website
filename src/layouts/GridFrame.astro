@@ -54,9 +54,9 @@ const {
             </g>
           </g>
         </svg>
-        <span class="t-label frame-word">artoshi</span>
+        <span class="frame-word" id="frame-scramble" data-final="ARTOSHI">ARTOSHI</span>
       </a>
-      {breadcrumb && <span class="t-label frame-crumb">{breadcrumb}</span>}
+      {breadcrumb && <span class="frame-crumb">{breadcrumb}</span>}
     </header>
 
     <main class="frame-body">
@@ -100,9 +100,23 @@ const {
     text-decoration: none;
     color: var(--ink);
   }
-  .frame-mascot { display: block; width: 40px; height: auto; overflow: visible; flex-shrink: 0; }
-  .frame-word { color: var(--ink); font-weight: 500; }
-  .frame-crumb { color: var(--ink-mute); }
+  .frame-mascot { display: block; width: 20px; height: auto; overflow: visible; flex-shrink: 0; }
+  .frame-word {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 1.425rem;
+    font-weight: 700;
+    line-height: 0.69;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .frame-crumb {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    letter-spacing: var(--tr-meta);
+    color: var(--ink-mute);
+  }
 
   .frame-body {
     position: relative;
@@ -133,6 +147,25 @@ const {
 
 <script>
   import { init } from "../scripts/mascotEye";
+
   const svg = document.getElementById("mascot-icon") as unknown as SVGSVGElement | null;
   init(svg);
+
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  if (!prefersReduced) {
+    const el = document.getElementById("frame-scramble");
+    if (el) {
+      const final = el.dataset.final ?? el.textContent ?? "";
+      let resolved = 0;
+      const id = window.setInterval(() => {
+        el.textContent = final.split("").map((ch, i) => (i < resolved ? ch : POOL[Math.floor(Math.random() * POOL.length)])).join("");
+        resolved++;
+        if (resolved >= final.length) {
+          el.textContent = final;
+          window.clearInterval(id);
+        }
+      }, 38);
+    }
+  }
 </script>
