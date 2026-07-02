@@ -1,11 +1,9 @@
 ---
-// src/pages/index.astro — ARTOSHI · framed three-column box index
+// src/pages/index.astro — ARTOSHI · quiet single-column index
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { grouped } from "../data/work";
+import { work } from "../data/work";
 
-const pad = (n: number) => String(n).padStart(2, "0");
-const isExternal = (u?: string) => !!u && u.startsWith("http");
-const arrow = `<svg viewBox="0 0 32 32" width="9" height="9" fill="currentColor" aria-hidden="true"><path d="M10 6L10 8 22.59 8 6 24.59 7.41 26 24 9.41 24 22 26 22 26 6 10 6z"/></svg>`;
+const arrow = `<svg class="row-arrow" viewBox="0 0 32 32" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M10 6L10 8 22.59 8 6 24.59 7.41 26 24 9.41 24 22 26 22 26 6 10 6z"/></svg>`;
 
 const socials = [
   { label: "x", href: "https://x.com/artoshiverse" },
@@ -15,11 +13,8 @@ const socials = [
 ---
 
 <BaseLayout title="artoshi — design + development">
-  <div class="frame">
-    <div class="frame-ring" aria-hidden="true"></div>
-
-    <!-- top bar -->
-    <header class="top">
+  <div class="page">
+    <header class="top animate-in-fade">
       <a href="/" class="brand" aria-label="artoshi — home">
         <svg id="mascot-icon" class="brand-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
@@ -33,417 +28,287 @@ const socials = [
               <g class="mascot-eyes-travel">
                 <rect class="mascot-eye-left" x="15.92" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
                 <rect class="mascot-eye-right" x="104.42" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
+                <path class="mascot-eye-arc-left" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
+                <path class="mascot-eye-arc-right" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
               </g>
             </g>
           </g>
         </svg>
-        <span class="brand-word" id="header-scramble" data-final="ARTOSHI">ARTOSHI</span>
+        <span class="brand-word">artoshi</span>
       </a>
     </header>
 
-    <!-- hero box -->
-    <section class="hero-box">
-      <h1 class="t-hero hero-line animate-in" style="animation-delay: 0.15s">I design &amp; build<br />digital products</h1>
-      <p class="hero-sub animate-in" style="animation-delay: 0.28s">
-        BA Graphic Communication Design,<br />
-        <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="hero-link">Central Saint Martins</a>.
-      </p>
-      <div class="status-key-box">
-        <div class="status-key" aria-label="Status key">
-          <span class="status-key-dot" aria-hidden="true"></span>
-          <span class="status-key-dash" aria-hidden="true">-</span>
-          <span>building right now</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- three category columns -->
-    <div class="columns">
-      {grouped.map((group) => (
-        <div class="column" data-group={group.key}>
-          <div class="col-head">
-            <span class="t-label">{group.label}</span>
-            <span class="t-meta col-count">{pad(group.items.length)}</span>
-          </div>
-          {group.items.map((item) => {
-            const single = item.facets.length === 1;
-            const f0 = item.facets[0];
-            const Tag = single ? "a" : "div";
-            const props = single
-              ? { href: f0.url, ...(isExternal(f0.url) ? { target: "_blank", rel: "noopener noreferrer" } : {}) }
-              : {};
-            return (
-              <Tag class:list={["box", { "box-link": single, "box-current": item.current }]} {...props}>
-                <div class="box-head">
-                  <h3 class="t-row box-title">
-                    <span>{item.title}</span>
-                    {item.current && <span class="box-status-dot" aria-label="Building right now"></span>}
-                  </h3>
-                  <p class="box-desc">{item.description}</p>
-                </div>
-                <div class="box-foot">
-                  <div class="box-chips">
-                    {single ? (
-                      <span class="chip chip-static">
-                        {f0.label}
-                        {isExternal(f0.url) ? <Fragment set:html={arrow} /> : " →"}
-                      </span>
-                    ) : (
-                      item.facets.map((f) => (
-                        <a class="chip" href={f.url} aria-label={f.ariaLabel ?? f.label} target={isExternal(f.url) ? "_blank" : "_self"} rel={isExternal(f.url) ? "noopener noreferrer" : undefined}>
-                          {f.label}{f.external && <Fragment set:html={arrow} />}
-                        </a>
-                      ))
-                    )}
-                  </div>
-                  <span class="t-meta box-year">{item.year}</span>
-                </div>
-              </Tag>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-
-    <!-- about + contact -->
-    <div class="ends">
-      <section class="end-box about">
-        <span class="t-label end-label">about</span>
-        <p class="t-body about-copy">
-          Artoshi Rei designs and builds calm, considered digital products — mostly small, sharp macOS apps and the sites around them.
+    <main class="col">
+      <section class="hero">
+        <h1 class="t-hero">
+          <span class="hero-line animate-in" style="animation-delay: 0.08s">I design &amp; build</span>
+          <span class="hero-line animate-in" style="animation-delay: 0.16s">digital products.</span>
+        </h1>
+        <p class="hero-sub animate-in" style="animation-delay: 0.26s">
+          BA Graphic Communication Design,<br />
+          <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="quiet-link">Central Saint Martins</a>.
         </p>
       </section>
-      <section class="end-box contact">
-        <span class="t-label end-label">contact</span>
-        <nav class="contact-links" aria-label="Social links">
+
+      <section class="work animate-in" style="animation-delay: 0.36s" aria-label="Selected work">
+        <ol class="work-list">
+          {work.map((item) => (
+            <li>
+              <a
+                class="row"
+                href={item.url}
+                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                {item.now && (
+                  <span class="now-dot" aria-label="Building right now">
+                    <span class="now-tip" role="tooltip">building right now</span>
+                  </span>
+                )}
+                <span class="row-main">
+                  <span class="t-title row-title">
+                    {item.title}
+                    {item.external && <Fragment set:html={arrow} />}
+                  </span>
+                  <span class="row-desc">{item.description}</span>
+                </span>
+                <span class="t-meta row-meta">
+                  {item.kind}<span class="row-sep" aria-hidden="true">·</span>{item.now ? "now" : item.year}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="about animate-in" style="animation-delay: 0.46s">
+        <p class="t-body about-copy">
+          Artoshi Rei designs and builds calm, considered digital products —
+          mostly small, sharp macOS apps and the sites around them.
+        </p>
+        <nav class="socials" aria-label="Social links">
           {socials.map((s) => (
-            <a class="contact-link" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}<Fragment set:html={arrow} /></a>
+            <a class="quiet-link social-link" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
           ))}
         </nav>
       </section>
-    </div>
+    </main>
 
-    <!-- footer -->
-    <footer class="foot">
+    <footer class="foot animate-in-fade" style="animation-delay: 0.54s">
       <span class="t-meta">© 2026 artoshi</span>
-      <span class="t-meta foot-loc">made on earth</span>
+      <span class="t-meta">made on earth</span>
     </footer>
   </div>
 </BaseLayout>
 
 <style>
-  .frame {
-    position: relative;
+  .page {
     min-height: 100svh;
-    padding: var(--frame);
     display: flex;
     flex-direction: column;
+    padding: clamp(1.5rem, 4vw, 3.5rem) var(--gutter) clamp(1.5rem, 3vw, 2.5rem);
   }
-  .frame-ring {
-    position: absolute;
-    inset: var(--frame);
-    box-shadow: inset 0 0 0 var(--hair) var(--line-strong);
-    pointer-events: none;
-    z-index: 3;
+  .col, .top, .foot {
+    width: 100%;
+    max-width: var(--column);
+    margin-inline: auto;
   }
-  .frame > *:not(.frame-ring) { position: relative; z-index: 1; }
 
-  /* ─── top bar ─────────────────────────────────────────── */
+  /* ─── header ──────────────────────────────────────────── */
   .top {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    min-height: clamp(4.25rem, 6vw, 5.25rem);
-    border-bottom: var(--hair) solid var(--line-strong);
+    padding-bottom: clamp(1.1rem, 2.5vh, 1.6rem);
+    border-bottom: var(--hair) solid var(--line);
   }
   .brand {
+    position: relative; /* anchors the mascot speech bubble */
     display: inline-flex;
     align-items: center;
-    gap: 0.48rem;
-    min-width: 0;
-    padding: clamp(0.9rem, 1.8vw, 1.4rem) clamp(1.25rem, 2.2vw, 2rem);
-    border-right: var(--hair) solid var(--line-strong);
+    gap: 0.6rem;
     text-decoration: none;
     color: var(--ink);
   }
-  .brand-mascot { display: block; width: clamp(18px, 2.1vw, 24px); height: auto; overflow: visible; flex-shrink: 0; }
+  .brand-mascot { display: block; width: clamp(30px, 3vw, 40px); height: auto; overflow: visible; flex-shrink: 0; }
   .brand-word {
-    display: inline-block;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(1.72rem, 3.2vw, 2.36rem);
-    line-height: 0.69;
-    letter-spacing: -0.015em;
-    transform: translateY(0);
-  }
-  @media (max-width: 640px) {
-    .top {
-      grid-template-columns: 1fr;
-    }
-    .brand {
-      border-right: 0;
-    }
-  }
-  /* ─── hero box ────────────────────────────────────────── */
-  .hero-box {
-    position: relative;
-    padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.1rem, 2.4vw, 2.4rem);
-    border-bottom: var(--hair) solid var(--line-strong);
-  }
-  .hero-line { color: var(--ink); margin: 0; }
-  .hero-sub { font-family: var(--font-sans); font-size: var(--fs-body); color: var(--ink-mute); margin: 1.4rem 0 0; max-width: 44ch; }
-  .hero-link { color: var(--ink); text-decoration: none; box-shadow: inset 0 -1px 0 var(--accent); transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
-  .hero-link:hover { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
-  .status-key {
-    --status-dot-size: 0.58rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-    color: var(--ink-mute);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    line-height: 1.25;
-    letter-spacing: var(--tr-meta);
-    text-transform: uppercase;
-    isolation: isolate;
-    transform: translateZ(0);
-  }
-  .status-key-box {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    display: grid;
-    place-items: center;
-    min-width: clamp(9rem, 14vw, 12rem);
-    min-height: clamp(3.6rem, 5.2vw, 4.5rem);
-    padding: 0 clamp(1.1rem, 2vw, 1.6rem);
-    border-top: var(--hair) solid var(--line);
-    border-left: var(--hair) solid var(--line);
-    background: var(--paper);
-  }
-  .status-key-dash {
-    display: block;
-    flex: 0 0 auto;
-    width: 0.56rem;
-    height: var(--hair);
-    background: var(--ink-faint);
-    color: transparent;
-    font-size: 0;
-    line-height: 0;
-  }
-  .status-key span:last-child {
-    position: relative;
-    z-index: 1;
-    display: block;
-    line-height: 1.25;
-    transform: none;
-    -webkit-font-smoothing: antialiased;
-  }
-  .status-key-dot {
-    position: relative;
-    z-index: 0;
-    flex: 0 0 auto;
-    width: var(--status-dot-size);
-    height: var(--status-dot-size);
-    border-radius: 999px;
-    color: rgb(0, 214, 174);
-    line-height: 0;
-    isolation: isolate;
-    contain: paint;
-    transform: translateZ(0);
-  }
-  .status-key-dot::before,
-  .status-key-dot::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-  }
-  .status-key-dot::before {
-    z-index: 1;
-  }
-  .status-key-dot::after {
-    z-index: 0;
-    animation: pulse-dot 1.6s var(--ease-out) infinite;
-    will-change: transform, opacity;
-  }
-  @media (max-width: 760px) {
-    .hero-box {
-      padding-bottom: calc(clamp(2.5rem, 7vw, 5.5rem) + 4.5rem);
-    }
-    .status-key-box {
-      left: 0;
-      right: auto;
-      width: 100%;
-      justify-content: flex-start;
-      place-items: center start;
-      border-left: 0;
-      padding-inline: clamp(1.1rem, 2.4vw, 2.4rem);
-    }
+    font-weight: 600;
+    font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
   }
 
-  /* ─── three columns ───────────────────────────────────── */
-  .columns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: stretch;
-    border-bottom: var(--hair) solid var(--line-strong);
+  /* ─── hero ────────────────────────────────────────────── */
+  .hero { padding: clamp(4rem, 11vh, 8rem) 0 clamp(3rem, 8vh, 5.5rem); }
+  .t-hero { margin: 0; }
+  .hero-line { display: block; }
+  .hero-sub {
+    margin: 1.5rem 0 0;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-mute);
+    max-width: 44ch;
   }
-  .column {
+
+  .quiet-link {
+    color: var(--ink);
+    text-decoration: none;
+    box-shadow: inset 0 -1px 0 var(--accent-quiet);
+    transition: color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .quiet-link:hover { color: var(--accent); box-shadow: inset 0 -1px 0 var(--accent); }
+
+  /* ─── the index ───────────────────────────────────────── */
+  .work { padding-bottom: clamp(3rem, 8vh, 5.5rem); }
+  .work-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    min-width: 0;
-    border-right: var(--hair) solid var(--line);
   }
-  .column:last-child { border-right: none; }
-
-  .col-head {
+  .row {
+    position: relative;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    padding: clamp(0.8rem, 1.6vw, 1.1rem) clamp(1.1rem, 2vw, 1.6rem);
-    border-bottom: var(--hair) solid var(--line);
-  }
-  .col-head .t-label { color: var(--ink-mute); }
-  .col-count { color: var(--ink-faint); }
-
-  /* ─── project box ─────────────────────────────────────── */
-  .box {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-    min-height: clamp(150px, 16vw, 210px);
-    padding: clamp(1.1rem, 2vw, 1.6rem);
-    border-bottom: var(--hair) solid var(--line);
+    gap: 1.5rem;
+    margin-inline: calc(-1 * clamp(1.1rem, 2vw, 1.6rem));
+    padding: clamp(1rem, 1.8vw, 1.35rem) clamp(1.1rem, 2vw, 1.6rem);
+    border-radius: var(--radius);
     text-decoration: none;
     color: var(--ink);
     transition: background-color 0.22s var(--ease-out);
   }
-  .box-head { display: flex; flex-direction: column; gap: 0.45rem; }
-  .box-title { color: var(--ink); margin: 0; display: inline-flex; align-items: center; gap: 0.62rem; width: fit-content; max-width: 100%; }
-  .box-title > span:first-child { min-width: 0; }
-  .box-desc { font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink-mute); }
-  .box-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
-  .box-chips { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
-  .box-year { color: var(--ink-faint); }
-
   @media (pointer: fine) {
-    .box-link:hover { background: var(--paper-sunk); }
+    .row:hover:not(:has(.now-dot:hover)) { background: var(--paper-sunk); }
+    .row:hover:not(:has(.now-dot:hover)) .row-title { color: var(--accent); }
   }
-  .box-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .row-main {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem 1.1rem;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .row-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.22s var(--ease-out);
+  }
+  .row-title :global(.row-arrow) { color: var(--ink-faint); transition: color 0.22s var(--ease-out), transform 0.22s var(--ease-out); }
+  .row:hover:not(:has(.now-dot:hover)) .row-title :global(.row-arrow) {
+    color: var(--accent);
+    transform: translate(1px, -1px);
+  }
+  .row-desc {
+    font-size: var(--fs-body);
+    color: var(--ink-mute);
+    line-height: 1.4;
+  }
+  .row-meta { flex-shrink: 0; color: var(--ink-faint); white-space: nowrap; transition: color 0.22s var(--ease-out); }
+  @media (pointer: fine) {
+    .row:hover:not(:has(.now-dot:hover)) .row-meta { color: var(--ink-mute); }
+  }
+  .row-sep { margin: 0 0.45em; }
 
-  .box-status-dot {
-    --status-dot-size: 0.58rem;
-    position: relative;
-    flex: 0 0 auto;
-    width: var(--status-dot-size);
-    height: var(--status-dot-size);
-    color: rgb(0, 214, 174);
+  .now-dot {
+    --dot: 0.5rem;
+    /* centered in the row's left padding gutter, on the title's vertical middle */
+    position: absolute;
+    left: -0.6rem; /* fully outside the hover surface, in the left margin */
+    top: calc(clamp(1rem, 1.8vw, 1.35rem) + (var(--fs-title) * 1.1 / 2));
+    transform: translate(-50%, -50%);
+    width: var(--dot);
+    height: var(--dot);
     border-radius: 999px;
-    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 55%, transparent);
+    color: var(--accent);
+    background: currentColor;
     line-height: 0;
-    isolation: isolate;
   }
-  .box-status-dot::before,
-  .box-status-dot::after {
+  .now-dot::before {
+    /* larger invisible hit area for the tooltip */
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
+    inset: -0.5rem;
+  }
+  .now-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     border-radius: inherit;
     background: currentColor;
-    transform: translate(-50%, -50%);
-  }
-  .box-status-dot::before {
-    z-index: 1;
-  }
-  .box-status-dot::after {
-    z-index: 0;
     animation: pulse-dot 1.6s var(--ease-out) infinite;
-    will-change: transform, opacity;
   }
-  .chip {
-    font-family: var(--font-mono); font-size: var(--fs-meta); text-transform: uppercase; letter-spacing: 0.04em;
-    color: var(--ink-mute); border: var(--hair) solid var(--line-strong); padding: 0.18rem 0.45rem;
-    display: inline-flex; align-items: center; gap: 0.3rem; text-decoration: none; white-space: nowrap;
-    transition: color 0.18s ease, border-color 0.18s ease;
+  .now-tip {
+    position: absolute;
+    bottom: calc(100% + 0.7rem);
+    left: -0.4rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 8px;
+    background: var(--paper-sunk);
+    border: var(--hair) solid var(--line-strong);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: var(--tr-meta);
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(3px);
+    pointer-events: none;
+    transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
   }
-  a.chip:hover { color: var(--ink); border-color: var(--ink-mute); }
-  a.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .chip-static { color: var(--ink-faint); border-color: var(--line); }
-
+  .now-dot:hover .now-tip {
+    opacity: 1;
+    transform: translateY(0);
+  }
   @keyframes pulse-dot {
-    0% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
-    70% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); }
+    0% { opacity: 0.55; transform: scale(1); }
+    70%, 100% { opacity: 0; transform: scale(2.35); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .now-dot::after { animation: none; }
   }
 
-  /* ─── about + contact ─────────────────────────────────── */
-  .ends {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    border-bottom: var(--hair) solid var(--line-strong);
+  /* ─── about + socials ─────────────────────────────────── */
+  .about {
+    padding: clamp(2.5rem, 6vh, 4rem) 0 clamp(3.5rem, 9vh, 6rem);
+    border-top: var(--hair) solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
   }
-  .end-box { padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.1rem, 2vw, 1.6rem); display: flex; flex-direction: column; gap: 1rem; }
-  .about { border-right: var(--hair) solid var(--line); }
-  .end-label { color: var(--ink-faint); }
-  .about-copy { color: var(--ink-mute); }
-  .contact-links { display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
-  .contact-link {
-    font-family: var(--font-mono); font-size: 0.85rem; text-transform: lowercase; letter-spacing: 0.02em;
-    color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;
-    transition: color 0.15s ease;
+  .about-copy { margin: 0; color: var(--ink-mute); }
+  .socials { display: flex; gap: 1.6rem; }
+  .social-link {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: var(--tr-meta);
   }
-  .contact-link:hover { color: var(--accent); }
 
   /* ─── footer ──────────────────────────────────────────── */
   .foot {
     margin-top: auto;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: clamp(0.9rem, 1.8vw, 1.3rem) clamp(1.1rem, 2.4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: clamp(1.1rem, 2.5vh, 1.6rem);
+    border-top: var(--hair) solid var(--line);
   }
-  .foot-loc { color: var(--ink-faint); }
+  .foot .t-meta { color: var(--ink-faint); }
 
-  /* ─── responsive: 3 → 1 ───────────────────────────────── */
-  @media (max-width: 860px) {
-    .columns { grid-template-columns: 1fr; }
-    .column { border-right: none; border-bottom: var(--hair) solid var(--line); }
-    .column:last-child { border-bottom: none; }
-    .box { min-height: 0; }
-  }
+  /* ─── small screens ───────────────────────────────────── */
   @media (max-width: 560px) {
-    .ends { grid-template-columns: 1fr; }
-    .about { border-right: none; border-bottom: var(--hair) solid var(--line); }
+    .row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .row-main { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    /* no room in the viewport gutter (and no hover surface on touch) — keep the dot inside */
+    .now-dot { left: calc(clamp(1.1rem, 2vw, 1.6rem) / 2 - 0.1rem); }
   }
 </style>
 
 <script>
-  import { init } from "../scripts/mascotEye";
-
-  const svg = document.getElementById("mascot-icon") as unknown as SVGSVGElement | null;
-  init(svg);
-
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  if (!prefersReduced) {
-    const el = document.getElementById("header-scramble");
-    if (el) {
-      const final = el.dataset.final ?? el.textContent ?? "";
-      let resolved = 0;
-      const id = window.setInterval(() => {
-        el.textContent = final.split("").map((ch, i) => (i < resolved ? ch : POOL[Math.floor(Math.random() * POOL.length)])).join("");
-        resolved++;
-        if (resolved >= final.length) { el.textContent = final; window.clearInterval(id); }
-      }, 38);
-    }
-  }
+  import { init, watchRows } from "../scripts/mascotEye";
+  import { initSpeech } from "../scripts/mascotSpeech";
+  init(document.getElementById("mascot-icon") as unknown as SVGSVGElement | null);
+  watchRows(document.querySelectorAll(".work-list .row"));
+  initSpeech(document.querySelector(".brand"));
 </script>

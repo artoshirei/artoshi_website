@@ -1,74 +1,67 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────
-   ARTOSHI — GRIDWORK INDEX
-   A dark, near-mono editorial ledger drawn on a visible
-   hairline lattice. Oversized Bricolage Grotesque carries the
-   personality; a single warm ember accent carries meaning.
-   Token NAMES are kept stable (--paper = canvas, --ink = text)
-   so every page flips to dark at once.
+   ARTOSHI — QUIET INDEX
+   A warm, near-black single-column site. No lattice, no
+   frames — space and type do the structuring. Bricolage
+   Grotesque carries the voice at a calm size; one honeyed
+   amber accent carries meaning. Soft radii echo the
+   mascot's rounded geometry.
+   Token NAMES are kept stable (--paper = canvas, --ink =
+   text) so every page shifts at once.
    ───────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: dark;
-  --site-scale: 0.7;
+  --site-scale: 0.825;
 
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-mono: "Spline Sans Mono", ui-monospace, monospace;
 
-  /* Canvas + ink (names kept; values dark) */
-  --paper: #0e0e0f;        /* canvas / background */
-  --paper-sunk: #161617;   /* recessed surfaces */
-  --ink: #f4f2ec;          /* primary text (paper-white) */
-  --ink-mute: #9a9994;
-  --ink-faint: #6e6d69;
+  /* Canvas + ink — warm near-black, warm paper-white */
+  --paper: #131110;
+  --paper-sunk: #1c1917;
+  --ink: #ece7de;
+  --ink-mute: #a49c8f;
+  --ink-faint: #6e685e;
 
-  /* The lattice */
-  --line: #2a2a2c;
-  --line-strong: #3a3a3d;
-  --grid-line: #222224;
-  --grid-line-strong: #313134;
+  /* Rules — used sparingly, never as a lattice */
+  --line: #29251f;
+  --line-strong: #3a352d;
   --hair: 1px;
 
-  /* The one ember accent */
-  --accent: #c7642e;
-  --accent-quiet: rgba(199, 100, 46, 0.55);
-  --accent-ink: #0e0e0f;
+  /* The one honeyed accent */
+  --accent: #dfa155;
+  --accent-quiet: rgba(223, 161, 85, 0.5);
+  --accent-ink: #131110;
 
-  --mascot: #bababa;
+  --mascot: #bab4a9;
 
   /* Geometry */
-  --frame: clamp(11px, 2.1vw, 31px);
-  --container-max: 826px;
-  --cols: 12;
+  --radius: 12px;
+  --measure: 40rem;      /* reading column */
+  --column: 52rem;       /* list / content column */
+  --gutter: clamp(1.25rem, 5vw, 3rem);
 
-  /* Motion (shared spring constants) */
+  /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
 
-  /* Type scale — tuned for a tight editorial hero */
-  --fs-hero: clamp(3rem, 9.4vw, 8.125rem);
-  --fs-display: clamp(2.5rem, 7vw, 5rem);
-  --fs-row: clamp(1.5rem, 3.2vw, 2.75rem);
-  --fs-h2: clamp(1.375rem, 2.6vw, 2.25rem);
-  --fs-body: 1.0625rem;
-  --fs-label: 0.8125rem;
-  --fs-meta: 0.72rem;
+  /* Type scale — calm, fluid from phone to TV */
+  --fs-hero: clamp(2.6rem, 5.4vw, 4.6rem);
+  --fs-title: clamp(1.35rem, 2vw, 1.8rem);
+  --fs-h2: clamp(1.25rem, 1.8vw, 1.6rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.2rem);
+  --fs-meta: clamp(0.72rem, 0.68rem + 0.15vw, 0.85rem);
 
-  --lh-tight: 0.9;
-  --lh-snug: 1.05;
-  --lh-body: 1.55;
-  --tr-hero: -0.03em;
-  --tr-display: -0.02em;
-  --tr-meta: 0.04em;
+  --lh-tight: 1.02;
+  --lh-body: 1.6;
+  --tr-hero: -0.025em;
+  --tr-meta: 0.05em;
 }
 
-@media (max-width: 760px) { :root { --cols: 6; } }
-@media (max-width: 460px) { :root { --cols: 4; } }
-
 html {
-  font-size: 70%;
+  font-size: 82.5%;
 }
 
 html, body {
@@ -83,75 +76,256 @@ html, body {
 
 ::selection { background: var(--accent); color: var(--accent-ink); }
 
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* ─── Type utilities ──────────────────────────────────── */
 .t-hero {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: var(--fs-hero);
   line-height: var(--lh-tight);
   letter-spacing: var(--tr-hero);
-  font-variation-settings: "opsz" 96;
+  font-variation-settings: "opsz" 60;
   text-wrap: balance;
 }
-.t-display {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-display);
-  line-height: var(--lh-snug);
-  letter-spacing: var(--tr-display);
-  font-variation-settings: "opsz" 48;
-}
-.t-row {
+.t-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-row);
-  line-height: 1;
+  font-size: var(--fs-title);
+  line-height: 1.1;
   letter-spacing: -0.015em;
 }
 .t-h2 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--fs-h2);
-  letter-spacing: var(--tr-display);
+  letter-spacing: -0.015em;
 }
 .t-body {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
-  max-width: 42ch;
+  max-width: 52ch;
 }
-.t-label {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: var(--fs-label);
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
-}
-.t-meta, .t-tag {
+.t-meta, .t-tag, .t-label {
   font-family: var(--font-mono);
   font-weight: 400;
   font-size: var(--fs-meta);
   letter-spacing: var(--tr-meta);
   font-variant-numeric: tabular-nums;
   color: var(--ink-mute);
-  text-transform: uppercase;
+  text-transform: lowercase;
+}
+
+/* ─── Product page hero (shared by app pages) ─────────── */
+.app-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 9vh, 6.5rem) 0 clamp(2rem, 5vh, 3.5rem);
+}
+.app-icon {
+  display: block;
+  width: clamp(76px, 9vw, 116px);
+  height: auto;
+  border-radius: 22%;
+}
+.app-title {
+  margin: clamp(1.4rem, 3vh, 2.2rem) 0 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 5.4vw, 4.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.app-tagline {
+  margin: 1.1rem 0 0;
+  color: var(--ink-mute);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 36ch;
+}
+.app-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: clamp(1.8rem, 4vh, 2.6rem);
+}
+.dl-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0 1.9rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+}
+.dl-button:hover { background: var(--accent); color: var(--accent-ink); }
+.dl-button:active { transform: scale(0.98); }
+.dl-button .apple-logo {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  transform: translateY(-0.05em);
+}
+.app-req {
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+}
+
+/* ─── Living mascot ───────────────────────────────────── */
+/* All motion is driven by the mascotEye.ts physics loop; CSS only
+   anchors the transform to the mascot's feet. */
+/* The mascot's rendered width — bubble tail and fx layer align to it.
+   Keep in sync with .brand-mascot / .shell-mascot. */
+:root {
+  --mascot-w: clamp(30px, 3vw, 40px);
+}
+
+.mascot-live {
+  cursor: grab;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  overflow: visible;
+  touch-action: none; /* dragging it shouldn't scroll the page */
+  z-index: 60;        /* stays above content while carried around */
+}
+.mascot-held {
+  cursor: grabbing;
+}
+
+/* Mood particles live on a detached overlay pinned over the mascot, so the
+   body's hop/dance/spin transforms never drag them along. */
+.mascot-fx-layer {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--mascot-w);
+  aspect-ratio: 649 / 512;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Speech bubble — a bubbly cream thought-bubble under the header mascot.
+   Two little dots trail up toward the mascot; it pops in with a springy
+   overshoot and then floats gently while it's up. */
+.mascot-bubble {
+  position: absolute;
+  top: calc(100% + 12px); /* px, not rem: the caret tail is px-sized */
+  left: 0;
+  z-index: 10;
+  width: max-content;
+  /* never wider than the viewport allows, on any device */
+  max-width: min(30ch, calc(100vw - 2 * var(--gutter)));
+  padding: 0.65rem 0.95rem;
+  border-radius: 18px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.45;
+  cursor: default; /* it sits inside the home link — clicks dismiss, not navigate */
+  opacity: 0;
+  transform: scale(0.6);
+  /* grows out of the caret, which sits on the mascot's centerline */
+  transform-origin: calc(var(--mascot-w) / 2) -10px;
+  transition:
+    opacity 0.22s var(--ease-out),
+    transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); /* springy overshoot */
+}
+/* tail: a single curved caret whose base is flush with the bubble edge
+   (1px overlap, same fill) so bubble and tail read as one shape */
+.mascot-bubble::before {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+  width: 16px;
+  height: 12px;
+  top: -11px;
+  left: calc(var(--mascot-w) / 2 - 8px);
+  clip-path: path("M 0 12 C 3.5 7, 6.5 2.5, 8 0.4 C 9.5 2.5, 12.5 7, 16 12 Z");
+}
+.mascot-bubble.show {
+  opacity: 1;
+  transform: scale(1);
+  animation: bubble-float 3.8s ease-in-out 0.5s infinite;
+}
+@keyframes bubble-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 3px; }
+}
+
+/* Wide windows: the centered column leaves empty space on the left — the
+   mascot whispers into it from the side instead of over the page content.
+   Same single caret, pointing right at the mascot. */
+@media (min-width: 1200px) {
+  .mascot-bubble {
+    top: 50%;
+    left: auto;
+    right: calc(100% + 14px);
+    max-width: min(30ch, calc((100vw - var(--column)) / 2 - 4rem));
+    transform: translateY(-50%) scale(0.6);
+    transform-origin: calc(100% + 14px) 50%; /* grows out from the mascot */
+  }
+  .mascot-bubble.show {
+    transform: translateY(-50%) scale(1);
+  }
+  .mascot-bubble::before {
+    width: 12px;
+    height: 16px;
+    top: 50%;
+    margin-top: -8px;
+    left: auto;
+    right: -11px;
+    clip-path: path("M 0 0 C 5 3.5, 9.5 6.5, 11.6 8 C 9.5 9.5, 5 12.5, 0 16 Z");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-bubble { transition: opacity 0.22s ease; transform: none; }
+  .mascot-bubble.show { animation: none; transform: none; }
+  @media (min-width: 1200px) {
+    .mascot-bubble, .mascot-bubble.show { transform: translateY(-50%); }
+  }
 }
 
 /* ─── Entrance keyframes ──────────────────────────────── */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes draw-down { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .animate-in {
   animation-name: fade-up;
-  animation-duration: 0.6s;
+  animation-duration: 0.7s;
   animation-timing-function: var(--ease-out);
   animation-fill-mode: both;
 }
 .animate-in-fade {
   animation-name: fade-in;
-  animation-duration: 0.6s;
+  animation-duration: 0.7s;
   animation-timing-function: var(--ease-out);
   animation-fill-mode: both;
 }

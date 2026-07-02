@@ -9,7 +9,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   server: {
-    port: 3010,
+    port: Number(process.env.PORT) || 3010,
     host: true,
   },
 });
