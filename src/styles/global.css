@@ -45,10 +45,15 @@
   --gutter: clamp(1.25rem, 5vw, 3rem);
 
   /* Motion */
+  /* Arrival curve: front-loaded expo, snappy under the cursor. Run in reverse
+     it dumps most of its distance in the first few frames, which reads as a
+     snap-back — so leaving a hover uses --ease-settle instead, which starts
+     gently and glides out. */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-settle: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Type scale — calm, fluid from phone to TV */
-  --fs-hero: clamp(2.6rem, 5.4vw, 4.6rem);
+  --fs-hero: clamp(2.9rem, 6.2vw, 5.4rem);
   --fs-title: clamp(1.35rem, 2vw, 1.8rem);
   --fs-h2: clamp(1.25rem, 1.8vw, 1.6rem);
   --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.2rem);
@@ -198,7 +203,7 @@ html, body {
 /* All motion is driven by the mascotEye.ts physics loop; CSS only
    anchors the transform to the mascot's feet. */
 /* The mascot's rendered width — bubble tail and fx layer align to it.
-   Keep in sync with .brand-mascot / .shell-mascot. */
+   Keep in sync with .brand-mascot (MascotBrand.astro). */
 :root {
   --mascot-w: clamp(30px, 3vw, 40px);
 }
@@ -215,6 +220,13 @@ html, body {
 .mascot-held {
   cursor: grabbing;
 }
+/* shaken too hard: goes a little green around the gills */
+.mascot-live {
+  transition: filter 0.7s ease;
+}
+.mascot-queasy {
+  filter: sepia(0.55) hue-rotate(55deg) saturate(1.3) brightness(0.96);
+}
 
 /* Mood particles live on a detached overlay pinned over the mascot, so the
    body's hop/dance/spin transforms never drag them along. */
@@ -222,20 +234,25 @@ html, body {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  /* centering lives in the standalone `translate` property: the script
+     drives `transform` to follow the mascot's drag position */
+  translate: 0 -50%;
   width: var(--mascot-w);
   aspect-ratio: 649 / 512;
   overflow: visible;
   pointer-events: none;
+  /* above the mascot (z 60): sweat beads roll down the face itself */
+  z-index: 61;
 }
 
 /* Speech bubble — a bubbly cream thought-bubble under the header mascot.
    Two little dots trail up toward the mascot; it pops in with a springy
    overshoot and then floats gently while it's up. */
 .mascot-bubble {
+  --bubble-caret-nudge: 9px;
   position: absolute;
   top: calc(100% + 12px); /* px, not rem: the caret tail is px-sized */
-  left: 0;
+  left: calc(-1 * var(--bubble-caret-nudge));
   z-index: 10;
   width: max-content;
   /* never wider than the viewport allows, on any device */
@@ -252,22 +269,24 @@ html, body {
   opacity: 0;
   transform: scale(0.6);
   /* grows out of the caret, which sits on the mascot's centerline */
-  transform-origin: calc(var(--mascot-w) / 2) -10px;
+  transform-origin: calc(var(--bubble-caret-nudge) + var(--mascot-w) / 2) -8px;
   transition:
     opacity 0.22s var(--ease-out),
     transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); /* springy overshoot */
 }
-/* tail: a single curved caret whose base is flush with the bubble edge
-   (1px overlap, same fill) so bubble and tail read as one shape */
+/* Caret: a single overlapped triangle that sinks into the bubble, so it
+   reads as part of the body instead of a separate nub. */
 .mascot-bubble::before {
   content: "";
   position: absolute;
-  background: var(--ink);
-  width: 16px;
-  height: 12px;
-  top: -11px;
-  left: calc(var(--mascot-w) / 2 - 8px);
-  clip-path: path("M 0 12 C 3.5 7, 6.5 2.5, 8 0.4 C 9.5 2.5, 12.5 7, 16 12 Z");
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 12px solid var(--ink);
+  top: -10px;
+  left: calc(var(--bubble-caret-nudge) + var(--mascot-w) / 2 - 10px);
 }
 .mascot-bubble.show {
   opacity: 1;
@@ -284,24 +303,28 @@ html, body {
    Same single caret, pointing right at the mascot. */
 @media (min-width: 1200px) {
   .mascot-bubble {
+    --bubble-caret-nudge: 0px;
     top: 50%;
     left: auto;
-    right: calc(100% + 14px);
+    right: calc(100% + 12px);
     max-width: min(30ch, calc((100vw - var(--column)) / 2 - 4rem));
     transform: translateY(-50%) scale(0.6);
-    transform-origin: calc(100% + 14px) 50%; /* grows out from the mascot */
+    transform-origin: calc(100% + 12px) 50%; /* grows out from the mascot */
   }
   .mascot-bubble.show {
     transform: translateY(-50%) scale(1);
   }
   .mascot-bubble::before {
-    width: 12px;
-    height: 16px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid var(--ink);
+    border-right: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
     top: 50%;
-    margin-top: -8px;
+    margin-top: -10px;
     left: auto;
-    right: -11px;
-    clip-path: path("M 0 0 C 5 3.5, 9.5 6.5, 11.6 8 C 9.5 9.5, 5 12.5, 0 16 Z");
+    right: -8px;
   }
 }
 
@@ -332,4 +355,35 @@ html, body {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-in, .animate-in-fade { animation: none; }
+}
+/* after the first client-side navigation, pages appear settled (see BaseLayout) */
+html.nav-visited .animate-in,
+html.nav-visited .animate-in-fade { animation: none; }
+
+/* With classic (non-overlay) scrollbars — e.g. macOS with a mouse attached —
+   a scrollable page is narrower than a short one, so vw-based paddings and
+   the header rule would shift sideways between pages. Always reserve the
+   gutter; overlay scrollbars make this a no-op. */
+html { scrollbar-gutter: stable; }
+
+/* ─── Page swaps (ClientRouter) ───────────────────────── */
+/* Native view transitions paint the page as frozen SNAPSHOTS while they
+   animate — the live mascot stops mid-hop and its old/new snapshots
+   crossfade into a ghosty double-exposure. So the native transition is
+   made instant (the mascot never visibly freezes) and the arriving page
+   content gets its own gentle fade-in below — real DOM, header excluded. */
+::view-transition-group(*),
+::view-transition-image-pair(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0s !important;
+}
+/* `page-enter` is re-toggled by BaseLayout on every swap */
+html.page-enter main,
+html.page-enter footer {
+  animation: fade-in 0.22s var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.page-enter main,
+  html.page-enter footer { animation: none; }
 }

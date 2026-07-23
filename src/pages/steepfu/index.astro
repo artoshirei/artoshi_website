@@ -457,393 +457,412 @@ const teas = [
 </style>
 
 <script>
-  const teas = [
-    { id: "lao-man-e-sheng", name: "Lao Man’e Sheng Pu-erh", icon: "/steepfu/tea-icons/puer.png", temp: "98C", grams: "6.5g / 100ml", note: "Bitter, powerful young sheng profile. Start short and push slowly.", times: [6, 8, 10, 12, 15, 18, 22, 28] },
-    { id: "gaba-basalt", name: "Gaba Basalt", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "94C", grams: "5.5g / 100ml", note: "Warm GABA oolong profile with a steady mineral-amber character.", times: [18, 20, 24, 28, 35, 45, 60, 75] },
-    { id: "gaba-oolong", name: "GABA oolong", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "93C", grams: "5g / 100ml", note: "A steady GABA oolong default for warm, rounded cups.", times: [20, 25, 30, 35, 40, 45, 50, 55] },
-    { id: "golden-eyebrow", name: "Golden Eyebrow", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "93C", grams: "5g / 100ml", note: "Gentle heat keeps the honeyed malt clear.", times: [8, 10, 12, 15, 20, 28, 38, 50] },
-    { id: "tie-guan-yin", name: "Tie Guan Yin", icon: "/steepfu/tea-icons/tie-guan-yin.png", temp: "95C", grams: "4g / 100ml", note: "Short first pours, then let the orchid sweetness open up.", times: [5, 8, 8, 10, 10, 10, 15, 15] },
-    { id: "da-hong-pao", name: "Da Hong Pao", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "98C", grams: "5.5g / 100ml", note: "Mineral roasted oolong. Start short and let the body build.", times: [8, 8, 8, 12, 12, 15, 18, 20] },
-    { id: "longjing", name: "Longjing / Dragon Well", icon: "/steepfu/tea-icons/longjing.png", temp: "83C", grams: "5g / 100ml", note: "Cooler water keeps the chestnut-green body soft.", times: [10, 15, 20, 30, 45, 60] },
-    { id: "jasmine", name: "Jasmine tea", icon: "/steepfu/tea-icons/jasmine.png", temp: "84C", grams: "4.5g / 100ml", note: "For jasmine pearls, start closer to 45-60s.", times: [15, 20, 25, 30, 40, 45] }
-  ];
+  function setupSteepfuPage() {
+    const ac = new AbortController();
 
-  const demo = document.getElementById("steepfu-demo");
-  let selected = teas[0];
-  let status = "ready";
-  let steepIndex = 0;
-  let startSteepIndex = 0;
-  let remaining = selected.times[0];
-  let timerId;
-  let noticeTimerId;
-  let warningSecond = null;
-  let currentScreen = "picker";
-  let lastScreen = "picker";
-  let volume = 0.6;
-  let muted = false;
-  let pinned = false;
-  let voiceOn = true;
-  let darkMode = false;
-  let audioContext;
-  const toneOutputGain = 1.15 * 0.12 * 0.35;
-  const alertVolumeScale = {
-    warning: 0.18,
-    finish: 0.55
-  };
+    const teas = [
+      { id: "lao-man-e-sheng", name: "Lao Man’e Sheng Pu-erh", icon: "/steepfu/tea-icons/puer.png", temp: "98C", grams: "6.5g / 100ml", note: "Bitter, powerful young sheng profile. Start short and push slowly.", times: [6, 8, 10, 12, 15, 18, 22, 28] },
+      { id: "gaba-basalt", name: "Gaba Basalt", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "94C", grams: "5.5g / 100ml", note: "Warm GABA oolong profile with a steady mineral-amber character.", times: [18, 20, 24, 28, 35, 45, 60, 75] },
+      { id: "gaba-oolong", name: "GABA oolong", icon: "/steepfu/tea-icons/gaba-oolong.png", temp: "93C", grams: "5g / 100ml", note: "A steady GABA oolong default for warm, rounded cups.", times: [20, 25, 30, 35, 40, 45, 50, 55] },
+      { id: "golden-eyebrow", name: "Golden Eyebrow", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "93C", grams: "5g / 100ml", note: "Gentle heat keeps the honeyed malt clear.", times: [8, 10, 12, 15, 20, 28, 38, 50] },
+      { id: "tie-guan-yin", name: "Tie Guan Yin", icon: "/steepfu/tea-icons/tie-guan-yin.png", temp: "95C", grams: "4g / 100ml", note: "Short first pours, then let the orchid sweetness open up.", times: [5, 8, 8, 10, 10, 10, 15, 15] },
+      { id: "da-hong-pao", name: "Da Hong Pao", icon: "/steepfu/tea-icons/da-hong-pao.png", temp: "98C", grams: "5.5g / 100ml", note: "Mineral roasted oolong. Start short and let the body build.", times: [8, 8, 8, 12, 12, 15, 18, 20] },
+      { id: "longjing", name: "Longjing / Dragon Well", icon: "/steepfu/tea-icons/longjing.png", temp: "83C", grams: "5g / 100ml", note: "Cooler water keeps the chestnut-green body soft.", times: [10, 15, 20, 30, 45, 60] },
+      { id: "jasmine", name: "Jasmine tea", icon: "/steepfu/tea-icons/jasmine.png", temp: "84C", grams: "4.5g / 100ml", note: "For jasmine pearls, start closer to 45-60s.", times: [15, 20, 25, 30, 40, 45] }
+    ];
 
-  const icon = {
-    moon: '<svg class="lucide" data-icon="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>',
-    sun: '<svg class="lucide" data-icon="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>',
-    volume: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>',
-    volumeX: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="m22 9-6 6"></path><path d="m16 9 6 6"></path></svg>',
-    mic: '<svg class="lucide" data-icon="mic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>',
-    micOff: '<svg class="lucide" data-icon="mic-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"></path><path d="M16.95 16.95A7 7 0 0 1 5 12v-2"></path><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"></path><path d="m2 2 20 20"></path><path d="M9 9v3a3 3 0 0 0 5.12 2.12"></path></svg>'
-  };
-
-  function formatSeconds(seconds) {
-    const safeSeconds = Math.max(0, Math.ceil(seconds));
-    const minutes = Math.floor(safeSeconds / 60);
-    const remainingSeconds = safeSeconds % 60;
-    if (minutes === 0) return `${remainingSeconds}s`;
-    return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
-  }
-
-  function formatTimer(seconds) {
-    return formatSeconds(seconds);
-  }
-
-  function showScreen(name) {
-    currentScreen = name;
-    demo?.querySelectorAll("[data-screen]").forEach((screen) => {
-      const isActive = screen.getAttribute("data-screen") === name;
-      screen.hidden = !isActive;
-      if (isActive) screen.scrollTop = 0;
-    });
-    demo?.querySelector("[data-action='settings']")?.setAttribute("aria-pressed", String(name === "settings"));
-  }
-
-  function showNotice(message) {
-    const notice = demo?.querySelector("[data-demo-notice]");
-    if (!notice) return;
-    window.clearTimeout(noticeTimerId);
-    notice.textContent = message;
-    notice.hidden = false;
-    noticeTimerId = window.setTimeout(() => {
-      notice.hidden = true;
-    }, 2800);
-  }
-
-  function getAudioContext() {
-    if (!audioContext) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return null;
-      audioContext = new AudioContextClass();
-    }
-    if (audioContext.state === "suspended") audioContext.resume();
-    return audioContext;
-  }
-
-  function tap(frequency, duration, type = "sine", delay = 0) {
-    if (muted || volume <= 0) return;
-    const context = getAudioContext();
-    if (!context) return;
-    const start = context.currentTime + delay;
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume * toneOutputGain), start + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.02);
-  }
-
-  function playStartCue() {
-    tap(260, 0.07, "triangle", 0);
-    tap(380, 0.05, "sine", 0.058);
-  }
-
-  function playAlertCue(kind = "finish") {
-    if (muted || volume <= 0) return;
-    const sound = new Audio("/steepfu/sounds/alert_simple.wav");
-    sound.volume = Math.min(1, Math.max(0, volume * (alertVolumeScale[kind] ?? alertVolumeScale.finish)));
-    sound.playbackRate = kind === "warning" ? 1.8 : 1;
-    sound.play().catch(() => {});
-  }
-
-  function syncRanges(value) {
-    volume = Number(value);
-    demo?.querySelectorAll("[data-action='volume'], [data-action='settings-volume']").forEach((range) => {
-      range.value = String(volume);
-      const min = Number(range.min || 0);
-      const max = Number(range.max || 1);
-      const fill = max === min ? 0 : ((volume - min) / (max - min)) * 100;
-      range.style.setProperty("--volume-fill", `${Math.min(100, Math.max(0, fill))}%`);
-    });
-  }
-
-  function setMuted(next) {
-    muted = next;
-    const button = demo?.querySelector("[data-action='mute']");
-    button?.classList.toggle("mute-active", muted);
-    button?.setAttribute("aria-pressed", String(muted));
-    if (button) button.innerHTML = muted ? icon.volumeX : icon.volume;
-    const checkbox = demo?.querySelector("[data-action='settings-muted']");
-    if (checkbox) checkbox.checked = muted;
-  }
-
-  function setDarkMode(next) {
-    darkMode = next;
-    demo?.classList.toggle("theme-dark", darkMode);
-    const button = demo?.querySelector("[data-action='theme']");
-    if (button) {
-      button.innerHTML = darkMode ? icon.sun : icon.moon;
-      button.setAttribute("aria-label", darkMode ? "Use light mode" : "Use dark mode");
-    }
-    const checkbox = demo?.querySelector("[data-action='settings-theme']");
-    if (checkbox) checkbox.checked = darkMode;
-  }
-
-  function setVoiceMode(next) {
-    voiceOn = next;
-    const button = demo?.querySelector("[data-action='voice']");
-    button?.classList.toggle("voice-active", voiceOn);
-    button?.setAttribute("aria-pressed", String(voiceOn));
-    button?.setAttribute("aria-label", voiceOn ? "Turn off voice mode" : "Turn on voice mode");
-    if (button) button.innerHTML = voiceOn ? icon.mic : icon.micOff;
-    const checkbox = demo?.querySelector("[data-action='settings-voice']");
-    if (checkbox) checkbox.checked = voiceOn;
-    showNotice("Real-time voice mode is not available in this web demo.");
-  }
-
-  function setPinned(next) {
-    pinned = next;
-    const button = demo?.querySelector("[data-action='pin']");
-    button?.setAttribute("aria-pressed", String(pinned));
-    showNotice("Pinning is native-only in the macOS app.");
-  }
-
-  function setVoiceHelp(open) {
-    const wrap = demo?.querySelector(".steepfu-voice-help-wrap");
-    const button = demo?.querySelector("[data-action='voice-help']");
-    wrap?.classList.toggle("is-open", open);
-    button?.setAttribute("aria-expanded", String(open));
-  }
-
-  function renderProfile() {
-    demo.querySelectorAll("[data-demo-icon], [data-timer-icon]").forEach((img) => {
-      img.src = selected.icon;
-    });
-    demo.querySelector("[data-demo-name]").textContent = selected.name;
-    demo.querySelector("[data-demo-temp]").textContent = selected.temp;
-    demo.querySelector("[data-demo-grams]").textContent = selected.grams;
-    demo.querySelector("[data-demo-note]").textContent = selected.note;
-    demo.querySelector("[data-demo-max]").textContent = selected.times.length;
-    demo.querySelector("[data-demo-first]").textContent = selected.times[0];
-    renderSchedule();
-    renderTimer();
-  }
-
-  function renderSchedule() {
-    const schedule = demo.querySelector("[data-demo-schedule]");
-    const startButton = demo.querySelector("[data-action='start-session']");
-    schedule.innerHTML = `<span class="steepfu-start-from-label">Start from</span>${selected.times.map((time, index) => `<button type="button" data-action="choose-start" data-start-index="${index}" class="steepfu-start-steep-chip ${index === startSteepIndex ? "is-selected" : ""}" aria-pressed="${index === startSteepIndex}"><span>${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : index === 2 ? "rd" : "th"}</span><em>${time}s</em></button>`).join("")}`;
-    startButton.textContent = startSteepIndex > 0 ? `Start from ${startSteepIndex + 1}${startSteepIndex === 1 ? "nd" : startSteepIndex === 2 ? "rd" : "th"}` : "Start session";
-  }
-
-  function renderDrops() {
-    const drops = demo.querySelector("[data-demo-drops]");
-    drops.setAttribute("aria-label", `Steep ${steepIndex + 1} of ${selected.times.length}`);
-    drops.innerHTML = Array.from({ length: selected.times.length }, (_, index) => `<span class="${index < steepIndex ? "filled" : ""} ${index === steepIndex ? "current" : ""}"></span>`).join("");
-  }
-
-  function renderTimer() {
-    const currentTime = selected.times[steepIndex] ?? selected.times[0];
-    const timerScreen = demo.querySelector("[data-screen='timer']");
-    const timerIcon = demo.querySelector("[data-timer-icon-wrap]");
-    const label = demo.querySelector("[data-timer-label]");
-    const countdown = demo.querySelector("[data-timer-countdown]");
-    const hint = demo.querySelector("[data-timer-hint]");
-    const button = demo.querySelector("[data-action='pour']");
-    const recovery = demo.querySelector("[data-demo-recovery]");
-    const adjustments = demo.querySelector("[data-demo-adjustments]");
-    const restart = demo.querySelector("[data-action='restart']");
-    const end = demo.querySelector("[data-action='end-session']");
-    timerScreen.className = `steepfu-screen steepfu-timer status-${status}`;
-    timerIcon.classList.toggle("steam-on", status === "running");
-    label.textContent = status === "preparing" ? "Pour the water" : `Steep ${Math.min(steepIndex + 1, selected.times.length)} / ${selected.times.length}`;
-    countdown.textContent = status === "running" || status === "preparing" ? formatTimer(remaining) : formatSeconds(currentTime);
-    hint.textContent = status === "ended" ? "Session ended" : status === "preparing" ? "Pour as this reaches 0" : status === "ready" ? `5s to pour water, then steep ${steepIndex + 1}` : selected.times[steepIndex + 1] ? `Next steep ${formatSeconds(selected.times[steepIndex + 1])}` : "Final steep";
-    button.textContent = status === "preparing" ? "Pouring soon..." : status === "running" ? "Steeping..." : status === "ended" ? "Session complete" : "Get ready to pour";
-    button.disabled = status !== "ready";
-    restart.disabled = status === "running";
-    end.disabled = status === "ended";
-    recovery.hidden = !(status !== "ready" || steepIndex > 0);
-    recovery.querySelector("button").textContent = status === "ready" ? "Go back one steep" : "Reset steep";
-    adjustments.hidden = !(status === "ready" && steepIndex > 0);
-    renderDrops();
-  }
-
-  function adjustFutureSteeps(delta) {
-    selected = {
-      ...selected,
-      times: selected.times.map((time, index) => (index > steepIndex ? Math.max(1, time + delta) : time))
+    const demo = document.getElementById("steepfu-demo");
+    let selected = teas[0];
+    let status = "ready";
+    let steepIndex = 0;
+    let startSteepIndex = 0;
+    let remaining = selected.times[0];
+    let timerId;
+    let noticeTimerId;
+    let warningSecond = null;
+    let currentScreen = "picker";
+    let lastScreen = "picker";
+    let volume = 0.6;
+    let muted = false;
+    let pinned = false;
+    let voiceOn = true;
+    let darkMode = false;
+    let audioContext;
+    const toneOutputGain = 1.15 * 0.12 * 0.35;
+    const alertVolumeScale = {
+      warning: 0.18,
+      finish: 0.55
     };
-    remaining = selected.times[steepIndex] ?? selected.times[0];
-    renderTimer();
-    renderSchedule();
-  }
 
-  function stopTimer() {
-    if (timerId) window.clearInterval(timerId);
-    timerId = undefined;
-  }
+    const icon = {
+      moon: '<svg class="lucide" data-icon="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>',
+      sun: '<svg class="lucide" data-icon="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>',
+      volume: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>',
+      volumeX: '<svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="m22 9-6 6"></path><path d="m16 9 6 6"></path></svg>',
+      mic: '<svg class="lucide" data-icon="mic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>',
+      micOff: '<svg class="lucide" data-icon="mic-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19v3"></path><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"></path><path d="M16.95 16.95A7 7 0 0 1 5 12v-2"></path><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"></path><path d="m2 2 20 20"></path><path d="M9 9v3a3 3 0 0 0 5.12 2.12"></path></svg>'
+    };
 
-  function tickTimer() {
-    stopTimer();
-    if (status !== "preparing" && status !== "running") return;
-    timerId = window.setInterval(() => {
-      if (remaining > 1) {
-        remaining -= 1;
-      } else if (status === "preparing") {
-        status = "running";
-        remaining = selected.times[steepIndex] ?? selected.times[0];
-        warningSecond = null;
-        playStartCue();
-      } else if (steepIndex < selected.times.length - 1) {
-        playAlertCue("finish");
-        steepIndex += 1;
-        status = "ready";
-        remaining = selected.times[steepIndex];
-        warningSecond = null;
-        stopTimer();
-      } else {
-        playAlertCue("finish");
-        status = "ended";
-        remaining = 0;
-        warningSecond = null;
-        stopTimer();
+    function formatSeconds(seconds) {
+      const safeSeconds = Math.max(0, Math.ceil(seconds));
+      const minutes = Math.floor(safeSeconds / 60);
+      const remainingSeconds = safeSeconds % 60;
+      if (minutes === 0) return `${remainingSeconds}s`;
+      return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+    }
+
+    function formatTimer(seconds) {
+      return formatSeconds(seconds);
+    }
+
+    function showScreen(name) {
+      currentScreen = name;
+      demo?.querySelectorAll("[data-screen]").forEach((screen) => {
+        const isActive = screen.getAttribute("data-screen") === name;
+        screen.hidden = !isActive;
+        if (isActive) screen.scrollTop = 0;
+      });
+      demo?.querySelector("[data-action='settings']")?.setAttribute("aria-pressed", String(name === "settings"));
+    }
+
+    function showNotice(message) {
+      const notice = demo?.querySelector("[data-demo-notice]");
+      if (!notice) return;
+      window.clearTimeout(noticeTimerId);
+      notice.textContent = message;
+      notice.hidden = false;
+      noticeTimerId = window.setTimeout(() => {
+        notice.hidden = true;
+      }, 2800);
+    }
+
+    function getAudioContext() {
+      if (!audioContext) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return null;
+        audioContext = new AudioContextClass();
       }
-      if (status === "running" && remaining <= 5 && remaining !== warningSecond) {
-        warningSecond = remaining;
-        playAlertCue("warning");
+      if (audioContext.state === "suspended") audioContext.resume();
+      return audioContext;
+    }
+
+    function tap(frequency, duration, type = "sine", delay = 0) {
+      if (muted || volume <= 0) return;
+      const context = getAudioContext();
+      if (!context) return;
+      const start = context.currentTime + delay;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, start);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume * toneOutputGain), start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.02);
+    }
+
+    function playStartCue() {
+      tap(260, 0.07, "triangle", 0);
+      tap(380, 0.05, "sine", 0.058);
+    }
+
+    function playAlertCue(kind = "finish") {
+      if (muted || volume <= 0) return;
+      const sound = new Audio("/steepfu/sounds/alert_simple.wav");
+      sound.volume = Math.min(1, Math.max(0, volume * (alertVolumeScale[kind] ?? alertVolumeScale.finish)));
+      sound.playbackRate = kind === "warning" ? 1.8 : 1;
+      sound.play().catch(() => {});
+    }
+
+    function syncRanges(value) {
+      volume = Number(value);
+      demo?.querySelectorAll("[data-action='volume'], [data-action='settings-volume']").forEach((range) => {
+        range.value = String(volume);
+        const min = Number(range.min || 0);
+        const max = Number(range.max || 1);
+        const fill = max === min ? 0 : ((volume - min) / (max - min)) * 100;
+        range.style.setProperty("--volume-fill", `${Math.min(100, Math.max(0, fill))}%`);
+      });
+    }
+
+    function setMuted(next) {
+      muted = next;
+      const button = demo?.querySelector("[data-action='mute']");
+      button?.classList.toggle("mute-active", muted);
+      button?.setAttribute("aria-pressed", String(muted));
+      if (button) button.innerHTML = muted ? icon.volumeX : icon.volume;
+      const checkbox = demo?.querySelector("[data-action='settings-muted']");
+      if (checkbox) checkbox.checked = muted;
+    }
+
+    function setDarkMode(next) {
+      darkMode = next;
+      demo?.classList.toggle("theme-dark", darkMode);
+      const button = demo?.querySelector("[data-action='theme']");
+      if (button) {
+        button.innerHTML = darkMode ? icon.sun : icon.moon;
+        button.setAttribute("aria-label", darkMode ? "Use light mode" : "Use dark mode");
       }
+      const checkbox = demo?.querySelector("[data-action='settings-theme']");
+      if (checkbox) checkbox.checked = darkMode;
+    }
+
+    function setVoiceMode(next) {
+      voiceOn = next;
+      const button = demo?.querySelector("[data-action='voice']");
+      button?.classList.toggle("voice-active", voiceOn);
+      button?.setAttribute("aria-pressed", String(voiceOn));
+      button?.setAttribute("aria-label", voiceOn ? "Turn off voice mode" : "Turn on voice mode");
+      if (button) button.innerHTML = voiceOn ? icon.mic : icon.micOff;
+      const checkbox = demo?.querySelector("[data-action='settings-voice']");
+      if (checkbox) checkbox.checked = voiceOn;
+      showNotice("Real-time voice mode is not available in this web demo.");
+    }
+
+    function setPinned(next) {
+      pinned = next;
+      const button = demo?.querySelector("[data-action='pin']");
+      button?.setAttribute("aria-pressed", String(pinned));
+      showNotice("Pinning is native-only in the macOS app.");
+    }
+
+    function setVoiceHelp(open) {
+      const wrap = demo?.querySelector(".steepfu-voice-help-wrap");
+      const button = demo?.querySelector("[data-action='voice-help']");
+      wrap?.classList.toggle("is-open", open);
+      button?.setAttribute("aria-expanded", String(open));
+    }
+
+    function renderProfile() {
+      demo.querySelectorAll("[data-demo-icon], [data-timer-icon]").forEach((img) => {
+        img.src = selected.icon;
+      });
+      demo.querySelector("[data-demo-name]").textContent = selected.name;
+      demo.querySelector("[data-demo-temp]").textContent = selected.temp;
+      demo.querySelector("[data-demo-grams]").textContent = selected.grams;
+      demo.querySelector("[data-demo-note]").textContent = selected.note;
+      demo.querySelector("[data-demo-max]").textContent = selected.times.length;
+      demo.querySelector("[data-demo-first]").textContent = selected.times[0];
+      renderSchedule();
       renderTimer();
-    }, 1000);
-  }
+    }
 
-  function startPourCountdownDemo(resetToStart = false) {
-    stopTimer();
-    steepIndex = resetToStart ? Math.min(startSteepIndex, selected.times.length - 1) : steepIndex;
-    status = "preparing";
-    remaining = 5;
-    warningSecond = null;
-    playStartCue();
-    renderTimer();
-    showScreen("timer");
-    tickTimer();
-  }
+    function renderSchedule() {
+      const schedule = demo.querySelector("[data-demo-schedule]");
+      const startButton = demo.querySelector("[data-action='start-session']");
+      schedule.innerHTML = `<span class="steepfu-start-from-label">Start from</span>${selected.times.map((time, index) => `<button type="button" data-action="choose-start" data-start-index="${index}" class="steepfu-start-steep-chip ${index === startSteepIndex ? "is-selected" : ""}" aria-pressed="${index === startSteepIndex}"><span>${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : index === 2 ? "rd" : "th"}</span><em>${time}s</em></button>`).join("")}`;
+      startButton.textContent = startSteepIndex > 0 ? `Start from ${startSteepIndex + 1}${startSteepIndex === 1 ? "nd" : startSteepIndex === 2 ? "rd" : "th"}` : "Start session";
+    }
 
-  if (demo) {
-    renderProfile();
-    syncRanges(volume);
-    setMuted(false);
-    setDarkMode(false);
-    setVoiceMode(true);
-    demo.querySelector("[data-demo-notice]").hidden = true;
+    function renderDrops() {
+      const drops = demo.querySelector("[data-demo-drops]");
+      drops.setAttribute("aria-label", `Steep ${steepIndex + 1} of ${selected.times.length}`);
+      drops.innerHTML = Array.from({ length: selected.times.length }, (_, index) => `<span class="${index < steepIndex ? "filled" : ""} ${index === steepIndex ? "current" : ""}"></span>`).join("");
+    }
 
-    demo.addEventListener("click", (event) => {
-      const target = event.target.closest("[data-action]");
-      if (!target) return;
-      const action = target.getAttribute("data-action");
-      if (action === "volume" || action === "settings-volume" || action === "settings-muted" || action === "settings-theme" || action === "settings-voice") return;
-      if (action === "choose-tea") {
-        selected = teas.find((tea) => tea.id === target.getAttribute("data-tea-id")) ?? selected;
-        steepIndex = 0;
-        startSteepIndex = 0;
-        status = "ready";
-        remaining = selected.times[0];
-        warningSecond = null;
-        stopTimer();
-        renderProfile();
-        showScreen("setup");
-      }
-      if (action === "choose-start") {
-        startSteepIndex = Number(target.getAttribute("data-start-index") || 0);
-        renderSchedule();
-      }
-      if (action === "back-picker") showScreen("picker");
-      if (action === "back-setup") {
-        stopTimer();
-        status = "ready";
-        remaining = selected.times[steepIndex] ?? selected.times[0];
-        warningSecond = null;
+    function renderTimer() {
+      const currentTime = selected.times[steepIndex] ?? selected.times[0];
+      const timerScreen = demo.querySelector("[data-screen='timer']");
+      const timerIcon = demo.querySelector("[data-timer-icon-wrap]");
+      const label = demo.querySelector("[data-timer-label]");
+      const countdown = demo.querySelector("[data-timer-countdown]");
+      const hint = demo.querySelector("[data-timer-hint]");
+      const button = demo.querySelector("[data-action='pour']");
+      const recovery = demo.querySelector("[data-demo-recovery]");
+      const adjustments = demo.querySelector("[data-demo-adjustments]");
+      const restart = demo.querySelector("[data-action='restart']");
+      const end = demo.querySelector("[data-action='end-session']");
+      timerScreen.className = `steepfu-screen steepfu-timer status-${status}`;
+      timerIcon.classList.toggle("steam-on", status === "running");
+      label.textContent = status === "preparing" ? "Pour the water" : `Steep ${Math.min(steepIndex + 1, selected.times.length)} / ${selected.times.length}`;
+      countdown.textContent = status === "running" || status === "preparing" ? formatTimer(remaining) : formatSeconds(currentTime);
+      hint.textContent = status === "ended" ? "Session ended" : status === "preparing" ? "Pour as this reaches 0" : status === "ready" ? `5s to pour water, then steep ${steepIndex + 1}` : selected.times[steepIndex + 1] ? `Next steep ${formatSeconds(selected.times[steepIndex + 1])}` : "Final steep";
+      button.textContent = status === "preparing" ? "Pouring soon..." : status === "running" ? "Steeping..." : status === "ended" ? "Session complete" : "Get ready to pour";
+      button.disabled = status !== "ready";
+      restart.disabled = status === "running";
+      end.disabled = status === "ended";
+      recovery.hidden = !(status !== "ready" || steepIndex > 0);
+      recovery.querySelector("button").textContent = status === "ready" ? "Go back one steep" : "Reset steep";
+      adjustments.hidden = !(status === "ready" && steepIndex > 0);
+      renderDrops();
+    }
+
+    function adjustFutureSteeps(delta) {
+      selected = {
+        ...selected,
+        times: selected.times.map((time, index) => (index > steepIndex ? Math.max(1, time + delta) : time))
+      };
+      remaining = selected.times[steepIndex] ?? selected.times[0];
+      renderTimer();
+      renderSchedule();
+    }
+
+    function stopTimer() {
+      if (timerId) window.clearInterval(timerId);
+      timerId = undefined;
+    }
+
+    function tickTimer() {
+      stopTimer();
+      if (status !== "preparing" && status !== "running") return;
+      timerId = window.setInterval(() => {
+        if (remaining > 1) {
+          remaining -= 1;
+        } else if (status === "preparing") {
+          status = "running";
+          remaining = selected.times[steepIndex] ?? selected.times[0];
+          warningSecond = null;
+          playStartCue();
+        } else if (steepIndex < selected.times.length - 1) {
+          playAlertCue("finish");
+          steepIndex += 1;
+          status = "ready";
+          remaining = selected.times[steepIndex];
+          warningSecond = null;
+          stopTimer();
+        } else {
+          playAlertCue("finish");
+          status = "ended";
+          remaining = 0;
+          warningSecond = null;
+          stopTimer();
+        }
+        if (status === "running" && remaining <= 5 && remaining !== warningSecond) {
+          warningSecond = remaining;
+          playAlertCue("warning");
+        }
         renderTimer();
-        showScreen("setup");
-      }
-      if (action === "start-session") {
-        startPourCountdownDemo(true);
-      }
-      if (action === "pour" && status === "ready") {
-        startPourCountdownDemo();
-      }
-      if (action === "restart") {
-        steepIndex = Math.min(startSteepIndex, selected.times.length - 1);
-        startPourCountdownDemo();
-      }
-      if (action === "end-session") {
-        stopTimer();
-        status = "ended";
-        remaining = 0;
-        warningSecond = null;
-        renderTimer();
-      }
-      if (action === "recover") {
-        stopTimer();
-        if (status === "ready") steepIndex = Math.max(0, steepIndex - 1);
-        status = "ready";
-        remaining = selected.times[steepIndex] ?? selected.times[0];
-        warningSecond = null;
-        renderTimer();
-      }
-      if (action === "adjust-plus") adjustFutureSteeps(5);
-      if (action === "adjust-minus") adjustFutureSteeps(-5);
-      if (action === "mute") setMuted(!muted);
-      if (action === "pin") setPinned(!pinned);
-      if (action === "voice") setVoiceMode(!voiceOn);
-      if (action === "voice-help") setVoiceHelp(!target.closest(".steepfu-voice-help-wrap")?.classList.contains("is-open"));
-      if (action === "theme") setDarkMode(!darkMode);
-      if (action === "settings") {
-        lastScreen = currentScreen === "settings" ? lastScreen : currentScreen;
-        showScreen("settings");
-      }
-      if (action === "settings-back") showScreen(lastScreen || "picker");
+      }, 1000);
+    }
+
+    function startPourCountdownDemo(resetToStart = false) {
+      stopTimer();
+      steepIndex = resetToStart ? Math.min(startSteepIndex, selected.times.length - 1) : steepIndex;
+      status = "preparing";
+      remaining = 5;
+      warningSecond = null;
+      playStartCue();
+      renderTimer();
+      showScreen("timer");
+      tickTimer();
+    }
+
+    if (demo) {
+      renderProfile();
+      syncRanges(volume);
+      setMuted(false);
+      setDarkMode(false);
+      setVoiceMode(true);
+      demo.querySelector("[data-demo-notice]").hidden = true;
+
+      demo.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-action]");
+        if (!target) return;
+        const action = target.getAttribute("data-action");
+        if (action === "volume" || action === "settings-volume" || action === "settings-muted" || action === "settings-theme" || action === "settings-voice") return;
+        if (action === "choose-tea") {
+          selected = teas.find((tea) => tea.id === target.getAttribute("data-tea-id")) ?? selected;
+          steepIndex = 0;
+          startSteepIndex = 0;
+          status = "ready";
+          remaining = selected.times[0];
+          warningSecond = null;
+          stopTimer();
+          renderProfile();
+          showScreen("setup");
+        }
+        if (action === "choose-start") {
+          startSteepIndex = Number(target.getAttribute("data-start-index") || 0);
+          renderSchedule();
+        }
+        if (action === "back-picker") showScreen("picker");
+        if (action === "back-setup") {
+          stopTimer();
+          status = "ready";
+          remaining = selected.times[steepIndex] ?? selected.times[0];
+          warningSecond = null;
+          renderTimer();
+          showScreen("setup");
+        }
+        if (action === "start-session") {
+          startPourCountdownDemo(true);
+        }
+        if (action === "pour" && status === "ready") {
+          startPourCountdownDemo();
+        }
+        if (action === "restart") {
+          steepIndex = Math.min(startSteepIndex, selected.times.length - 1);
+          startPourCountdownDemo();
+        }
+        if (action === "end-session") {
+          stopTimer();
+          status = "ended";
+          remaining = 0;
+          warningSecond = null;
+          renderTimer();
+        }
+        if (action === "recover") {
+          stopTimer();
+          if (status === "ready") steepIndex = Math.max(0, steepIndex - 1);
+          status = "ready";
+          remaining = selected.times[steepIndex] ?? selected.times[0];
+          warningSecond = null;
+          renderTimer();
+        }
+        if (action === "adjust-plus") adjustFutureSteeps(5);
+        if (action === "adjust-minus") adjustFutureSteeps(-5);
+        if (action === "mute") setMuted(!muted);
+        if (action === "pin") setPinned(!pinned);
+        if (action === "voice") setVoiceMode(!voiceOn);
+        if (action === "voice-help") setVoiceHelp(!target.closest(".steepfu-voice-help-wrap")?.classList.contains("is-open"));
+        if (action === "theme") setDarkMode(!darkMode);
+        if (action === "settings") {
+          lastScreen = currentScreen === "settings" ? lastScreen : currentScreen;
+          showScreen("settings");
+        }
+        if (action === "settings-back") showScreen(lastScreen || "picker");
+      });
+
+      demo.addEventListener("input", (event) => {
+        const target = event.target.closest("[data-action]");
+        if (!target) return;
+        const action = target.getAttribute("data-action");
+        if (action === "volume" || action === "settings-volume") syncRanges(target.value);
+        if (action === "settings-muted") setMuted(target.checked);
+        if (action === "settings-theme") setDarkMode(target.checked);
+        if (action === "settings-voice") setVoiceMode(target.checked);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!demo.contains(event.target)) setVoiceHelp(false);
+      }, { signal: ac.signal });
+    }
+
+    document.getElementById("steepfu-download-btn")?.addEventListener("click", (event) => {
+      event.preventDefault();
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = "/steepfu/download";
+      document.body.appendChild(iframe);
+      setTimeout(() => iframe.remove(), 10000);
     });
 
-    demo.addEventListener("input", (event) => {
-      const target = event.target.closest("[data-action]");
-      if (!target) return;
-      const action = target.getAttribute("data-action");
-      if (action === "volume" || action === "settings-volume") syncRanges(target.value);
-      if (action === "settings-muted") setMuted(target.checked);
-      if (action === "settings-theme") setDarkMode(target.checked);
-      if (action === "settings-voice") setVoiceMode(target.checked);
-    });
-
-    document.addEventListener("click", (event) => {
-      if (!demo.contains(event.target)) setVoiceHelp(false);
-    });
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        ac.abort();
+        window.clearInterval(timerId);
+        window.clearTimeout(noticeTimerId);
+        audioContext?.close().catch(() => {});
+      },
+      { once: true },
+    );
   }
 
-  document.getElementById("steepfu-download-btn")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = "/steepfu/download";
-    document.body.appendChild(iframe);
-    setTimeout(() => iframe.remove(), 10000);
+  document.addEventListener("astro:page-load", () => {
+    if (document.getElementById("steepfu-demo")) setupSteepfuPage();
   });
 </script>

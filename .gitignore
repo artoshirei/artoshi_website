@@ -23,3 +23,10 @@ bun-error.log
 
 # jetbrains setting folder
 .idea/
+
+# agent scratch: local settings and worktree checkouts
+.claude/
+# debug screenshots
+.cursor-*.png
+# sprint.artoshi.work is its own git repo living in this directory
+sprint.artoshi.work/

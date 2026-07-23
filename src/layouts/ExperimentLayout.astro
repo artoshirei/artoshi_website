@@ -22,4 +22,8 @@ const { title = "ARTOSHI — design + development", breadcrumb = "LAB" } = Astro
     display: flex;
     flex-direction: column;
   }
+
+  :global(.shell:has(.experiment-main) .shell-foot) {
+    margin-top: 0;
+  }
 </style>

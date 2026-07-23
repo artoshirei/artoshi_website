@@ -1,9 +1,15 @@
 ---
 // src/pages/index.astro — ARTOSHI · quiet single-column index
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 import { work } from "../data/work";
 
 const arrow = `<svg class="row-arrow" viewBox="0 0 32 32" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M10 6L10 8 22.59 8 6 24.59 7.41 26 24 9.41 24 22 26 22 26 6 10 6z"/></svg>`;
+const workSections = [
+  { kind: "app", label: "apps" },
+  { kind: "website", label: "websites" },
+  { kind: "experiment", label: "experiments" },
+] as const;
 
 const socials = [
   { label: "x", href: "https://x.com/artoshiverse" },
@@ -14,29 +20,7 @@ const socials = [
 
 <BaseLayout title="artoshi — design + development">
   <div class="page">
-    <header class="top animate-in-fade">
-      <a href="/" class="brand" aria-label="artoshi — home">
-        <svg id="mascot-icon" class="brand-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <clipPath id="body-clip">
-              <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" />
-            </clipPath>
-          </defs>
-          <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" fill="var(--mascot)" />
-          <g clip-path="url(#body-clip)">
-            <g transform="translate(235, 124)">
-              <g class="mascot-eyes-travel">
-                <rect class="mascot-eye-left" x="15.92" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
-                <rect class="mascot-eye-right" x="104.42" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
-                <path class="mascot-eye-arc-left" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
-                <path class="mascot-eye-arc-right" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
-              </g>
-            </g>
-          </g>
-        </svg>
-        <span class="brand-word">artoshi</span>
-      </a>
-    </header>
+    <SiteHeader class="animate-in-fade" />
 
     <main class="col">
       <section class="hero">
@@ -45,39 +29,76 @@ const socials = [
           <span class="hero-line animate-in" style="animation-delay: 0.16s">digital products.</span>
         </h1>
         <p class="hero-sub animate-in" style="animation-delay: 0.26s">
-          BA Graphic Communication Design,<br />
-          <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="quiet-link">Central Saint Martins</a>.
+          Building a small suite of calm apps for the Mac.<br />
+          BA Graphic Communication Design, <a href="https://www.arts.ac.uk/colleges/central-saint-martins" target="_blank" rel="noopener noreferrer" class="quiet-link">Central Saint Martins</a>.
         </p>
       </section>
 
       <section class="work animate-in" style="animation-delay: 0.36s" aria-label="Selected work">
-        <ol class="work-list">
-          {work.map((item) => (
-            <li>
-              <a
-                class="row"
-                href={item.url}
-                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              >
-                {item.now && (
-                  <span class="now-dot" aria-label="Building right now">
-                    <span class="now-tip" role="tooltip">building right now</span>
-                  </span>
-                )}
-                <span class="row-main">
-                  <span class="t-title row-title">
-                    {item.title}
-                    {item.external && <Fragment set:html={arrow} />}
-                  </span>
-                  <span class="row-desc">{item.description}</span>
-                </span>
-                <span class="t-meta row-meta">
-                  {item.kind}<span class="row-sep" aria-hidden="true">·</span>{item.now ? "now" : item.year}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ol>
+        {workSections.map((section) => {
+          const items = work.filter((item) => item.kind === section.kind);
+          return items.length > 0 && (
+            <section class="work-section" aria-labelledby={`work-${section.kind}`}>
+              <h2 id={`work-${section.kind}`} class="t-meta work-heading">{section.label}</h2>
+              <ol class="work-list">
+                {items.map((item) => {
+                  const rowContent = (
+                    <>
+                      {item.now && (
+                        <span class="now-dot" aria-label="Building right now">
+                          <span class="now-tip" role="tooltip">building right now</span>
+                        </span>
+                      )}
+                      {item.kind === "app" && (
+                        item.icon ? (
+                          <img class="app-face" src={item.icon} alt="" width="56" height="56" loading="lazy" />
+                        ) : (
+                          <span class="app-face app-face-soon" aria-hidden="true">
+                            <svg class="soon-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg">
+                              <path class="soon-body" d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" />
+                              <g class="soon-eyes">
+                                <rect x="250.92" y="156.08" width="46" height="198" rx="23" />
+                                <rect x="339.42" y="156.08" width="46" height="198" rx="23" />
+                              </g>
+                            </svg>
+                          </span>
+                        )
+                      )}
+                      <span class="row-main">
+                        <span class="t-title row-title">
+                          {item.title}
+                          {item.external && <Fragment set:html={arrow} />}
+                        </span>
+                        <span class="row-desc">{item.description}</span>
+                      </span>
+                      <span class="t-meta row-meta">
+                        {item.now ? "now" : item.year}
+                      </span>
+                    </>
+                  );
+
+                  return (
+                    <li>
+                      {item.url ? (
+                        <a
+                          class:list={["row", item.kind === "app" && "row-app"]}
+                          href={item.url}
+                          {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        >
+                          {rowContent}
+                        </a>
+                      ) : (
+                        <div class:list={["row", "row-static", item.kind === "app" && "row-app"]}>
+                          {rowContent}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          );
+        })}
       </section>
 
       <section class="about animate-in" style="animation-delay: 0.46s">
@@ -102,37 +123,25 @@ const socials = [
 
 <style>
   .page {
+    /* Hover timing is asymmetric, and every hover-driven property on the page
+       reads these two inherited vars so a whole row turns as one thing.
+       Coming IN is quick and front-loaded; going OUT is slower and starts
+       gently, because the expo arrival curve played backwards dumps ~half its
+       distance in the first few frames and reads as a snap-back. Each
+       hoverable re-declares the pair inside its own :hover. Plain CSS
+       transitions, so interrupting a leave reverses from wherever it got to. */
+    --hov-dur: 0.34s;
+    --hov-ease: var(--ease-settle);
+
     min-height: 100svh;
     display: flex;
     flex-direction: column;
     padding: clamp(1.5rem, 4vw, 3.5rem) var(--gutter) clamp(1.5rem, 3vw, 2.5rem);
   }
-  .col, .top, .foot {
+  .col, .foot {
     width: 100%;
     max-width: var(--column);
     margin-inline: auto;
-  }
-
-  /* ─── header ──────────────────────────────────────────── */
-  .top {
-    padding-bottom: clamp(1.1rem, 2.5vh, 1.6rem);
-    border-bottom: var(--hair) solid var(--line);
-  }
-  .brand {
-    position: relative; /* anchors the mascot speech bubble */
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  .brand-mascot { display: block; width: clamp(30px, 3vw, 40px); height: auto; overflow: visible; flex-shrink: 0; }
-  .brand-word {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.35rem, 1.8vw, 1.7rem);
-    letter-spacing: -0.02em;
-    line-height: 1;
   }
 
   /* ─── hero ────────────────────────────────────────────── */
@@ -151,12 +160,31 @@ const socials = [
     color: var(--ink);
     text-decoration: none;
     box-shadow: inset 0 -1px 0 var(--accent-quiet);
-    transition: color 0.18s ease, box-shadow 0.18s ease;
+    transition: color var(--hov-dur) var(--hov-ease), box-shadow var(--hov-dur) var(--hov-ease);
   }
-  .quiet-link:hover { color: var(--accent); box-shadow: inset 0 -1px 0 var(--accent); }
+  .quiet-link:hover {
+    --hov-dur: 0.18s;
+    --hov-ease: var(--ease-out);
+    color: var(--accent);
+    box-shadow: inset 0 -1px 0 var(--accent);
+  }
 
   /* ─── the index ───────────────────────────────────────── */
   .work { padding-bottom: clamp(3rem, 8vh, 5.5rem); }
+  .work {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4.5vh, 3.2rem);
+  }
+  .work-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .work-heading {
+    margin: 0;
+    color: var(--ink-faint);
+  }
   .work-list {
     list-style: none;
     margin: 0;
@@ -175,11 +203,16 @@ const socials = [
     border-radius: var(--radius);
     text-decoration: none;
     color: var(--ink);
-    transition: background-color 0.22s var(--ease-out);
+    transition: background-color var(--hov-dur) var(--hov-ease);
   }
+  .row-static { cursor: default; }
   @media (pointer: fine) {
-    .row:hover:not(:has(.now-dot:hover)) { background: var(--paper-sunk); }
-    .row:hover:not(:has(.now-dot:hover)) .row-title { color: var(--accent); }
+    a.row:hover:not(:has(.now-dot:hover)) {
+      --hov-dur: 0.2s;
+      --hov-ease: var(--ease-out);
+      background: var(--paper-sunk);
+    }
+    a.row:hover:not(:has(.now-dot:hover)) .row-title { color: var(--accent); }
   }
   .row-main {
     display: flex;
@@ -192,10 +225,13 @@ const socials = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    transition: color 0.22s var(--ease-out);
+    transition: color var(--hov-dur) var(--hov-ease);
   }
-  .row-title :global(.row-arrow) { color: var(--ink-faint); transition: color 0.22s var(--ease-out), transform 0.22s var(--ease-out); }
-  .row:hover:not(:has(.now-dot:hover)) .row-title :global(.row-arrow) {
+  .row-title :global(.row-arrow) {
+    color: var(--ink-faint);
+    transition: color var(--hov-dur) var(--hov-ease), transform var(--hov-dur) var(--hov-ease);
+  }
+  a.row:hover:not(:has(.now-dot:hover)) .row-title :global(.row-arrow) {
     color: var(--accent);
     transform: translate(1px, -1px);
   }
@@ -204,25 +240,119 @@ const socials = [
     color: var(--ink-mute);
     line-height: 1.4;
   }
-  .row-meta { flex-shrink: 0; color: var(--ink-faint); white-space: nowrap; transition: color 0.22s var(--ease-out); }
-  @media (pointer: fine) {
-    .row:hover:not(:has(.now-dot:hover)) .row-meta { color: var(--ink-mute); }
+
+  /* ─── the app shelf ───────────────────────────────────── */
+  /* App rows carry a real macOS icon face; the row goes two-line
+     (title over description) so the text block fills the icon's height. */
+  .row-app {
+    align-items: center;
+    gap: clamp(0.9rem, 1.8vw, 1.2rem);
   }
-  .row-sep { margin: 0 0.45em; }
+  .row-app .row-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .app-face {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    display: block;
+  }
+  a.row-app .app-face {
+    /* the lift is the one that gave the drop away most: 2px of expo unwinding
+       is a single-frame flick. It gets a touch more time than the colours. */
+    transition: transform calc(var(--hov-dur) + 0.06s) var(--hov-ease);
+  }
+  @media (pointer: fine) {
+    a.row-app:hover:not(:has(.now-dot:hover)) .app-face { transform: translateY(-2px); }
+  }
+
+  /* coming-soon tile: an unhatched app. Same footprint as a real macOS
+     icon (46px squircle inside the 56px cell, matching the icon-grid
+     margins baked into the PNGs), with the mascot's silhouette waiting
+     inside — it blinks now and then — and a slow shimmer sweeping past. */
+  .app-face-soon {
+    flex-basis: 46px;
+    width: 46px;
+    height: 46px;
+    margin: 5px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10.5px; /* ~22.4% — the macOS squircle ratio */
+    background: var(--paper-sunk);
+    border: var(--hair) solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .soon-mascot {
+    width: 60%;
+    height: auto;
+    overflow: visible;
+  }
+  .soon-body { fill: color-mix(in srgb, var(--ink-faint) 42%, transparent); }
+  .soon-eyes rect {
+    fill: var(--paper-sunk); /* cut-out eyes in the silhouette */
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: soon-blink 5.6s linear infinite;
+  }
+  /* the unhatched ones shouldn't blink in sync */
+  .work-list li:nth-child(even) .soon-eyes rect { animation-delay: 1.9s; }
+  .work-list li:nth-child(5n) .soon-eyes rect { animation-delay: 3.4s; }
+  @keyframes soon-blink {
+    0%, 91%, 96%, 100% { transform: scaleY(1); }
+    93.5% { transform: scaleY(0.08); }
+  }
+  .app-face-soon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 32%,
+      rgba(236, 231, 222, 0.05) 46%,
+      rgba(236, 231, 222, 0.1) 52%,
+      transparent 68%
+    );
+    transform: translateX(-100%);
+    animation: soon-shimmer 4.2s ease-in-out infinite;
+  }
+  @keyframes soon-shimmer {
+    0% { transform: translateX(-100%); }
+    46%, 100% { transform: translateX(100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .soon-eyes rect, .app-face-soon::after { animation: none; }
+  }
+  .row-meta { flex-shrink: 0; color: var(--ink-faint); white-space: nowrap; transition: color var(--hov-dur) var(--hov-ease); }
+  @media (pointer: fine) {
+    a.row:hover:not(:has(.now-dot:hover)) .row-meta { color: var(--ink-mute); }
+  }
 
   .now-dot {
     --dot: 0.5rem;
-    /* centered in the row's left padding gutter, on the title's vertical middle */
+    /* sits in the row's left padding gutter, fully left of the app icon,
+       vertically centered — absolute, so it never nudges the row content
+       and all rows stay aligned. The padding (min 1.1rem) always fits
+       inside --gutter (min 1.25rem), so it can't fall offscreen, and the
+       same rule holds at every viewport width — no breakpoint snapping. */
     position: absolute;
-    left: -0.6rem; /* fully outside the hover surface, in the left margin */
-    top: calc(clamp(1rem, 1.8vw, 1.35rem) + (var(--fs-title) * 1.1 / 2));
-    transform: translate(-50%, -50%);
+    left: calc((clamp(1.1rem, 2vw, 1.6rem) - var(--dot)) / 2);
+    top: 50%;
+    translate: 0 -50%;
     width: var(--dot);
     height: var(--dot);
     border-radius: 999px;
-    color: var(--accent);
+    color: #9dc383; /* calm green — "alive right now", distinct from the accent orange */
     background: currentColor;
     line-height: 0;
+    /* own stacking context: the tooltip must paint over the app icons,
+       whose hover-lift transform would otherwise stack above it */
+    z-index: 6;
   }
   .now-dot::before {
     /* larger invisible hit area for the tooltip */
@@ -241,7 +371,7 @@ const socials = [
   .now-tip {
     position: absolute;
     bottom: calc(100% + 0.7rem);
-    left: -0.4rem;
+    left: 0; /* dot hugs the viewport edge on small screens — grow rightward only */
     padding: 0.4rem 0.65rem;
     border-radius: 8px;
     background: var(--paper-sunk);
@@ -255,11 +385,14 @@ const socials = [
     opacity: 0;
     transform: translateY(3px);
     pointer-events: none;
-    transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+    /* tighter than the rows either way — a tooltip that lingers reads as stuck */
+    transition: opacity 0.24s var(--ease-settle), transform 0.24s var(--ease-settle);
   }
   .now-dot:hover .now-tip {
     opacity: 1;
     transform: translateY(0);
+    transition-duration: 0.16s;
+    transition-timing-function: var(--ease-out);
   }
   @keyframes pulse-dot {
     0% { opacity: 0.55; transform: scale(1); }
@@ -300,15 +433,20 @@ const socials = [
   @media (max-width: 560px) {
     .row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
     .row-main { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
-    /* no room in the viewport gutter (and no hover surface on touch) — keep the dot inside */
-    .now-dot { left: calc(clamp(1.1rem, 2vw, 1.6rem) / 2 - 0.1rem); }
+    /* app rows keep the icon beside the text — a face above a caption
+       reads as a broken card, not a shelf */
+    .row-app { flex-direction: row; align-items: center; gap: 0.85rem; }
+    .row-app .row-meta { display: none; } /* the dot already says "now"; year yields to space */
   }
 </style>
 
 <script>
-  import { init, watchRows } from "../scripts/mascotEye";
-  import { initSpeech } from "../scripts/mascotSpeech";
-  init(document.getElementById("mascot-icon") as unknown as SVGSVGElement | null);
-  watchRows(document.querySelectorAll(".work-list .row"));
-  initSpeech(document.querySelector(".brand"));
+  import { watchRows } from "../scripts/mascotEye";
+  // mascot init + speech live in MascotBrand; the index only opts its work
+  // rows into the happy-hop hover. Rows are fresh DOM on every client-side
+  // navigation, so this re-runs per visit (astro:page-load also fires on
+  // the initial load).
+  document.addEventListener("astro:page-load", () => {
+    watchRows(document.querySelectorAll(".work-list .row"));
+  });
 </script>

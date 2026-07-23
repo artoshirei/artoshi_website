@@ -48,12 +48,16 @@ import GridFrame from "../../layouts/GridFrame.astro";
 </style>
 
 <script>
-  document.getElementById("download-btn")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = "/tonica/download";
-    document.body.appendChild(iframe);
-    setTimeout(() => iframe.remove(), 10000);
+  // re-bind per visit: with ClientRouter this module runs once per session,
+  // but the button is fresh DOM on every navigation
+  document.addEventListener("astro:page-load", () => {
+    document.getElementById("download-btn")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = "/tonica/download";
+      document.body.appendChild(iframe);
+      setTimeout(() => iframe.remove(), 10000);
+    });
   });
 </script>

@@ -10,7 +10,7 @@
 //  - recently shown lines are remembered per page and sent as an avoid-list
 //    so the model doesn't repeat itself between visits
 
-import { chirp } from "./mascotEye";
+import { chirp, isHome } from "./mascotEye";
 import { voices, type PageVoice } from "../data/mascotVoice";
 
 const CALL_COOLDOWN_MS = 45_000;
@@ -86,6 +86,16 @@ async function fetchLine(page: string, voice: PageVoice): Promise<string | null>
 }
 
 function showBubble(anchor: HTMLElement, line: string) {
+  // the bubble points at the mascot's resting spot — if it's currently being
+  // carried around or hopping home, patiently wait (one cheap timer) for it
+  // to get back before speaking
+  if (!isHome()) {
+    window.setTimeout(() => showBubble(anchor, line), 800);
+    return;
+  }
+  // the anchor persists across client-side navigations — a still-showing
+  // bubble from the previous page yields to the new one instead of stacking
+  anchor.querySelector(".mascot-bubble")?.remove();
   const bubble = document.createElement("div");
   bubble.className = "mascot-bubble";
   bubble.setAttribute("role", "status");
@@ -96,9 +106,13 @@ function showBubble(anchor: HTMLElement, line: string) {
     chirp();
   });
   const dismiss = () => {
+    document.removeEventListener("mascot-grab", dismiss);
     bubble.classList.remove("show");
     window.setTimeout(() => bubble.remove(), 350);
   };
+  // grabbing the mascot mid-sentence cuts it off — the bubble must never
+  // hang in the header pointing at nothing
+  document.addEventListener("mascot-grab", dismiss);
   bubble.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();

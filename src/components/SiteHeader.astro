@@ -1,0 +1,37 @@
+---
+// src/components/SiteHeader.astro
+// The one true header bar: same geometry on every page, so the bottom rule
+// never moves during client-side swaps. Index passes its entrance class;
+// inner pages pass a breadcrumb. All pages MUST use this — a second header
+// implementation is how the rule started drifting in the first place.
+import MascotBrand from "./MascotBrand.astro";
+
+interface Props {
+  breadcrumb?: string;
+  class?: string;
+}
+const { breadcrumb, class: className } = Astro.props;
+---
+
+<header class:list={["site-top", className]}>
+  <MascotBrand />
+  {breadcrumb && <span class="t-meta site-crumb">{breadcrumb}</span>}
+</header>
+
+<style>
+  .site-top {
+    width: 100%;
+    max-width: var(--column);
+    margin-inline: auto;
+    /* flex, not block: an inline-flex brand in block flow sits on a text
+       baseline and its line box adds ~6px of leading below — the border
+       would sit lower than on flex headers */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: clamp(1.1rem, 2.5vh, 1.6rem);
+    border-bottom: var(--hair) solid var(--line);
+  }
+  .site-crumb { color: var(--ink-faint); }
+</style>

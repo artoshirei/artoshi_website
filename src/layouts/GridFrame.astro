@@ -4,6 +4,7 @@
 // top bar with the mascot mark + artoshi home link and a quiet breadcrumb,
 // and a minimal footer. Inner pages slot their content/demos.
 import BaseLayout from "./BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 
 interface Props {
   title?: string;
@@ -34,30 +35,7 @@ const {
   imageAlt={imageAlt}
 >
   <div class="shell">
-    <header class="shell-top">
-      <a href="/" class="shell-home" aria-label="artoshi — home">
-        <svg id="mascot-icon" class="shell-mascot" viewBox="0 0 649 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <clipPath id="body-clip">
-              <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" />
-            </clipPath>
-          </defs>
-          <path d="M562.831 269.466C613.091 251.273 649 203.129 649 146.602C649 74.4521 590.502 15.9636 518.341 15.9636C481.989 15.9636 449.102 30.8084 425.419 54.7668C403.962 21.7985 366.776 0 324.502 0C282.224 0 245.042 21.7985 223.58 54.7668C199.898 30.8084 167.011 15.9636 130.659 15.9636C58.4976 15.9636 0 74.4521 0 146.602C0 204.876 38.1635 254.242 90.8688 271.071C54.4352 294.25 30.2622 334.981 30.2622 381.361C30.2622 453.511 88.7598 512 160.921 512C192.767 512 221.954 500.61 244.625 481.673C265.871 500.537 293.844 512 324.502 512C356.882 512 386.271 499.212 407.9 478.416C431.057 499.294 461.724 512 495.36 512C567.521 512 626.019 453.511 626.019 381.361C626.019 333.897 600.701 292.344 562.831 269.466Z" fill="var(--mascot)" />
-        <g clip-path="url(#body-clip)">
-            <g transform="translate(235, 124)">
-              <g class="mascot-eyes-travel">
-                <rect class="mascot-eye-left" x="15.92" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
-                <rect class="mascot-eye-right" x="104.42" y="32.08" width="46" height="198" rx="23" fill="var(--paper)" />
-                <path class="mascot-eye-arc-left" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
-                <path class="mascot-eye-arc-right" d="M -28 14 A 28 28 0 0 1 28 14" fill="none" stroke="var(--paper)" stroke-width="20" stroke-linecap="round" opacity="0" />
-              </g>
-            </g>
-          </g>
-        </svg>
-        <span class="shell-word">artoshi</span>
-      </a>
-      {breadcrumb && <span class="t-meta shell-crumb">{breadcrumb}</span>}
-    </header>
+    <SiteHeader breadcrumb={breadcrumb} />
 
     <main class="shell-body">
       <slot />
@@ -78,7 +56,6 @@ const {
     padding: clamp(1.5rem, 4vw, 3.5rem) var(--gutter) clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  .shell-top,
   .shell-foot {
     width: 100%;
     max-width: var(--column);
@@ -88,29 +65,6 @@ const {
     justify-content: space-between;
     gap: 1rem;
   }
-  .shell-top {
-    padding-bottom: clamp(1.1rem, 2.5vh, 1.6rem);
-    border-bottom: var(--hair) solid var(--line);
-  }
-
-  .shell-home {
-    position: relative; /* anchors the mascot speech bubble */
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  .shell-mascot { display: block; width: clamp(30px, 3vw, 40px); height: auto; overflow: visible; flex-shrink: 0; }
-  .shell-word {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.35rem, 1.8vw, 1.7rem);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--ink);
-  }
-  .shell-crumb { color: var(--ink-faint); }
 
   .shell-body {
     position: relative;
@@ -138,9 +92,3 @@ const {
   .shell-copy { color: var(--ink-faint); }
 </style>
 
-<script>
-  import { init } from "../scripts/mascotEye";
-  import { initSpeech } from "../scripts/mascotSpeech";
-  init(document.getElementById("mascot-icon") as unknown as SVGSVGElement | null);
-  initSpeech(document.querySelector(".shell-home"));
-</script>
