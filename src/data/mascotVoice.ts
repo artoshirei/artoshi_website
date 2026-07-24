@@ -17,7 +17,7 @@ export const voices: Record<string, PageVoice> = {
     facts: "",
     fallbacks: [
       "hi. argo makes things, i mostly watch",
-      "psst, the ones with the amber dot are being built right now",
+      "psst, the ones with the green dot are being built right now",
       "welcome in. hover around, i get excited easily",
     ],
   },
