@@ -38,6 +38,14 @@ export const work: WorkItem[] = [
     icon: "/fowydo-icon.png",
   },
   {
+    title: "FowyRing",
+    description: "Hold ⌥Tab, flick to switch Mac apps",
+    kind: "app",
+    year: 2026,
+    now: true,
+    icon: "/fowyring-icon.webp",
+  },
+  {
     title: "FowlVoice",
     description: "On-device speech-to-text for macOS",
     kind: "app",
