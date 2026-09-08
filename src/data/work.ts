@@ -43,7 +43,7 @@ export const work: WorkItem[] = [
     kind: "app",
     year: 2026,
     now: true,
-    icon: "/fowyring-icon.webp",
+    icon: "/fowyring-icon-a8afb003.webp",
   },
   {
     title: "FowlVoice",
